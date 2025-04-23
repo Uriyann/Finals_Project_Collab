@@ -80,8 +80,8 @@ underline.grid(row=6, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
 #-------------------------------------------------------------
 
 # Button Sign in
-signin_button = tk.Button(frame, text= "Sign in", width=38, font= ("Arial bold", 15), bg= "dodger blue", fg= "white")
-signin_button.grid(row=7, column=0, pady=15, padx= 15)
+login_button = tk.Button(frame, text= "Log In", width=38, font= ("Arial bold", 15), bg= "dodger blue", fg= "white")
+login_button.grid(row=7, column=0, pady=15, padx= 15)
 
 # Remember Me Checkbutton
 var1 = IntVar()
