@@ -96,7 +96,7 @@ forgpass_label.grid(row=8, column=0, sticky="e", padx= 15)
 underline = tk.Frame(frame, height=2, bg="black")
 underline.grid(row=9, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
 
-create_label = tk.Button(frame, text="Need an Account? Sign Up", font=("Arial", 12), bg= "white", borderwidth= 0)
+create_label = tk.Button(frame, text="Need an Account? SIGN UP", font=("Arial", 12), bg= "white", borderwidth= 0)
 create_label.grid(row=10, column=0, sticky="n", pady=15)
 
 
