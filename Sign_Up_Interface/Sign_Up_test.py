@@ -12,16 +12,11 @@ image_path = PhotoImage(file= r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Colla
 bg_image = tk.Label(window, image= image_path)
 bg_image.place(relheight=1, relwidth=1)
 
-image_file = PhotoImage(file = r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\Login_Interface\wallhaven-73616y.png')
-image = image_file.subsample(6, 4)
-
-Label(window, image= image, highlightbackground="black", highlightthickness=4).grid(row=0, column=0, padx=70, pady=140)
-
 #-----------------------------------------------------------
 
 # Frame
 frame = tk.Frame(window, bg= "white", highlightbackground="black", highlightthickness=4)
-frame.grid(row=0, column=1, padx=45)
+frame.place(relx = 0.5, rely = 0.5, anchor = CENTER)
 
 # Project Name
 project_label = tk.Label(frame, text= "PROJECT", font= ("Times New Roman bold", 30), bg= "white")
@@ -32,7 +27,7 @@ short_desc_label =  tk.Label(frame, text= "/Short Description/", font= ("Helveti
 short_desc_label.grid(row=1, column=0, sticky="n")
 
 # Login
-login_label = tk.Label(frame, text= "Log In to Project", font= ("Arial bold", 18), bg= "white")
+login_label = tk.Label(frame, text= "Sign In", font= ("Arial bold", 18), bg= "white")
 login_label.grid(row=2, column=0, sticky="w", pady=30, padx= 15)
 
 def on_click(event):
@@ -98,9 +93,4 @@ underline.grid(row=9, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
 
 create_label = tk.Button(frame, text="Need an Account? Sign Up", font=("Arial", 12), bg= "white", borderwidth= 0)
 create_label.grid(row=10, column=0, sticky="n", pady=15)
-
-
-
-frame.columnconfigure(0, weight=1)
-window.configure(bg="white")
 window.mainloop()
