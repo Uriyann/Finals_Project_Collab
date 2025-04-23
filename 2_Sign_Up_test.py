@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import PhotoImage
+from subprocess import call
 
 window = tk.Tk()
 window.title("Login Portal")
@@ -8,7 +9,7 @@ window.geometry('1300x825')
 window.configure()
 
 # Image
-image_path = PhotoImage(file= r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\Login_Interface\wallhaven-85gxp2.png')
+image_path = PhotoImage(file= r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\wallhaven-85gxp2.png')
 bg_image = tk.Label(window, image= image_path)
 bg_image.place(relheight=1, relwidth=1)
 
@@ -91,6 +92,14 @@ forgpass_label.grid(row=8, column=0, sticky="e", padx= 15)
 underline = tk.Frame(frame, height=2, bg="black")
 underline.grid(row=9, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
 
-already_user = tk.Button(frame, text="Already a User? LOGIN", font=("Arial", 12), bg= "white", borderwidth= 0)
+def go_login():
+    window.destroy()
+    call(["python", "1_Login_test.py"])
+
+
+already_user = tk.Button(frame, text="Already a User? LOGIN", font=("Arial", 12), bg= "white", borderwidth= 0, command= go_login)
 already_user.grid(row=10, column=0, sticky="n", pady=15)
+
+
+
 window.mainloop()
