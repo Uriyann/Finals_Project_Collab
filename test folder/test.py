@@ -4,11 +4,11 @@ from customtkinter import *
 window = CTk()
 window.title("Login Portal")
 window.geometry('1300x825')
-window.configure()
+
 
 
 # Frame
-frame = CTkFrame(master=window)
+frame = CTkFrame(master=window, width= 100)
 frame.grid(row=0, column=1, padx=45)
 
 # Project Name
@@ -85,6 +85,8 @@ underline.grid(row=9, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
 
 create_label = CTkButton(master=frame, text="Need an Account? SIGN UP", font=("Arial", 12), border_width= 0)
 create_label.grid(row=10, column=0, sticky="n", pady=15)
+
+frame.pack()
 
 
 window.mainloop()
