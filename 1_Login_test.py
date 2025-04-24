@@ -9,11 +9,11 @@ window.geometry('1300x825')
 window.configure()
 
 # Image
-image_path = PhotoImage(file= r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\wallhaven-85gxp2.png')
+image_path = PhotoImage(file= r'.\wallhaven-85gxp2.png')
 bg_image = tk.Label(window, image= image_path)
 bg_image.place(relheight=1, relwidth=1)
 
-image_file = PhotoImage(file = r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\wallhaven-73616y.png')
+image_file = PhotoImage(file = r'.\wallhaven-73616y.png')
 image = image_file.subsample(6, 4)
 
 Label(window, image= image, highlightbackground="black", highlightthickness=4).grid(row=0, column=0, padx=70, pady=140)
