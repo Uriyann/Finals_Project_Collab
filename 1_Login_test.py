@@ -6,7 +6,6 @@ from subprocess import call
 window = tk.Tk()
 window.title("Login Portal")
 window.geometry('1300x825')
-window.configure()
 
 # Image
 image_path = PhotoImage(file= r'.\wallhaven-85gxp2.png')
