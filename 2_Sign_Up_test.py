@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter import *
 from tkinter import PhotoImage
 from subprocess import call
@@ -7,10 +6,10 @@ from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 
-window = tk.Tk()
+window = Tk()
 window.title("Login Portal")
 window.geometry('1300x825')
-window.configure()
+window.resizable(False, False)
 
 
 # ==================== Functions ====================
@@ -44,8 +43,8 @@ def save_to_excel():
     show_data()
 
     messagebox.showinfo(title= "Success", message= "Account Saved")
-    user_entry.delete(0, tk.END)
-    password_entry.delete(0, tk.END)
+    user_entry.delete(0, END)
+    password_entry.delete(0, END)
     user_entry.insert(0, "Username")
     password_entry.insert(0, "Password")
      
@@ -71,12 +70,12 @@ def show_data():
     wb = load_workbook("user_account_data.xlsx")
     ws = wb["Userdata"]
 
-    data_window = tk.Toplevel(window)
+    data_window = Toplevel(window)
     data_window.title("Stored User Data")
 
     for i, row in enumerate(ws.iter_rows(values_only=True)):
         for j, value in enumerate(row):
-            label = tk.Label(data_window, text=value, borderwidth=1, relief="solid", padx=6, pady=3)
+            label = Label(data_window, text=value, borderwidth=1, relief="solid", padx=6, pady=3)
             label.grid(row=i, column=j)
 
 # Input Validation & Debugger Function
@@ -95,7 +94,7 @@ def data_validation_debugger():
 # Username Delete & Restore Function
 def on_username_click(event):
     if user_entry.get() == "Username":
-        user_entry.delete(0, tk.END)
+        user_entry.delete(0, END)
 
 def on_username_leave(event):
     name = user_entry.get()
@@ -105,7 +104,7 @@ def on_username_leave(event):
 # Password Delete & Restore Function
 def on_password_click(event):
     if password_entry.get() == "Password":
-        password_entry.delete(0, tk.END)
+        password_entry.delete(0, END)
 
 def on_password_leave(event):
     password = password_entry.get()
@@ -126,13 +125,13 @@ def handle_enter(event):
 # ==================== UI ====================
 # Background & Banner Img
 image_path = PhotoImage(file= r'.\wallhaven-85gxp2.png')
-bg_image = tk.Label(window, image= image_path)
+bg_image = Label(window, image= image_path)
 bg_image.place(relheight=1, relwidth=1)
 
 # //////////////////////////////////////////////////////////
 
 # ==================== Frames ====================
-frame = tk.Frame(window, bg= "white", highlightbackground="black", highlightthickness=4)
+frame = Frame(window, bg= "white", highlightbackground="black", highlightthickness=4)
 frame.place(relx = 0.5, rely = 0.5, anchor = CENTER)
 
 # //////////////////////////////////////////////////////////
@@ -140,58 +139,54 @@ frame.place(relx = 0.5, rely = 0.5, anchor = CENTER)
 # ==================== Labels & Inputs ====================
 
 # Project Name
-project_label = tk.Label(frame, text= "PROJECT", font= ("Times New Roman bold", 30), bg= "white")
+project_label = Label(frame, text= "PROJECT", font= ("Times New Roman bold", 30), bg= "white")
 project_label.grid(row=0, column=0, sticky="n", pady= 10)
 
 # Short Description
-short_desc_label =  tk.Label(frame, text= "/Short Description/", font= ("Helvetica bold", 15), bg= "white")
+short_desc_label =  Label(frame, text= "/Short Description/", font= ("Helvetica bold", 15), bg= "white")
 short_desc_label.grid(row=1, column=0, sticky="n")
 
-# Login
-login_label = tk.Label(frame, text= "Sign In", font= ("Arial bold", 18), bg= "white")
-login_label.grid(row=2, column=0, sticky="w", pady=30, padx= 15)
+# Sign Up
+signup_label = Label(frame, text= "Sign Up", font= ("Microsoft YaHei UI Light", 18, "bold"), bg= "white")
+signup_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
 
 # User Entry
-user_entry = tk.Entry(frame, width=38, font= ("Arial", 15), bd=0)
-user_entry.grid(row=3, column=0)
+user_entry = Entry(frame, width=38, font= ("Arial", 15), bd=0)
+user_entry.grid(row=3, column=0, pady=1, sticky="n")
 user_entry.insert(0, "Username")
 user_entry.bind("<FocusIn>", on_username_click)
 user_entry.bind("<FocusOut>", on_username_leave)
 user_entry.bind('<Return>', handle_enter)
 
 # Underline using Frame
-underline = tk.Frame(frame, height=2, bg="black")
-underline.grid(row=4, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
+underline = Frame(frame, width=464, height=2, bg="black")
+underline.place(x=17, y=198)
 
 # Password Entry
-password_entry = tk.Entry(frame, width=38, font= ("Arial", 15), bd=0)
-password_entry.grid(row=5, column=0)
+password_entry = Entry(frame, width=38, font= ("Arial", 15), bd=0)
+password_entry.grid(row=5, column=0, pady=37, sticky="n")
 password_entry.insert(0, "Password")
 password_entry.bind("<FocusIn>", on_password_click)
 password_entry.bind("<FocusOut>", on_password_leave)
 password_entry.bind('<Return>', handle_enter)
 
 # Underline using Frame
-underline = tk.Frame(frame, height=2, bg="black")
-underline.grid(row=6, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
+underline = Frame(frame, width=464, height=2, bg="black")
+underline.place(x=17, y=262)
 
 # //////////////////////////////////////////////////////////
 
 # ==================== Buttons ====================
 
 # Button Sign Up
-signin_button = tk.Button(frame, text= "Sign in", width=38, font= ("Arial bold", 15), bg= "dodger blue", fg= "white", command= save_to_excel)
-signin_button.grid(row=7, column=0, pady=15, padx= 15)
-
-# Underline using Frame
-underline = tk.Frame(frame, height=2, bg="black")
-underline.grid(row=9, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
+signin_button = Button(frame, text= "Sign Up", width=38, font= ("Arial bold", 15), bg= "dodger blue", fg= "white", command= save_to_excel)
+signin_button.grid(row=7, column=0, pady=5, padx= 15)
 
 # LOGIN Button
-already_user = tk.Label(frame, text="Already a User?", font=("Arial", 12), bg= "white")
+already_user = Label(frame, text="Already a User?", font=("Arial", 12), bg= "white")
 already_user.grid(row=10, column=0, sticky="nw", pady=15, padx=161)
 
-login_button = tk.Button(frame, text="LOGIN", font=("Arial", 12), fg= "dodgerblue2", bg= "white", borderwidth= 0, command= go_login)
+login_button = Button(frame, text="LOGIN", font=("Arial", 12), fg= "dodgerblue2", bg= "white", borderwidth= 0, command= go_login)
 login_button.grid(row=10, column=0, sticky="ne", pady=13, padx=161)
 
 
