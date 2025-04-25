@@ -26,11 +26,9 @@ def login_checker():
         for row in ws.iter_rows(min_row=2, values_only=True):
             if row[0] == username and row[1] == password:
                 messagebox.showinfo("Login Success", f"Welcome, {username}!")
-                return True
+                return
             
-            else:
-                messagebox.showerror(title= "Login Failed", message= "Incorrect username or password.")
-                return False
+        messagebox.showerror(title= "Login Failed", message= "Incorrect username or password.")
 
     except FileNotFoundError:
         messagebox.showerror(title= "Error", message= "User data file not found.")
