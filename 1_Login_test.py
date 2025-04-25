@@ -40,7 +40,7 @@ def data_validation_debugger():
     password = password_entry.get()
 
     if username and password and username != "Username" and password != "Password":
-        print("Data Entry Form:\n\n" \
+        print("\n\nData Entry Form:\n\n" \
               "Username:",username,
               "\nPassword:",password)
         return True
@@ -73,6 +73,10 @@ def on_password_leave(event):
 def go_signup():
     window.destroy()
     call(["python", "2_Sign_Up_test.py"])
+
+def handle_enter(event):
+    if not login_checker():
+        return
 
 # //////////////////////////////////////////////////////////
 
@@ -115,6 +119,7 @@ user_entry.grid(row=3, column=0)
 user_entry.insert(0, "Username")
 user_entry.bind("<FocusIn>", on_username_click)
 user_entry.bind("<FocusOut>", on_username_leave)
+user_entry.bind('<Return>', handle_enter)
 
 # Underline using Frame
 underline = tk.Frame(frame, height=2, bg="black")
@@ -126,6 +131,7 @@ password_entry.grid(row=5, column=0)
 password_entry.insert(0, "Password")
 password_entry.bind("<FocusIn>", on_password_click)
 password_entry.bind("<FocusOut>", on_password_leave)
+password_entry.bind('<Return>', handle_enter)
 
 # Underline using Frame
 underline = tk.Frame(frame, height=2, bg="black")
