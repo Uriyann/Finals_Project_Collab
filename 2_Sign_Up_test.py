@@ -3,8 +3,7 @@ from tkinter import *
 from tkinter import PhotoImage
 from subprocess import call
 from tkinter import messagebox
-from openpyxl import load_workbook
-from openpyxl import Workbook
+from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 
