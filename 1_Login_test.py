@@ -127,7 +127,7 @@ underline.place(x=17, y=198)
 
 # Password Entry
 password_entry = Entry(frame, width=38, font= ("Arial", 15), bd=0)
-password_entry.grid(row=5, column=0, pady=37, sticky="n")
+password_entry.grid(row=4, column=0, pady=37, sticky="n")
 password_entry.insert(0, "Password")
 password_entry.bind("<FocusIn>", on_password_click)
 password_entry.bind("<FocusOut>", on_password_leave)
@@ -143,14 +143,14 @@ underline.place(x=17, y=262)
 
 # Button Login
 login_button = Button(frame, text= "Log In", width=38, font= ("Arial bold", 15), bg= "dodger blue", fg= "white", command= login_checker)
-login_button.grid(row=7, column=0, pady=5, padx= 15)
+login_button.grid(row=5, column=0, pady=5, padx= 15)
 
 # SIGNUP Button
 need_account = Label(frame, text="Need an Account?", font=("Arial", 12), bg= "white")
-need_account.grid(row=10, column=0, sticky="nw", pady=15, padx=145)
+need_account.grid(row=6, column=0, sticky="nw", pady=15, padx=145)
 
 signup_button = Button(frame, text="SIGN UP", font=("Arial", 12), fg= "dodgerblue2", bg= "white", borderwidth= 0, command=go_signup)
-signup_button.grid(row=10, column=0, sticky="ne", pady=15, padx=145)
+signup_button.grid(row=6, column=0, sticky="ne", pady=15, padx=145)
 
 
 
