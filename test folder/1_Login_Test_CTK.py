@@ -150,5 +150,6 @@ need_account_label.grid(row=0, column=0, padx=10)
 signup_button = CTkButton(signup_frame, text="SIGN UP", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2")
 signup_button.grid(row=0, column=1, padx=5)
 
+# //////////////////////////////////////////////////////////
 
 window.mainloop()
