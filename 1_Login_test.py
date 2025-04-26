@@ -27,7 +27,7 @@ def login_checker():
             if row[0] == username and row[1] == password:
                 messagebox.showinfo("Login Success", f"Welcome, {username}!")
                 window.destroy()  #Close the login window
-                call(["python", "3_register_test.py"])  # Open the next page/code
+                call(["python", "3_enrollment_form.py"])  # Open the next page/code
                 return
 
     
