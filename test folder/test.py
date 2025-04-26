@@ -1,10 +1,10 @@
 from PIL import Image
 from customtkinter import *
+from tkinter import PhotoImage
 
 window = CTk()
 window.title("Login Portal")
 window.geometry('1300x825')
-
 
 
 # Frame
@@ -69,19 +69,6 @@ underline.grid(row=6, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
 # Button Sign in
 login_button = CTkButton(master=frame, text= "Log In", width=38, font= ("Arial bold", 15))
 login_button.grid(row=7, column=0, pady=15, padx= 15)
-
-# Remember Me Checkbutton
-var1 = IntVar()
-rem_cb = CTkCheckBox(master=frame, text="Remember Me", variable=var1, font=("Arial", 12))
-rem_cb.grid(row=8, column=0, sticky="w", pady=10, padx= 15)
-
-# Forget Password Label
-forgpass_label = CTkButton(master=frame, text="Forgot Password?", fg_color= "dodgerblue2", font=("Arial", 12))
-forgpass_label.grid(row=8, column=0, sticky="e", padx= 15)
-
-# Underline using Frame
-underline = CTkFrame(master=frame, height=2, border_color="white")
-underline.grid(row=9, column=0, sticky= "new", pady=15, padx= 15, columnspan=1)
 
 create_label = CTkButton(master=frame, text="Need an Account? SIGN UP", font=("Arial", 12), border_width= 0)
 create_label.grid(row=10, column=0, sticky="n", pady=15)
