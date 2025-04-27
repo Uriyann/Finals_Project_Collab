@@ -74,7 +74,7 @@ def show_data():
 
     for i, row in enumerate(ws.iter_rows(values_only=True)):
         for j, value in enumerate(row):
-            label = CTkLabel(data_window, text=value, borderwidth=1, relief="solid", padx=6, pady=3)
+            label = CTkLabel(data_window, text=value, width=1)
             label.grid(row=i, column=j)
 
 # Input Validation & Debugger Function
@@ -83,7 +83,7 @@ def data_validation_debugger():
     password = password_entry.get()
 
     if username and password and username != "Username" and password != "Password":
-        print("\n\nSignup Form:\n\nUsername:", username, "\nPassword:", password)
+        print("\n\nSignup Form:\n\nUsername:", username, "\nPassword:", password, "\n")
         return True
     
     else:
