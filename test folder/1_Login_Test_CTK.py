@@ -84,7 +84,7 @@ bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 side_image = Image.open(".\wallhaven-73616y.png")
 side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
-side_label = CTkLabel(window, image=side_img, text="", corner_radius=10, fg_color="white")
+side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
 side_label.grid(row=0, column=0, padx=90, pady=140)
 
 # //////////////////////////////////////////////////////////
