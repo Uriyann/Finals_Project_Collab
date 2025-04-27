@@ -160,10 +160,6 @@ signup_button = CTkButton(signup_frame, text="SIGN UP", font=("Arial", 12), fg_c
 signup_button.grid(row=0, column=1, padx=5)
 
 # //////////////////////////////////////////////////////////
-ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
-def change_appearance_mode_event(new_appearance_mode: str):
-    ctk.set_appearance_mode(new_appearance_mode)
-appearance_mode_optionemenu = CTkOptionMenu(frame, values=["Light", "Dark", "System"], command= change_appearance_mode_event)
-appearance_mode_optionemenu.grid(row=0, column=2, padx=20, pady=(10, 10))
+
 
 window.mainloop()
