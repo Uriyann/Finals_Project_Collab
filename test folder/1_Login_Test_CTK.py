@@ -1,5 +1,6 @@
 from PIL import Image
 from customtkinter import *
+from subprocess import call
 from tkinter import messagebox
 from openpyxl import load_workbook
 
@@ -68,10 +69,15 @@ def on_password_leave(event):
     if password == "":
         password_entry.insert(0, "Password")
 
+# Signup Window Switch Function
+def go_signup():
+    window.destroy()
+    call(["python", "2_Sign_Up_test.py"])
+    pass
+
 def handle_enter(event):
     if not login_checker():
         return
-    pass
 
 # //////////////////////////////////////////////////////////
 
@@ -91,7 +97,7 @@ side_label.grid(row=0, column=0, padx=90, pady=140)
 
 # ==================== Frames ====================
 frame = CTkFrame(window, border_width= 3, corner_radius= 15)
-frame.grid(row=0, column=1, padx=45)
+frame.grid(row=0, column=1, padx=50)
 
 # //////////////////////////////////////////////////////////
 
@@ -106,7 +112,7 @@ short_desc_label =  CTkLabel(frame, text= "/Short Description/", font= ("Helveti
 short_desc_label.grid(row=1, column=0, sticky="n")
 
 # Login
-login_label = CTkLabel(frame, text= "Log In to Project", font= ("Microsoft YaHei UI Light", 17))
+login_label = CTkLabel(frame, text= "Log In to Project", font= ("Helvetica bold", 17))
 login_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
 
 # User Entry
