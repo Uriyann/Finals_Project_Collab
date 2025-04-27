@@ -26,7 +26,7 @@ def LOG_IN():
             ws = wb["Userdata"]
 
             for row in ws.iter_rows(min_row=2, values_only=True):
-                if row[0] == username and row[1] == password:
+                if row[3] == username and row[4] == password:
                     messagebox.showinfo("Login Success", f"Welcome, {username}!")
                     return
                 
@@ -90,8 +90,12 @@ def LOG_IN():
             if not sign_up_data_validation_debugger():
                 return
             
-            username = sign_up_user_entry.get()
+            first_name = sign_up_first_name_entry.get()
+            last_name = sign_up_last_name_entry.get()
+            email = sign_up_email_entry.get()
+            username = sign_up_username_entry.get()
             password = sign_up_password_entry.get()
+            confirm_password = sign_up_confirm_password_entry.get()
 
             try:
                 wb = load_workbook("user_account_data.xlsx")
@@ -105,20 +109,29 @@ def LOG_IN():
                 wb = Workbook()
                 ws = wb.active
                 ws.title = "Userdata"
-                ws.append(["Username", "Password"])
+                ws.append(["First Name", "Last Name", "Email", "Username", "Password"])
 
-            ws.append([username, password])
+            ws.append([first_name, last_name, email, username, password])
             wb.save("user_account_data.xlsx")
 
             format_excel()
             show_data()
 
             messagebox.showinfo(title= "Success", message= "Account Saved")
-            sign_up_user_entry.delete(0, END)
+            sign_up_first_name_entry.delete(0, END)
+            sign_up_last_name_entry.delete(0, END)
+            sign_up_email_entry.delete(0, END)
+            sign_up_username_entry.delete(0, END)
             sign_up_password_entry.delete(0, END)
-            sign_up_user_entry.insert(0, "Username")
+            sign_up_confirm_password_entry.delete(0, END)
+
+            sign_up_first_name_entry.insert(0, "First name")
+            sign_up_last_name_entry.insert(0, "Last name")
+            sign_up_email_entry.insert(0, "Email")
+            sign_up_username_entry.insert(0, "Username")
             sign_up_password_entry.insert(0, "Password")
-            
+            sign_up_confirm_password_entry.insert(0, "Confirm Password")
+
         # Format Fixer Function
         def format_excel():
             wb = load_workbook("user_account_data.xlsx")
@@ -151,36 +164,83 @@ def LOG_IN():
 
         # Input Validation & Debugger Function
         def sign_up_data_validation_debugger():
-            username = sign_up_user_entry.get()
+            first_name = sign_up_first_name_entry.get()
+            last_name = sign_up_last_name_entry.get()
+            email = sign_up_email_entry.get()
+            username = sign_up_username_entry.get()   # (fixed variable name!)
             password = sign_up_password_entry.get()
+            confirm_password = sign_up_confirm_password_entry.get()
 
-            if username and password and username != "Username" and password != "Password":
-                print("\n\nSignup Form:\n\nUsername:", username, "\nPassword:", password, "\n")
-                return True
-            
+            if (first_name and last_name and email and username and password and confirm_password):
+                if password == confirm_password:
+                    print("\n\nSignup Form:\n")
+                    print("First Name:", first_name)
+                    print("Last Name:", last_name)
+                    print("Email:", email)
+                    print("Username:", username)
+                    print("Password:", password)
+                    return True
+                else:
+                    messagebox.showerror(title="Error", message="Passwords do not match!")
+                    return False
             else:
-                messagebox.showerror(title= "Error", message= "Please enter both Username and Password.")
+                messagebox.showerror(title="Error", message="Please fill out all fields.")
                 return False
+            
+        # First Name Delete & Restore Function
+        def sign_up_on_first_name_click(event):
+            if sign_up_first_name_entry.get() == "First name":
+                sign_up_first_name_entry.delete(0, END)
+        def sign_up_on_first_name_leave(event):
+            name = sign_up_first_name_entry.get()
+            if name == "":
+                sign_up_first_name_entry.insert(0, "First name")
+
+        # Last Name Delete & Restore Function
+        def sign_up_on_last_name_click(event):
+            if sign_up_last_name_entry.get() == "Last name":
+                sign_up_last_name_entry.delete(0, END)
+        def sign_up_on_last_name_leave(event):
+            password = sign_up_last_name_entry.get()
+            if password == "":
+                sign_up_last_name_entry.insert(0, "Last name")
+
+        # Email Delete & Restore Function
+        def sign_up_on_email_click(event):
+            if sign_up_email_entry.get() == "Email":
+                sign_up_email_entry.delete(0, END)
+        def sign_up_on_email_leave(event):
+            name = sign_up_email_entry.get()
+            if name == "":
+                sign_up_email_entry.insert(0, "Email")
 
         # Username Delete & Restore Function
         def sign_up_on_username_click(event):
-            if sign_up_user_entry.get() == "Username":
-                sign_up_user_entry.delete(0, END)
-
+            if sign_up_username_entry.get() == "Username":
+                sign_up_username_entry.delete(0, END)
         def sign_up_on_username_leave(event):
-            name = sign_up_user_entry.get()
-            if name == "":
-                sign_up_user_entry.insert(0, "Username")
+            password = sign_up_username_entry.get()
+            if password == "":
+                sign_up_username_entry.insert(0, "Username")
 
         # Password Delete & Restore Function
         def sign_up_on_password_click(event):
             if sign_up_password_entry.get() == "Password":
                 sign_up_password_entry.delete(0, END)
-
         def sign_up_on_password_leave(event):
-            password = sign_up_password_entry.get()
-            if password == "":
+            name = sign_up_password_entry.get()
+            if name == "":
                 sign_up_password_entry.insert(0, "Password")
+
+        # Confirm Password Delete & Restore Function
+        def sign_up_on_confirm_password_click(event):
+            if sign_up_confirm_password_entry.get() == "Confirm Password":
+                sign_up_confirm_password_entry.delete(0, END)
+        def sign_up_on_confirm_password_leave(event):
+            password = sign_up_confirm_password_entry.get()
+            if password == "":
+                sign_up_confirm_password_entry.insert(0, "Confirm Password")
+        
         # Sign Up Enter Event
         def sign_up_handle_enter(event):
             if not save_to_excel():
@@ -223,38 +283,59 @@ def LOG_IN():
         sign_up_label = CTkLabel(sign_up_frame, text= "Sign Up to Project", font= ("Helvetica bold", 17))
         sign_up_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
 
-        # User Entry
-        sign_up_user_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username", height= 35)
-        sign_up_user_entry.grid(row=3, column=0, sticky= "n", pady=15, padx= 15)
-        sign_up_user_entry.bind("<FocusIn>", sign_up_on_username_click)
-        sign_up_user_entry.bind("<FocusOut>", sign_up_on_username_leave)
-        sign_up_user_entry.bind('<Return>', sign_up_handle_enter)
+       
+        # Firstname Entry
+        sign_up_first_name_entry = CTkEntry(master=sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="First name", height= 55)
+        sign_up_first_name_entry.grid(row=3, column=0, sticky= "nw", pady=6, padx= 15)
+        sign_up_first_name_entry.bind("<FocusIn>", sign_up_on_first_name_click)
+        sign_up_first_name_entry.bind("<FocusOut>", sign_up_on_first_name_leave)
+        sign_up_first_name_entry.bind('<Return>', sign_up_handle_enter)
 
-        # Divider Line
-        user_line = CTkFrame(sign_up_frame, width=400, height=2, fg_color="white")
-        user_line.place(x=15, y=203)
+        # Lastname Entry
+        sign_up_last_name_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Last name", height= 55)
+        sign_up_last_name_entry.grid(row=3, column=0, sticky= "ne", pady=6, padx= 15)
+        sign_up_last_name_entry.bind("<FocusIn>", sign_up_on_last_name_click)
+        sign_up_last_name_entry.bind("<FocusOut>", sign_up_on_last_name_leave)
+        sign_up_last_name_entry.bind('<Return>', sign_up_handle_enter)
+
+        # Email Entry
+        sign_up_email_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Email", height= 55)
+        sign_up_email_entry.grid(row=4, column=0, sticky= "n", pady=6, padx= 15)
+        sign_up_email_entry.bind("<FocusIn>", sign_up_on_email_click)
+        sign_up_email_entry.bind("<FocusOut>", sign_up_on_email_leave)
+        sign_up_email_entry.bind('<Return>', sign_up_handle_enter)
+
+        # Username Entry
+        sign_up_username_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username", height= 55)
+        sign_up_username_entry.grid(row=5, column=0, sticky= "n", pady=6, padx= 15)
+        sign_up_username_entry.bind("<FocusIn>", sign_up_on_username_click)
+        sign_up_username_entry.bind("<FocusOut>", sign_up_on_username_leave)
+        sign_up_username_entry.bind('<Return>', sign_up_handle_enter)
 
         # Password Entry
-        sign_up_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*", height= 35)
-        sign_up_password_entry.grid(row=4, column=0, sticky= "n", pady=15, padx= 15)
+        sign_up_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Password", show="*", height= 55)
+        sign_up_password_entry.grid(row=6, column=0, sticky= "nw", pady=6, padx= 15)
         sign_up_password_entry.bind("<FocusIn>", sign_up_on_password_click)
         sign_up_password_entry.bind("<FocusOut>", sign_up_on_password_leave)
         sign_up_password_entry.bind('<Return>', sign_up_handle_enter)
 
-        # Divider Line
-        pass_line = CTkFrame(sign_up_frame, width=400, height=2, fg_color="white")
-        pass_line.place(x=15, y=268)
+        # Confirm Password Entry
+        sign_up_confirm_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Confirm Password", show="*", height= 55)
+        sign_up_confirm_password_entry.grid(row=6, column=0, sticky= "ne", pady=6, padx= 15)
+        sign_up_confirm_password_entry.bind("<FocusIn>", sign_up_on_confirm_password_click)
+        sign_up_confirm_password_entry.bind("<FocusOut>", sign_up_on_confirm_password_leave)
+        sign_up_confirm_password_entry.bind('<Return>', sign_up_handle_enter)
 
         # //////////////////////////////////////////////////////////
 
         # ==================== Buttons ====================
         # Button Login
         sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
-        sign_up_button.grid(row=5, column=0, pady=15, padx= 15)
+        sign_up_button.grid(row=7, column=0, pady=15, padx= 15)
 
         # Signup Text + Button
         log_frame = CTkFrame(sign_up_frame)
-        log_frame.grid(row=6, column=0, pady=20)
+        log_frame.grid(row=8, column=0, pady=20)
 
         need_account_label = CTkLabel(log_frame, text="Already a User?", font=("Arial", 12))
         need_account_label.grid(row=0, column=0, padx=10)
