@@ -119,7 +119,7 @@ def go_login():
 def sign_up_handle_enter(event):
     if not save_to_excel():
         return
-    signup_button.invoke()
+    sign_up_button.invoke()
 
 # //////////////////////////////////////////////////////////
 
@@ -156,7 +156,7 @@ sign_up_user_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0
 sign_up_user_entry.grid(row=3, column=0, sticky= "n", pady=15, padx= 15)
 sign_up_user_entry.bind("<FocusIn>", sign_up_on_username_click)
 sign_up_user_entry.bind("<FocusOut>", sign_up_on_username_leave)
-sign_up_user_entry.bind('<Return>', sign_up_on_username_click)
+sign_up_user_entry.bind('<Return>', sign_up_handle_enter)
 
 # Divider Line
 user_line = CTkFrame(sign_up_frame, width=400, height=2, fg_color="white")
@@ -167,7 +167,7 @@ sign_up_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_wid
 sign_up_password_entry.grid(row=4, column=0, sticky= "n", pady=15, padx= 15)
 sign_up_password_entry.bind("<FocusIn>", sign_up_on_password_click)
 sign_up_password_entry.bind("<FocusOut>", sign_up_on_password_leave)
-sign_up_password_entry.bind('<Return>', sign_up_on_username_click)
+sign_up_password_entry.bind('<Return>', sign_up_handle_enter)
 
 # Divider Line
 pass_line = CTkFrame(sign_up_frame, width=400, height=2, fg_color="white")
@@ -178,8 +178,8 @@ pass_line.place(x=15, y=268)
 # ==================== Buttons ====================
 
 # Button Login
-login_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
-login_button.grid(row=5, column=0, pady=15, padx= 15)
+sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
+sign_up_button.grid(row=5, column=0, pady=15, padx= 15)
 
 # Signup Text + Button
 log_frame = CTkFrame(sign_up_frame)
