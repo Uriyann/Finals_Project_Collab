@@ -42,7 +42,8 @@ def data_validation_debugger():
     if username and password and username != "Username" and password != "Password":
         print("\n\nData Entry Form:\n\n" \
               "Username:",username,
-              "\nPassword:",password)
+              "\nPassword:",password,
+              "\n")
         return True
     
     else:
