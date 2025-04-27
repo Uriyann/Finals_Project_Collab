@@ -91,13 +91,13 @@ bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 side_image = Image.open(".\wallhaven-73616y.png")
 side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
 side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
-side_label.grid(row=0, column=0, padx=90, pady=140)
+side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -268)
 
 # //////////////////////////////////////////////////////////
 
 # ==================== Frames ====================
 frame = CTkFrame(window, border_width= 3, corner_radius= 15)
-frame.grid(row=0, column=1, padx=50)
+frame.place(relx = 0.5, rely = 0.5, x= 90, y= -200)
 
 # //////////////////////////////////////////////////////////
 
