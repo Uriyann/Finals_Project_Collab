@@ -1,10 +1,12 @@
-from tkinter import *
-from tkinter import PhotoImage
+from PIL import Image
+import customtkinter as ctk
+from customtkinter import *
 from subprocess import call
 from tkinter import messagebox
 from openpyxl import load_workbook
 
-window = Tk()
+
+window = CTk()
 window.title("Login Portal")
 window.geometry('1300x825')
 window.resizable(False, False)
@@ -26,11 +28,8 @@ def login_checker():
         for row in ws.iter_rows(min_row=2, values_only=True):
             if row[0] == username and row[1] == password:
                 messagebox.showinfo("Login Success", f"Welcome, {username}!")
-                window.destroy()  #Close the login window
-                call(["python", "3_Enrollment_Form_test.py"])  # Open the next page/code
                 return
-
-    
+            
         messagebox.showerror(title= "Login Failed", message= "Incorrect username or password.")
 
     except FileNotFoundError:
@@ -56,7 +55,7 @@ def data_validation_debugger():
 # Username Delete & Restore Function
 def on_username_click(event):
     if user_entry.get() == "Username":
-        user_entry.delete(0, END)
+        user_entry.delete(0, 'end')
 
 def on_username_leave(event):
     name = user_entry.get()
@@ -77,6 +76,7 @@ def on_password_leave(event):
 def go_signup():
     window.destroy()
     call(["python", "2_Sign_Up_test.py"])
+    pass
 
 def handle_enter(event):
     if not login_checker():
@@ -86,80 +86,84 @@ def handle_enter(event):
 
 # ==================== UI ====================
 # Background & Banner Img
-image_path = PhotoImage(file= r'.\wallhaven-85gxp2.png')
-bg_image = Label(window, image= image_path)
-bg_image.place(relheight=1, relwidth=1)
+background_image = Image.open(".\wallhaven-85gxp2.png")
+bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
+bg_label = CTkLabel(window, image=bg_img, text="")
+bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-image_file = PhotoImage(file = r'.\wallhaven-73616y.png')
-image = image_file.subsample(6, 4)
-
-Label(window, image= image, highlightbackground="black", highlightthickness=4).grid(row=0, column=0, padx=70, pady=140)
+side_image = Image.open(".\wallhaven-73616y.png")
+side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
+side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
+side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -268)
 
 # //////////////////////////////////////////////////////////
 
 # ==================== Frames ====================
-frame = Frame(window, bg= "white", highlightbackground="black", highlightthickness=4)
-frame.grid(row=0, column=1, padx=45)
+frame = CTkFrame(window, border_width= 3, corner_radius= 15)
+frame.place(relx = 0.5, rely = 0.5, x= 90, y= -200)
 
 # //////////////////////////////////////////////////////////
 
 # ==================== Labels & Inputs ====================
 
 # Project Name
-project_label = Label(frame, text= "PROJECT", font= ("Times New Roman bold", 30), bg= "white")
-project_label.grid(row=0, column=0, sticky="n", pady= 10)
+project_label = CTkLabel(frame, text= "PROJECT UniPass", font= ("Times New Roman bold", 40))
+project_label.grid(row=0, column=0, sticky="n", pady= 10, padx= 15)
 
 # Short Description
-short_desc_label =  Label(frame, text= "/Short Description/", font= ("Helvetica bold", 15), bg= "white")
+short_desc_label =  CTkLabel(frame, text= "/Short Description/", font= ("Helvetica bold", 18))
 short_desc_label.grid(row=1, column=0, sticky="n")
 
 # Login
-login_label = Label(frame, text= "Log In to Project", font= ("Microsoft YaHei UI Light", 18, "bold"), bg= "white")
+login_label = CTkLabel(frame, text= "Log In to Project", font= ("Helvetica bold", 17))
 login_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
 
 # User Entry
-user_entry = Entry(frame, width=38, font= ("Arial", 15), bd=0)
-user_entry.grid(row=3, column=0, pady=1, sticky="n")
-user_entry.insert(0, "Username")
+user_entry = CTkEntry(frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username")
+user_entry.grid(row=3, column=0, sticky= "n", pady=15, padx= 15)
 user_entry.bind("<FocusIn>", on_username_click)
 user_entry.bind("<FocusOut>", on_username_leave)
 user_entry.bind('<Return>', handle_enter)
 
-# Underline using Frame
-underline = Frame(frame, width=464, height=2, bg="black")
-underline.place(x=17, y=198)
+# Divider Line
+user_line = CTkFrame(frame, width=400, height=2, fg_color="white")
+user_line.place(x=15, y=197)
 
 # Password Entry
-password_entry = Entry(frame, width=38, font= ("Arial", 15), bd=0)
-password_entry.grid(row=4, column=0, pady=37, sticky="n")
-password_entry.insert(0, "Password")
+password_entry = CTkEntry(frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*")
+password_entry.grid(row=4, column=0, sticky= "n", pady=15, padx= 15)
 password_entry.bind("<FocusIn>", on_password_click)
 password_entry.bind("<FocusOut>", on_password_leave)
-password_entry.bind('<Return>', handle_enter)
+user_entry.bind('<Return>', handle_enter)
 
-# Underline using Frame
-underline = Frame(frame, width=464, height=2, bg="black")
-underline.place(x=17, y=262)
+
+# Divider Line
+pass_line = CTkFrame(frame, width=400, height=2, fg_color="white")
+pass_line.place(x=15, y=255)
 
 # //////////////////////////////////////////////////////////
 
 # ==================== Buttons ====================
 
 # Button Login
-login_button = Button(frame, text= "Log In", width=38, font= ("Arial bold", 15), bg= "dodger blue", fg= "white", command= login_checker)
-login_button.grid(row=5, column=0, pady=5, padx= 15)
+login_button = CTkButton(master=frame, text= "Log In", width=400, font= ("Arial bold", 15), command= login_checker)
+login_button.grid(row=5, column=0, pady=15, padx= 15)
 
-# SIGNUP Button
-need_account = Label(frame, text="Need an Account?", font=("Arial", 12), bg= "white")
-need_account.grid(row=6, column=0, sticky="nw", pady=15, padx=145)
+# Signup Text + Button
+signup_frame = CTkFrame(frame)
+signup_frame.grid(row=6, column=0, pady=20)
 
-signup_button = Button(frame, text="SIGN UP", font=("Arial", 12), fg= "dodgerblue2", bg= "white", borderwidth= 0, command=go_signup)
-signup_button.grid(row=6, column=0, sticky="ne", pady=15, padx=145)
+need_account_label = CTkLabel(signup_frame, text="Need an Account?", font=("Arial", 12))
+need_account_label.grid(row=0, column=0, padx=10)
 
+signup_button = CTkButton(signup_frame, text="SIGN UP", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2")
+signup_button.grid(row=0, column=1, padx=5)
 
 # //////////////////////////////////////////////////////////
+ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
+def change_appearance_mode_event(new_appearance_mode: str):
+    ctk.set_appearance_mode(new_appearance_mode)
+appearance_mode_optionemenu = CTkOptionMenu(frame, values=["Light", "Dark", "System"], command= change_appearance_mode_event)
+appearance_mode_optionemenu.grid(row=0, column=2, padx=20, pady=(10, 10))
 
-
-frame.columnconfigure(0, weight=1)
-window.configure(bg="white")
 window.mainloop()
