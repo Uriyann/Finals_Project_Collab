@@ -3,6 +3,7 @@ from tkinter import ttk
 from datetime import datetime
 from tkinter import filedialog
 from PIL import Image, ImageTk
+from tkinter import messagebox
 
 # === Main Window ===
 root = tk.Tk()
@@ -92,10 +93,19 @@ def upload_picture():
         img = img.resize((100, 100), Image.Resampling.LANCZOS)  # Resize smoothly
         img_tk = ImageTk.PhotoImage(img)
         picture_label.configure(image=img_tk)
-        picture_label.image = img_tk  # Prevent garbage collection
+        picture_label.image = img_tk
 
-picture_label = tk.Label(right_top, text="Upload\n1x1 Picture", bg="white", relief="solid")
-picture_label.pack(padx=5, pady=5)
+picture_frame = tk.Frame(right_top, width=100, height=100, bg="black")  # Frame for border
+picture_frame.pack(padx=5, pady=5)
+picture_frame.pack_propagate(False)  # Prevent frame from resizing
+
+picture_label = tk.Label(
+    picture_frame, 
+    text="Upload\n1x1 Picture", 
+    bg="white", 
+    relief="solid"
+)
+picture_label.pack(fill="both", expand=True)
 picture_label.bind("<Button-1>", lambda e: upload_picture())
 
 # Show personal details first
@@ -128,11 +138,15 @@ personal = tk.LabelFrame(frame, text="Personal Information", padx=10, pady=10)
 personal.pack(padx=20, pady=10, fill="x")
 
 tk.Label(personal, text="Age").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(personal, width=10).grid(row=0, column=1, sticky="w", padx=5, pady=3)
+tk.Label(personal, text="Age").grid(row=0, column=0, sticky="w", padx=5, pady=3)
+age_values = list(range(1, 101))  # Assuming age between 1 and 100
+age_box = ttk.Combobox(personal, values=age_values, width=8, state="readonly")
+age_box.set("Select Age")
+age_box.grid(row=0, column=1, sticky="w", padx=5, pady=3)
 
 fields = [
     ("Birthdate (MM/DD/YYYY)", 1),
-    ("Birthplace City", 2), ("Birthplace Province", 3),
+    ("Birthplace City", 2),
     ("Nationality", 4), ("Religion", 5),
     ("Marital Status", 6), ("Language Spoken", 7)
 ]
@@ -173,19 +187,22 @@ for label, i in fields:
     else:
         tk.Entry(personal, width=40).grid(row=i+1, column=1, padx=5, pady=3)
 
-tk.Label(personal, text="Gender").grid(row=8, column=0, sticky="w", padx=5, pady=3)
-gender_var = tk.StringVar(value="")
-gender_frame = tk.Frame(personal, bg="#f4f4f4")
-gender_frame.grid(row=8, column=1, sticky="w", padx=5)
+tk.Label(personal, text="Gender").grid(row=9, column=0, sticky="w", padx=5, pady=3)
 
-tk.Radiobutton(gender_frame, text="Male", variable=gender_var, value="Male", bg="#f4f4f4").pack(side="left", padx=5)
-tk.Radiobutton(gender_frame, text="Female", variable=gender_var, value="Female", bg="#f4f4f4").pack(side="left", padx=5)
+gender_frame = tk.Frame(personal, bg="#f4f4f4")
+gender_frame.grid(row=9, column=1, sticky="w", padx=5)
+
+male_var = tk.IntVar()
+female_var = tk.IntVar()
+
+tk.Checkbutton(gender_frame, text="Male", variable=male_var, bg="#f4f4f4").pack(side="left", padx=5)
+tk.Checkbutton(gender_frame, text="Female", variable=female_var, bg="#f4f4f4").pack(side="left", padx=5)
 
 # Address Section
 address = tk.LabelFrame(frame, text="Address", padx=10, pady=10)
 address.pack(padx=20, pady=10, fill="x")
 
-address_fields = ["Street No.", "Zip Code", "Barangay", "City", "Province", "Country"]
+address_fields = ["Street No.", "Barangay", "City/Municipality", "Province", "Zip Code", "Country"]
 for i, field in enumerate(address_fields):
     tk.Label(address, text=field).grid(row=i, column=0, padx=5, pady=3)
     tk.Entry(address, width=30).grid(row=i, column=1, padx=5, pady=3)
@@ -196,19 +213,8 @@ contact.pack(padx=20, pady=10, fill="x")
 
 tk.Label(contact, text="Email:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
 tk.Entry(contact, width=40).grid(row=0, column=1, padx=5)
-tk.Label(contact, text="Phone No.:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
+tk.Label(contact, text="Phone No:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
 tk.Entry(contact, width=40).grid(row=1, column=1, padx=5)
-
-# Submit and Clear
-buttons = tk.Frame(frame)
-buttons.pack(pady=20)
-tk.Button(buttons, text="Submit", width=20).grid(row=0, column=0, padx=10)
-tk.Button(buttons, text="Clear", width=20).grid(row=0, column=1, padx=10)
-
-def _on_mousewheel(event):
-    main_canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
-
-main_canvas.bind_all("<MouseWheel>", _on_mousewheel)
 
 # === FAMILY BACKGROUND PAGE ===
 family_canvas = tk.Canvas(family_frame, borderwidth=0, background="#f4f4f4")
@@ -230,43 +236,54 @@ def center_family_content(event=None):
 family_inner.bind("<Configure>", on_family_configure)
 family_canvas.bind("<Configure>", center_family_content)
 
-tk.Label(family_inner, text="Family Background", font=("Arial", 24), bg="#f4f4f4").pack(pady=20)
+# Title
+tk.Label(family_inner, text="Family Background", font=("Arial", 24, "bold"), bg="#f4f4f4").pack(pady=20)
 
-parents_section = tk.LabelFrame(family_inner, text="Parents' Information", padx=10, pady=10)
-parents_section.pack(padx=20, pady=10, fill="x")
+# Parents Section
+parents_section = tk.LabelFrame(family_inner, text="Parents' Information", padx=15, pady=15)
+parents_section.pack(padx=20, pady=10, fill="both", expand=True)
 
-# Father
-tk.Label(parents_section, text="Father's Name:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(parents_section, width=40).grid(row=0, column=1, padx=5, pady=3)
+# Father and Mother Frames side-by-side
+father_frame = tk.LabelFrame(parents_section, text="Father", padx=10, pady=10)
+father_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-tk.Label(parents_section, text="Occupation:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(parents_section, width=40).grid(row=1, column=1, padx=5, pady=3)
+tk.Label(father_frame, text="Name:").grid(row=0, column=0, sticky="w", pady=5)
+tk.Entry(father_frame, width=30).grid(row=0, column=1, pady=5)
 
-tk.Label(parents_section, text="Contact No.:").grid(row=2, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(parents_section, width=40).grid(row=2, column=1, padx=5, pady=3)
+tk.Label(father_frame, text="Occupation:").grid(row=1, column=0, sticky="w", pady=5)
+tk.Entry(father_frame, width=30).grid(row=1, column=1, pady=5)
 
-# Mother
-tk.Label(parents_section, text="Mother's Name:").grid(row=3, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(parents_section, width=40).grid(row=3, column=1, padx=5, pady=3)
+tk.Label(father_frame, text="Contact No:").grid(row=2, column=0, sticky="w", pady=5)
+tk.Entry(father_frame, width=30).grid(row=2, column=1, pady=5)
 
-tk.Label(parents_section, text="Occupation:").grid(row=4, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(parents_section, width=40).grid(row=4, column=1, padx=5, pady=3)
+mother_frame = tk.LabelFrame(parents_section, text="Mother", padx=10, pady=10)
+mother_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-tk.Label(parents_section, text="Contact No.:").grid(row=5, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(parents_section, width=40).grid(row=5, column=1, padx=5, pady=3)
+tk.Label(mother_frame, text="Name:").grid(row=0, column=0, sticky="w", pady=5)
+tk.Entry(mother_frame, width=30).grid(row=0, column=1, pady=5)
 
-# Guardian
-guardian_section = tk.LabelFrame(family_inner, text="Guardian's Information", padx=10, pady=10)
-guardian_section.pack(padx=20, pady=10, fill="x")
+tk.Label(mother_frame, text="Occupation:").grid(row=1, column=0, sticky="w", pady=5)
+tk.Entry(mother_frame, width=30).grid(row=1, column=1, pady=5)
 
-tk.Label(guardian_section, text="Guardian's Name:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(guardian_section, width=40).grid(row=0, column=1, padx=5, pady=3)
+tk.Label(mother_frame, text="Contact No:").grid(row=2, column=0, sticky="w", pady=5)
+tk.Entry(mother_frame, width=30).grid(row=2, column=1, pady=5)
 
-tk.Label(guardian_section, text="Relationship:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(guardian_section, width=40).grid(row=1, column=1, padx=5, pady=3)
+# Make them expand evenly
+parents_section.grid_columnconfigure(0, weight=1)
+parents_section.grid_columnconfigure(1, weight=1)
 
-tk.Label(guardian_section, text="Contact No.:").grid(row=2, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(guardian_section, width=40).grid(row=2, column=1, padx=5, pady=3)
+# Guardian Section
+guardian_section = tk.LabelFrame(family_inner, text="Guardian's Information", padx=15, pady=15)
+guardian_section.pack(padx=20, pady=20, fill="x")
+
+tk.Label(guardian_section, text="Guardian's Name:").grid(row=0, column=0, sticky="w", pady=5)
+tk.Entry(guardian_section, width=40).grid(row=0, column=1, pady=5)
+
+tk.Label(guardian_section, text="Relationship:").grid(row=1, column=0, sticky="w", pady=5)
+tk.Entry(guardian_section, width=40).grid(row=1, column=1, pady=5)
+
+tk.Label(guardian_section, text="Contact No:").grid(row=2, column=0, sticky="w", pady=5)
+tk.Entry(guardian_section, width=40).grid(row=2, column=1, pady=5)
 
 # === EDUCATIONAL BACKGROUND PAGE ===
 education_canvas = tk.Canvas(education_frame, borderwidth=0, background="#f4f4f4")
@@ -288,40 +305,79 @@ def center_education_content(event=None):
 education_inner.bind("<Configure>", on_education_configure)
 education_canvas.bind("<Configure>", center_education_content)
 
-tk.Label(education_inner, text="Educational Background", font=("Arial", 24), bg="#f4f4f4").pack(pady=20)
+# Title
+tk.Label(education_inner, text="Educational Background", font=("Arial", 24, "bold"), bg="#f4f4f4").pack(pady=20)
 
-# Elementary
-elementary_section = tk.LabelFrame(education_inner, text="Elementary", padx=10, pady=10)
-elementary_section.pack(padx=20, pady=10, fill="x")
+# Educational Sections
+education_section = tk.LabelFrame(education_inner, text="School Information", padx=15, pady=15)
+education_section.pack(padx=20, pady=10, fill="both", expand=True)
 
-tk.Label(elementary_section, text="School Name:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(elementary_section, width=50).grid(row=0, column=1, padx=5, pady=3)
+# Elementary Frame
+elementary_frame = tk.LabelFrame(education_section, text="Elementary", padx=10, pady=10)
+elementary_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-tk.Label(elementary_section, text="Year Graduated:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(elementary_section, width=20).grid(row=1, column=1, padx=5, pady=3)
+tk.Label(elementary_frame, text="School Name:").grid(row=0, column=0, sticky="w", pady=5)
+tk.Entry(elementary_frame, width=30).grid(row=0, column=1, pady=5)
 
-# Junior High
-junior_section = tk.LabelFrame(education_inner, text="Junior High School", padx=10, pady=10)
-junior_section.pack(padx=20, pady=10, fill="x")
+tk.Label(elementary_frame, text="Year Graduated:").grid(row=1, column=0, sticky="w", pady=5)
+tk.Entry(elementary_frame, width=20).grid(row=1, column=1, pady=5)
 
-tk.Label(junior_section, text="School Name:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(junior_section, width=50).grid(row=0, column=1, padx=5, pady=3)
+# Junior High Frame
+junior_frame = tk.LabelFrame(education_section, text="Junior High School", padx=10, pady=10)
+junior_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-tk.Label(junior_section, text="Year Graduated:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(junior_section, width=20).grid(row=1, column=1, padx=5, pady=3)
+tk.Label(junior_frame, text="School Name:").grid(row=0, column=0, sticky="w", pady=5)
+tk.Entry(junior_frame, width=30).grid(row=0, column=1, pady=5)
 
-# Senior High
-senior_section = tk.LabelFrame(education_inner, text="Senior High School", padx=10, pady=10)
-senior_section.pack(padx=20, pady=10, fill="x")
+tk.Label(junior_frame, text="Year Graduated:").grid(row=1, column=0, sticky="w", pady=5)
+tk.Entry(junior_frame, width=20).grid(row=1, column=1, pady=5)
 
-tk.Label(senior_section, text="School Name:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(senior_section, width=50).grid(row=0, column=1, padx=5, pady=3)
+# Senior High Frame
+senior_frame = tk.LabelFrame(education_section, text="Senior High School", padx=10, pady=10)
+senior_frame.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
 
-tk.Label(senior_section, text="Strand:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(senior_section, width=30).grid(row=1, column=1, padx=5, pady=3)
+tk.Label(senior_frame, text="School Name:").grid(row=0, column=0, sticky="w", pady=5)
+tk.Entry(senior_frame, width=30).grid(row=0, column=1, pady=5)
 
-tk.Label(senior_section, text="Year Graduated:").grid(row=2, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(senior_section, width=20).grid(row=2, column=1, padx=5, pady=3)
+tk.Label(senior_frame, text="Strand:").grid(row=1, column=0, sticky="w", pady=5)
+tk.Entry(senior_frame, width=20).grid(row=1, column=1, pady=5)
+
+tk.Label(senior_frame, text="Year Graduated:").grid(row=2, column=0, sticky="w", pady=5)
+tk.Entry(senior_frame, width=20).grid(row=2, column=1, pady=5)
+
+# College
+college_section = tk.LabelFrame(education_inner, text="College", padx=10, pady=10)
+college_section.pack(padx=20, pady=10, fill="x")
+
+# School Name
+tk.Label(college_section, text="School Name:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
+tk.Entry(college_section).grid(row=0, column=1, padx=5, pady=3)
+
+# Year Graduated
+tk.Label(college_section, text="Year Graduated:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
+tk.Entry(college_section).grid(row=1, column=1, padx=5, pady=3)
+
+# Checkboxes
+transferee_var = tk.BooleanVar()
+new_student_var = tk.BooleanVar()
+old_student_var = tk.BooleanVar()
+cross_enrollee_var = tk.BooleanVar()
+returnee_var = tk.BooleanVar()  # added for Returnee
+
+tk.Checkbutton(college_section, text="Transferee", variable=transferee_var, bg=college_section.cget("bg")).grid(row=2, column=0, sticky="w", padx=5, pady=3)
+tk.Checkbutton(college_section, text="New Student", variable=new_student_var, bg=college_section.cget("bg")).grid(row=2, column=1, sticky="w", padx=5, pady=3)
+tk.Checkbutton(college_section, text="Old Student", variable=old_student_var, bg=college_section.cget("bg")).grid(row=3, column=0, sticky="w", padx=5, pady=3)
+tk.Checkbutton(college_section, text="Cross Enrollee", variable=cross_enrollee_var, bg=college_section.cget("bg")).grid(row=3, column=1, sticky="w", padx=5, pady=3)
+tk.Checkbutton(college_section, text="Returnee", variable=returnee_var, bg=college_section.cget("bg")).grid(row=4, column=0, sticky="w", padx=5, pady=3)
+
+# Make columns expand evenly
+education_section.grid_columnconfigure(0, weight=1)
+education_section.grid_columnconfigure(1, weight=1)
+education_section.grid_columnconfigure(2, weight=1)
+
+    # === Submit Button ===
+submit_btn = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#4CAF50", fg="white", padx=20, pady=10)
+submit_btn.pack(pady=20)
 
 # Show personal details first
 show_frame(personal_frame)
