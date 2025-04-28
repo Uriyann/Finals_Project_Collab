@@ -93,6 +93,12 @@ def LOG_IN():
             ctk.set_appearance_mode("dark")
             mode = "dark"
 
+    def log_in_show_password():
+        if show_password.get() == 1:
+            login_password_entry.configure(show="")
+        else:
+            login_password_entry.configure(show="*")
+
     # Signup Window Switch Function
     def SIGN_UP():
         # Deleting Login Frame and Creating Sign Up
@@ -105,47 +111,55 @@ def LOG_IN():
             if not sign_up_data_validation_debugger():
                 return
             
-            first_name = sign_up_first_name_entry.get()
-            last_name = sign_up_last_name_entry.get()
-            email = sign_up_email_entry.get()
-            username = sign_up_username_entry.get()
-            password = sign_up_password_entry.get()
-            confirm_password = sign_up_confirm_password_entry.get()
+            terms_accept = terms_accept_var.get()
 
-            try:
-                wb = load_workbook("user_account_data.xlsx")
-                if "Userdata" in wb.sheetnames:
-                    ws = wb["Userdata"]
-                else:
-                    ws = wb.create_sheet("Userdata")
+            if terms_accept == "Accepted":
+            
 
-            except FileNotFoundError:
+                first_name = sign_up_first_name_entry.get()
+                last_name = sign_up_last_name_entry.get()
+                email = sign_up_email_entry.get()
+                username = sign_up_username_entry.get()
+                password = sign_up_password_entry.get()
+                confirm_password = sign_up_confirm_password_entry.get()
 
-                wb = Workbook()
-                ws = wb.active
-                ws.title = "Userdata"
-                ws.append(["First Name", "Last Name", "Email", "Username", "Password"])
+                try:
+                    wb = load_workbook("user_account_data.xlsx")
+                    if "Userdata" in wb.sheetnames:
+                        ws = wb["Userdata"]
+                    else:
+                        ws = wb.create_sheet("Userdata")
 
-            ws.append([first_name, last_name, email, username, password])
-            wb.save("user_account_data.xlsx")
+                except FileNotFoundError:
 
-            format_excel()
-            show_data()
+                    wb = Workbook()
+                    ws = wb.active
+                    ws.title = "Userdata"
+                    ws.append(["First Name", "Last Name", "Email", "Username", "Password"])
 
-            messagebox.showinfo(title= "Success", message= "Account Saved")
-            sign_up_first_name_entry.delete(0, END)
-            sign_up_last_name_entry.delete(0, END)
-            sign_up_email_entry.delete(0, END)
-            sign_up_username_entry.delete(0, END)
-            sign_up_password_entry.delete(0, END)
-            sign_up_confirm_password_entry.delete(0, END)
+                ws.append([first_name, last_name, email, username, password])
+                wb.save("user_account_data.xlsx")
 
-            sign_up_first_name_entry.insert(0, "First name")
-            sign_up_last_name_entry.insert(0, "Last name")
-            sign_up_email_entry.insert(0, "Email")
-            sign_up_username_entry.insert(0, "Username")
-            sign_up_password_entry.insert(0, "Password")
-            sign_up_confirm_password_entry.insert(0, "Confirm Password")
+                format_excel()
+                show_data()
+
+                messagebox.showinfo(title= "Success", message= "Account Saved")
+                sign_up_first_name_entry.delete(0, END)
+                sign_up_last_name_entry.delete(0, END)
+                sign_up_email_entry.delete(0, END)
+                sign_up_username_entry.delete(0, END)
+                sign_up_password_entry.delete(0, END)
+                sign_up_confirm_password_entry.delete(0, END)
+
+                sign_up_first_name_entry.insert(0, "First name")
+                sign_up_last_name_entry.insert(0, "Last name")
+                sign_up_email_entry.insert(0, "Email")
+                sign_up_username_entry.insert(0, "Username")
+                sign_up_password_entry.insert(0, "Password")
+                sign_up_confirm_password_entry.insert(0, "Confirm Password")
+            
+            else:
+                messagebox.showerror(title="Error", message="You have not accepted the temrs & conditions.")
 
         # Format Fixer Function
         def format_excel():
@@ -384,12 +398,12 @@ def LOG_IN():
         switch_light_button.place(relx = 0.5, rely = 0.5, x= 535, y= -400)
 
         # Terms & Condition
-        terms_chkbox = CTkCheckBox(sign_up_frame, text="I agree to the ", width=10)
+        terms_accept_var = ctk.StringVar(value="Not Accepted")
+        terms_chkbox = CTkCheckBox(sign_up_frame, text="I agree to the ", width=10, variable= terms_accept_var, onvalue= "Accepted", offvalue= "Not Accepted")
         terms_chkbox.grid(row=7, column=0, pady=6, padx= 15, sticky= "w")
 
-        login_button = CTkButton(sign_up_frame, text="terms & condition", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= GO_BACK, width=50, bg_color= "transparent")
+        login_button = CTkButton(sign_up_frame, text="terms & condition.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= GO_BACK, width=50, bg_color= "transparent")
         login_button.grid(row=7, column=0, padx=119, sticky= "w")
-
 
         # Button Login
         sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
@@ -443,7 +457,7 @@ def LOG_IN():
     login_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
 
     # User Entry
-    login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username or Email", height= 55, fg_color= "transparent", bg_color= "transparent")
+    login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username or Email", height= 55, fg_color= "transparent", bg_color= "transparent", )
     login_user_entry.grid(row=3, column=0, sticky= "n", padx= 15)
     login_user_entry.bind("<FocusIn>", log_in_on_username_click)
     login_user_entry.bind("<FocusOut>", log_in_on_username_leave)
@@ -471,6 +485,10 @@ def LOG_IN():
     # Light Switch
     switch_light_button = CTkSwitch(window, text="🌙 / ☀️", command= log_in_change_appearance_event, border_width= 3, corner_radius= 13, height=25)
     switch_light_button.place(relx = 0.5, rely = 0.5, x= 535, y= -400)
+
+    # Show Password
+    show_password = CTkCheckBox(log_in_frame, text="Show Password", width=10, command= log_in_show_password)
+    show_password.grid(row=6, column=0, pady=6, padx= 15, sticky= "w")
 
     # Forgot Password
     forg_password = CTkButton(log_in_frame, text= "Forgot Password?", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="gray65", command= SIGN_UP, width=50, bg_color= "transparent")
