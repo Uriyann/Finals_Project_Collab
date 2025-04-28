@@ -1,15 +1,20 @@
 from PIL import Image
 from customtkinter import *
+import customtkinter as ctk
 from subprocess import call
 from tkinter import messagebox
 from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 
+# ==================== Window Setup ====================
 window = CTk()
 window.title("Login Portal")
 window.geometry('1300x825')
 window.resizable(False, False)
+ctk.set_appearance_mode("dark")
+
+mode = "dark"
 
 def LOG_IN():
     # ==================== Functions ====================
@@ -77,6 +82,16 @@ def LOG_IN():
         if not login_checker():
             return
         login_button.invoke()
+
+    # Log In Light Switch Event
+    def log_in_change_appearance_event():
+        global mode
+        if mode == "dark":
+            ctk.set_appearance_mode("light")
+            mode = "light"
+        else:
+            ctk.set_appearance_mode("dark")
+            mode = "dark"
 
     # Signup Window Switch Function
     def SIGN_UP():
@@ -247,6 +262,16 @@ def LOG_IN():
                 return
             sign_up_button.invoke()
 
+        # Log In Light Switch Event
+        def sign_up_change_appearance_event():
+            global mode
+            if mode == "dark":
+                ctk.set_appearance_mode("light")
+                mode = "light"
+            else:
+                ctk.set_appearance_mode("dark")
+                mode = "dark"
+
         # Signup Window Switch Function
         def GO_BACK():
             # Deleting Sign Up and Calling Log In
@@ -329,6 +354,11 @@ def LOG_IN():
         # //////////////////////////////////////////////////////////
 
         # ==================== Buttons ====================
+
+        # Light Switch
+        switch_light_button = CTkSwitch(window, text="🌙 / ☀️", command= sign_up_change_appearance_event, border_width= 3, corner_radius= 13, height=25)
+        switch_light_button.place(relx = 0.5, rely = 0.5, x= 535, y= -400)
+
         # Button Login
         sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
         sign_up_button.grid(row=7, column=0, pady=15, padx= 15)
@@ -381,43 +411,51 @@ def LOG_IN():
     login_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
 
     # User Entry
-    login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username or Email", height= 55)
+    login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username or Email", height= 55, fg_color= "transparent", bg_color= "transparent")
     login_user_entry.grid(row=3, column=0, sticky= "n", pady=6, padx= 15)
     login_user_entry.bind("<FocusIn>", log_in_on_username_click)
     login_user_entry.bind("<FocusOut>", log_in_on_username_leave)
     login_user_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
-    user_line = CTkFrame(log_in_frame, width=400, height=2, fg_color="white")
-    user_line.place(x=15, y=214)
+    user_line = CTkFrame(log_in_frame, width=400, height=2)
+    user_line.place(x=15, y=205)
 
     # Password Entry
-    login_password_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*", height= 55)
+    login_password_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*", height= 55, fg_color= "transparent", bg_color= "transparent")
     login_password_entry.grid(row=4, column=0, sticky= "n", pady=6, padx= 15)
     login_password_entry.bind("<FocusIn>", log_in_on_password_click)
     login_password_entry.bind("<FocusOut>", log_in_on_password_leave)
     login_password_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
-    pass_line = CTkFrame(log_in_frame, width=400, height=2, fg_color="white")
-    pass_line.place(x=15, y=281)
+    pass_line = CTkFrame(log_in_frame, width=400, height=2)
+    pass_line.place(x=15, y=275)
 
     # //////////////////////////////////////////////////////////
 
     # ==================== Buttons ====================
 
+    # Light Switch
+    switch_light_button = CTkSwitch(window, text="🌙 / ☀️", command= log_in_change_appearance_event, border_width= 3, corner_radius= 13, height=25)
+    switch_light_button.place(relx = 0.5, rely = 0.5, x= 535, y= -400)
+
+    # Forgot Password
+    forg_password = CTkButton(log_in_frame, text= "Forgot Password?", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="gray65", command= SIGN_UP, width=50, bg_color= "transparent")
+    forg_password.grid(row=6, column=0, pady=4, padx= 15, sticky= "e")
+
     # Button Login
-    login_button = CTkButton(log_in_frame, text= "Log In", width=325, font= ("Arial bold", 15), command= login_checker, height= 35)
-    login_button.grid(row=5, column=0, pady=15, padx= 15)
+    login_button = CTkButton(log_in_frame, text= "Log In", width=325, font= ("Arial bold", 15), command= login_checker, height= 35, corner_radius= 16)
+    login_button.grid(row=7, column=0, pady=8, padx= 15)
 
     # Signup Text + Button
-    sign_frame = CTkFrame(log_in_frame)
-    sign_frame.grid(row=6, column=0, pady=20)
+    sign_frame = CTkFrame(log_in_frame, fg_color= "transparent", bg_color= "transparent")
+    sign_frame.grid(row=8, column=0, pady=20)
 
     need_account_label = CTkLabel(sign_frame, text="Need an Account?", font=("Arial", 12))
     need_account_label.grid(row=0, column=0, padx=10)
 
-    sign_up_button = CTkButton(sign_frame, text="SIGN UP", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= SIGN_UP, width=50)
+    sign_up_button = CTkButton(sign_frame, text="SIGN UP", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= SIGN_UP, width=50, bg_color= "transparent")
     sign_up_button.grid(row=0, column=1, padx=5)
 
     # //////////////////////////////////////////////////////////
