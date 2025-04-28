@@ -381,26 +381,26 @@ def LOG_IN():
     login_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
 
     # User Entry
-    login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username", height= 35)
-    login_user_entry.grid(row=3, column=0, sticky= "n", pady=15, padx= 15)
+    login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username or Email", height= 55)
+    login_user_entry.grid(row=3, column=0, sticky= "n", pady=6, padx= 15)
     login_user_entry.bind("<FocusIn>", log_in_on_username_click)
     login_user_entry.bind("<FocusOut>", log_in_on_username_leave)
     login_user_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
     user_line = CTkFrame(log_in_frame, width=400, height=2, fg_color="white")
-    user_line.place(x=15, y=203)
+    user_line.place(x=15, y=214)
 
     # Password Entry
-    login_password_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*", height= 35)
-    login_password_entry.grid(row=4, column=0, sticky= "n", pady=15, padx= 15)
+    login_password_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*", height= 55)
+    login_password_entry.grid(row=4, column=0, sticky= "n", pady=6, padx= 15)
     login_password_entry.bind("<FocusIn>", log_in_on_password_click)
     login_password_entry.bind("<FocusOut>", log_in_on_password_leave)
     login_password_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
     pass_line = CTkFrame(log_in_frame, width=400, height=2, fg_color="white")
-    pass_line.place(x=15, y=268)
+    pass_line.place(x=15, y=281)
 
     # //////////////////////////////////////////////////////////
 
