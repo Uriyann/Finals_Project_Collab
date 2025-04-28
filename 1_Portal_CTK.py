@@ -310,46 +310,70 @@ def LOG_IN():
 
        
         # Firstname Entry
-        sign_up_first_name_entry = CTkEntry(master=sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="First name", height= 55)
-        sign_up_first_name_entry.grid(row=3, column=0, sticky= "nw", pady=6, padx= 15)
+        sign_up_first_name_entry = CTkEntry(master=sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="First name", height= 55, fg_color= "transparent", bg_color= "transparent")
+        sign_up_first_name_entry.grid(row=3, column=0, sticky= "nw", padx= 15)
         sign_up_first_name_entry.bind("<FocusIn>", sign_up_on_first_name_click)
         sign_up_first_name_entry.bind("<FocusOut>", sign_up_on_first_name_leave)
         sign_up_first_name_entry.bind('<Return>', sign_up_handle_enter)
 
+        # Divider Line
+        pass_line = CTkFrame(sign_up_frame, width=185, height=2)
+        pass_line.grid(row=3, column=0, sticky= "ws", padx= 15)
+
         # Lastname Entry
-        sign_up_last_name_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Last name", height= 55)
-        sign_up_last_name_entry.grid(row=3, column=0, sticky= "ne", pady=6, padx= 15)
+        sign_up_last_name_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Last name", height= 55, fg_color= "transparent", bg_color= "transparent")
+        sign_up_last_name_entry.grid(row=3, column=0, sticky= "ne", padx= 15)
         sign_up_last_name_entry.bind("<FocusIn>", sign_up_on_last_name_click)
         sign_up_last_name_entry.bind("<FocusOut>", sign_up_on_last_name_leave)
         sign_up_last_name_entry.bind('<Return>', sign_up_handle_enter)
 
+        # Divider Line
+        pass_line = CTkFrame(sign_up_frame, width=185, height=2)
+        pass_line.grid(row=3, column=0, sticky= "es", padx= 27)
+
         # Email Entry
-        sign_up_email_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Email", height= 55)
-        sign_up_email_entry.grid(row=4, column=0, sticky= "n", pady=6, padx= 15)
+        sign_up_email_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Email", height= 55, fg_color= "transparent", bg_color= "transparent")
+        sign_up_email_entry.grid(row=4, column=0, sticky= "n", padx= 15)
         sign_up_email_entry.bind("<FocusIn>", sign_up_on_email_click)
         sign_up_email_entry.bind("<FocusOut>", sign_up_on_email_leave)
         sign_up_email_entry.bind('<Return>', sign_up_handle_enter)
 
+        # Divider Line
+        pass_line = CTkFrame(sign_up_frame, width=400, height=2)
+        pass_line.grid(row=4, column=0, sticky= S)
+
         # Username Entry
-        sign_up_username_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username", height= 55)
-        sign_up_username_entry.grid(row=5, column=0, sticky= "n", pady=6, padx= 15)
+        sign_up_username_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username", height= 55, fg_color= "transparent", bg_color= "transparent")
+        sign_up_username_entry.grid(row=5, column=0, sticky= "n", padx= 15)
         sign_up_username_entry.bind("<FocusIn>", sign_up_on_username_click)
         sign_up_username_entry.bind("<FocusOut>", sign_up_on_username_leave)
         sign_up_username_entry.bind('<Return>', sign_up_handle_enter)
 
+        # Divider Line
+        pass_line = CTkFrame(sign_up_frame, width=400, height=2)
+        pass_line.grid(row=5, column=0, sticky= S)
+
         # Password Entry
-        sign_up_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Password", show="*", height= 55)
-        sign_up_password_entry.grid(row=6, column=0, sticky= "nw", pady=6, padx= 15)
+        sign_up_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Password", show="*", height= 55, fg_color= "transparent", bg_color= "transparent")
+        sign_up_password_entry.grid(row=6, column=0, sticky= "nw", padx= 15)
         sign_up_password_entry.bind("<FocusIn>", sign_up_on_password_click)
         sign_up_password_entry.bind("<FocusOut>", sign_up_on_password_leave)
         sign_up_password_entry.bind('<Return>', sign_up_handle_enter)
 
+        # Divider Line
+        pass_line = CTkFrame(sign_up_frame, width=185, height=2)
+        pass_line.grid(row=6, column=0, sticky= "ws", padx= 15)
+
         # Confirm Password Entry
-        sign_up_confirm_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Confirm Password", show="*", height= 55)
-        sign_up_confirm_password_entry.grid(row=6, column=0, sticky= "ne", pady=6, padx= 15)
+        sign_up_confirm_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Confirm Password", show="*", height= 55, fg_color= "transparent", bg_color= "transparent")
+        sign_up_confirm_password_entry.grid(row=6, column=0, sticky= "ne", padx= 15)
         sign_up_confirm_password_entry.bind("<FocusIn>", sign_up_on_confirm_password_click)
         sign_up_confirm_password_entry.bind("<FocusOut>", sign_up_on_confirm_password_leave)
         sign_up_confirm_password_entry.bind('<Return>', sign_up_handle_enter)
+
+        # Divider Line
+        pass_line = CTkFrame(sign_up_frame, width=185, height=2)
+        pass_line.grid(row=6, column=0, sticky= "es", padx= 27)
 
         # //////////////////////////////////////////////////////////
 
@@ -359,18 +383,26 @@ def LOG_IN():
         switch_light_button = CTkSwitch(window, text="🌙 / ☀️", command= sign_up_change_appearance_event, border_width= 3, corner_radius= 13, height=25)
         switch_light_button.place(relx = 0.5, rely = 0.5, x= 535, y= -400)
 
+        # Terms & Condition
+        terms_chkbox = CTkCheckBox(sign_up_frame, text="I agree to the ", width=10)
+        terms_chkbox.grid(row=7, column=0, pady=6, padx= 15, sticky= "w")
+
+        login_button = CTkButton(sign_up_frame, text="terms & condition", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= GO_BACK, width=50, bg_color= "transparent")
+        login_button.grid(row=7, column=0, padx=119, sticky= "w")
+
+
         # Button Login
         sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
-        sign_up_button.grid(row=7, column=0, pady=15, padx= 15)
+        sign_up_button.grid(row=8, column=0, pady=8, padx= 15)
 
         # Signup Text + Button
-        log_frame = CTkFrame(sign_up_frame)
-        log_frame.grid(row=8, column=0, pady=20)
+        log_frame = CTkFrame(sign_up_frame, fg_color= "transparent", bg_color= "transparent")
+        log_frame.grid(row=9, column=0, pady=20)
 
         need_account_label = CTkLabel(log_frame, text="Already a User?", font=("Arial", 12))
         need_account_label.grid(row=0, column=0, padx=10)
 
-        login_button = CTkButton(log_frame, text="LOGIN", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= GO_BACK, width=50)
+        login_button = CTkButton(log_frame, text="LOGIN", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= GO_BACK, width=50, bg_color= "transparent")
         login_button.grid(row=0, column=1, padx=5)
 
         # //////////////////////////////////////////////////////////
@@ -412,25 +444,25 @@ def LOG_IN():
 
     # User Entry
     login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username or Email", height= 55, fg_color= "transparent", bg_color= "transparent")
-    login_user_entry.grid(row=3, column=0, sticky= "n", pady=6, padx= 15)
+    login_user_entry.grid(row=3, column=0, sticky= "n", padx= 15)
     login_user_entry.bind("<FocusIn>", log_in_on_username_click)
     login_user_entry.bind("<FocusOut>", log_in_on_username_leave)
     login_user_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
     user_line = CTkFrame(log_in_frame, width=400, height=2)
-    user_line.place(x=15, y=205)
+    user_line.grid(row=3, column=0, sticky= S)
 
     # Password Entry
     login_password_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*", height= 55, fg_color= "transparent", bg_color= "transparent")
-    login_password_entry.grid(row=4, column=0, sticky= "n", pady=6, padx= 15)
+    login_password_entry.grid(row=4, column=0, sticky= "n", padx= 15)
     login_password_entry.bind("<FocusIn>", log_in_on_password_click)
     login_password_entry.bind("<FocusOut>", log_in_on_password_leave)
     login_password_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
     pass_line = CTkFrame(log_in_frame, width=400, height=2)
-    pass_line.place(x=15, y=275)
+    pass_line.grid(row=4, column=0, sticky= S)
 
     # //////////////////////////////////////////////////////////
 
@@ -442,7 +474,7 @@ def LOG_IN():
 
     # Forgot Password
     forg_password = CTkButton(log_in_frame, text= "Forgot Password?", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="gray65", command= SIGN_UP, width=50, bg_color= "transparent")
-    forg_password.grid(row=6, column=0, pady=4, padx= 15, sticky= "e")
+    forg_password.grid(row=6, column=0, pady=6, padx= 15, sticky= "e")
 
     # Button Login
     login_button = CTkButton(log_in_frame, text= "Log In", width=325, font= ("Arial bold", 15), command= login_checker, height= 35, corner_radius= 16)
