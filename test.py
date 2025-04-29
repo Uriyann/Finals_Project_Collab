@@ -1,30 +1,20 @@
-from customtkinter import *
-from PIL import Image
+import customtkinter as ctk
+import tkinter.ttk as ttk
 
-# ========== Window Setup ==========
-window = CTk()
-window.title("Login Portal")
-window.geometry('1300x825')
-window.resizable(False, False)
+app = ctk.CTk()
+app.geometry("500x400")
 
-# ========== Background ==========
-background_image = Image.open("./wallhaven-85gxp2.png")
-bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
-bg_label = CTkLabel(window, image=bg_img, text="")
-bg_label.place(x=0, y=0, relwidth=1, relheight=1)  # <<<<< Place background first!
+frame = ctk.CTkFrame(app)
+frame.pack(pady=20)
 
-# ========== Main Frame ==========
-main_frame = CTkFrame(window, border_width=3, corner_radius=15, fg_color="transparent")  
-main_frame.place(relx = 0.5, rely = 0.5, anchor = CENTER)
+# CTk Label
+ctk.CTkLabel(frame, text="CTk + ttk Example", font=("Arial", 18)).pack(pady=10)
 
-# ========== Side Image ==========
-side_image = Image.open("./wallhaven-73616y.png")
-side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
-side_label = CTkLabel(main_frame, image=side_img, text="")
-side_label.grid(row=0, column=0, padx=15, pady=15)
+# ttk Treeview
+tree = ttk.Treeview(frame._get_tk(), columns=("Name", "Age"), show="headings")
+tree.heading("Name", text="Name")
+tree.heading("Age", text="Age")
+tree.insert("", "end", values=("Joshua", "21"))
+tree.pack()
 
-# ========== Login Frame ==========
-log_in_frame = CTkFrame(main_frame, border_width=3, corner_radius=15)
-log_in_frame.grid(row=0, column=1, padx=15, pady=15)
-
-window.mainloop()
+app.mainloop()

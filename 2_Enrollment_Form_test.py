@@ -188,7 +188,6 @@ personal = tk.LabelFrame(frame, text="Personal Information", padx=10, pady=10)
 personal.pack(padx=20, pady=10, fill="x")
 
 tk.Label(personal, text="Age").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Label(personal, text="Age").grid(row=0, column=0, sticky="w", padx=5, pady=3)
 age_values = list(range(1, 101))  # Assuming age between 1 and 100
 age_box = ttk.Combobox(personal, values=age_values, width=8, state="readonly")
 age_box.set("Select Age")
