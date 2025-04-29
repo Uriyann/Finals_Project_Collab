@@ -1,30 +1,48 @@
-from customtkinter import *
-from PIL import Image
+import customtkinter as ctk
 
-# ========== Window Setup ==========
-window = CTk()
-window.title("Login Portal")
-window.geometry('1300x825')
-window.resizable(False, False)
+ctk.set_appearance_mode("System")
+ctk.set_default_color_theme("blue")
 
-# ========== Background ==========
-background_image = Image.open("./wallhaven-85gxp2.png")
-bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
-bg_label = CTkLabel(window, image=bg_img, text="")
-bg_label.place(x=0, y=0, relwidth=1, relheight=1)  # <<<<< Place background first!
+class LeftTabView(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("Custom Left TabView")
+        self.geometry("600x400")
 
-# ========== Main Frame ==========
-main_frame = CTkFrame(window, border_width=3, corner_radius=15, fg_color="transparent")  
-main_frame.place(relx = 0.5, rely = 0.5, anchor = CENTER)
+        # Main layout
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
 
-# ========== Side Image ==========
-side_image = Image.open("./wallhaven-73616y.png")
-side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
-side_label = CTkLabel(main_frame, image=side_img, text="")
-side_label.grid(row=0, column=0, padx=15, pady=15)
+        # Tab buttons (simulate tabs)
+        self.tab_frame = ctk.CTkFrame(self)
+        self.tab_frame.grid(row=0, column=0, sticky="ns")
+        
+        self.button1 = ctk.CTkButton(self.tab_frame, text="Tab 1", command=self.show_tab1)
+        self.button1.pack(padx=10, pady=10)
 
-# ========== Login Frame ==========
-log_in_frame = CTkFrame(main_frame, border_width=3, corner_radius=15)
-log_in_frame.grid(row=0, column=1, padx=15, pady=15)
+        self.button2 = ctk.CTkButton(self.tab_frame, text="Tab 2", command=self.show_tab2)
+        self.button2.pack(padx=10, pady=10)
 
-window.mainloop()
+        # Content area
+        self.content_frame = ctk.CTkFrame(self)
+        self.content_frame.grid(row=0, column=1, sticky="nsew")
+
+        self.tab1_content = ctk.CTkLabel(self.content_frame, text="Content of Tab 1")
+        self.tab2_content = ctk.CTkLabel(self.content_frame, text="Content of Tab 2")
+
+        self.show_tab1()  # Default tab
+
+    def show_tab1(self):
+        self.clear_content()
+        self.tab1_content.pack(padx=20, pady=20)
+
+    def show_tab2(self):
+        self.clear_content()
+        self.tab2_content.pack(padx=20, pady=20)
+
+    def clear_content(self):
+        for widget in self.content_frame.winfo_children():
+            widget.pack_forget()
+
+app = LeftTabView()
+app.mainloop()
