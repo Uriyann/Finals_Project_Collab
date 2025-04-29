@@ -1,7 +1,6 @@
 from PIL import Image
 from customtkinter import *
 import customtkinter as ctk
-from subprocess import call
 from tkinter import messagebox
 from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
