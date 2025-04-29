@@ -93,7 +93,7 @@ def image_id_section_debugger():
 
 
     if (student and course and lrn and suname and firsname and m_i and month and day and year 
-        and age and religion and marital and month != "MM" and day != "DD" and year != "YYYY" and religion != "Select Religion" 
+        and age and religion and marital and age != "Select Age" and month != "MM" and day != "DD" and year != "YYYY" and religion != "Select Religion" 
         and marital != "Select Marital Status"):
         
         print("Enrollment Entry: \n" \
