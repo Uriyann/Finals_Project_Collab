@@ -10,6 +10,8 @@ root = tk.Tk()
 root.title("Student Enrollment Form")
 root.geometry("900x700")
 
+
+
 # === Navigation Buttons ===
 nav_frame = tk.Frame(root, bg="#ddd")
 nav_frame.pack(side="top", fill="x")
@@ -66,6 +68,7 @@ tk.Label(header, text="Lucena City", font=("Arial", 12)).pack()
 tk.Label(header, text="STUDENT ENROLLMENT FORM", font=("Arial", 18, "bold")).pack()
 tk.Label(header, text="Second Semester 2024-2025", font=("Arial", 12)).pack()
 
+
 # Image and ID Section
 top_section = tk.Frame(frame, bg="#f4f4f4")
 top_section.pack(padx=20, pady=10, fill="x")
@@ -73,14 +76,61 @@ top_section.pack(padx=20, pady=10, fill="x")
 left_top = tk.Frame(top_section, bg="#f4f4f4")
 left_top.pack(side="left", fill="both", expand=True)
 
-tk.Label(left_top, text="Student ID:").grid(row=0, column=0, sticky="w")
-tk.Entry(left_top, width=30).grid(row=0, column=1, pady=5)
+def image_id_section_debugger():
+    student= Student_entry.get()
+    course= Course_Section_enrty.get()
+    lrn= lrn_entry.get()
+    suname= surname_entry.get()
+    firsname= firstname_entry.get()
+    m_i= middle_entry.get()
+    month= month_box.get()
+    day= day_box.get()
+    year= year_box.get()
+    age= age_box.get()
+    religion= religion_box.get()
+    marital= marital_box.get()
 
-tk.Label(left_top, text="Course/Section:").grid(row=1, column=0, sticky="w")
-tk.Entry(left_top, width=30).grid(row=1, column=1, pady=5)
 
-tk.Label(left_top, text="LRN:").grid(row=2, column=0, sticky="w")
-tk.Entry(left_top, width=30).grid(row=2, column=1, pady=5)
+
+    if (student and course and lrn and suname and firsname and m_i and month and day and year 
+        and age and religion and marital and month != "MM" and day != "DD" and year != "YYYY" and religion != "Select Religion" 
+        and marital != "Select Marital Status"):
+        
+        print("Enrollment Entry: \n" \
+        "Student ID: " + student + "\n"
+        "Course/Section: " + course + "\n" \
+        "LRN: " + lrn + "\n"
+            
+        "Surname: " + suname + "\n\n" \
+        "Firstname: " + firsname + "\n" \
+        "M.I.: " + m_i + "\n"
+        
+        "Birthdate: " + month + "/n" + day + "/n" + year + "\n" \
+        "Age: " + age + "\n" ) 
+        
+
+        messagebox.showinfo(title="Enrollment Entry", message="Enrollment Entry Successful!")
+        return True
+    else:
+        messagebox.showerror(title="Enrollment Entry", message="Please fill in all fields.")
+        return False
+    
+
+
+
+
+
+Student_ID= tk.Label(left_top, text="Student ID:").grid(row=0, column=0, sticky="w")
+Student_entry = tk.Entry(left_top, width=30)
+Student_entry.grid(row=0, column=1, pady=5)
+
+Course_Section= tk.Label(left_top, text="Course/Section:").grid(row=1, column=0, sticky="w")
+Course_Section_enrty= tk.Entry(left_top, width=30)
+Course_Section_enrty.grid(row=1, column=1, pady=5)
+
+lrn= tk.Label(left_top, text="LRN:").grid(row=2, column=0, sticky="w")
+lrn_entry= tk.Entry(left_top, width=30)
+lrn_entry.grid(row=2, column=1, pady=5)
 
 right_top = tk.Frame(top_section, bg="#f4f4f4")
 right_top.pack(side="right", padx=10)
@@ -185,7 +235,8 @@ for label, i in fields:
         marital_box.grid(row=i+1, column=1, padx=5, pady=3)
 
     else:
-        tk.Entry(personal, width=40).grid(row=i+1, column=1, padx=5, pady=3)
+        personal_info = tk.Entry(personal, width=40)
+        personal_info.grid(row=i+1, column=1, padx=5, pady=3)
 
 tk.Label(personal, text="Gender").grid(row=9, column=0, sticky="w", padx=5, pady=3)
 
@@ -376,7 +427,7 @@ education_section.grid_columnconfigure(1, weight=1)
 education_section.grid_columnconfigure(2, weight=1)
 
     # === Submit Button ===
-submit_btn = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#4CAF50", fg="white", padx=20, pady=10)
+submit_btn = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#4CAF50", fg="white", padx=20, pady=10, command=image_id_section_debugger)
 submit_btn.pack(pady=20)
 
 # Show personal details first

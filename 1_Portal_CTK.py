@@ -1,19 +1,18 @@
 from PIL import Image
 from customtkinter import *
 import customtkinter as ctk
+from subprocess import call
 from tkinter import messagebox
 from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
-
+ 
 # ==================== Window Setup ====================
 window = CTk()
 window.title("Login Portal")
 window.geometry('1300x825')
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
-
-mode = "dark"
 
 def LOG_IN():
     # ==================== Functions ====================
