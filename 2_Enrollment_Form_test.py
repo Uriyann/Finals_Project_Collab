@@ -83,8 +83,6 @@ root = tk.Tk()
 root.title("Student Enrollment Form")
 root.geometry("900x700")
 
-
-
 # === Navigation Buttons ===
 nav_frame = tk.Frame(root, bg="#ddd")
 nav_frame.pack(side="top", fill="x")
@@ -141,7 +139,6 @@ tk.Label(header, text="Lucena City", font=("Arial", 12)).pack()
 tk.Label(header, text="STUDENT ENROLLMENT FORM", font=("Arial", 18, "bold")).pack()
 tk.Label(header, text="Second Semester 2024-2025", font=("Arial", 12)).pack()
 
-
 # Image and ID Section
 top_section = tk.Frame(frame, bg="#f4f4f4")
 top_section.pack(padx=20, pady=10, fill="x")
@@ -150,13 +147,16 @@ left_top = tk.Frame(top_section, bg="#f4f4f4")
 left_top.pack(side="left", fill="both", expand=True)
 
 tk.Label(left_top, text="Student ID:").grid(row=0, column=0, sticky="w")
-tk.Entry(left_top, width=30).grid(row=0, column=1, pady=5)
+StudentID_Entry = tk.Entry(left_top, width=30)
+StudentID_Entry.grid(row=0, column=1, pady=5)
 
 tk.Label(left_top, text="Course/Section:").grid(row=1, column=0, sticky="w")
-tk.Entry(left_top, width=30).grid(row=1, column=1, pady=5)
+CourSec_Entry = tk.Entry(left_top, width=30)
+CourSec_Entry.grid(row=1, column=1, pady=5)
 
 tk.Label(left_top, text="LRN:").grid(row=2, column=0, sticky="w")
-tk.Entry(left_top, width=30).grid(row=2, column=1, pady=5)
+LRN_Entry = tk.Entry(left_top, width=30)
+LRN_Entry.grid(row=2, column=1, pady=5)
 
 right_top = tk.Frame(top_section, bg="#f4f4f4")
 right_top.pack(side="right", padx=10)
@@ -275,8 +275,8 @@ for label, i in fields:
         language_spoken_entry.grid(row=i+1, column=1, padx=5, pady=3)
 
     else:
-        tk.Entry(personal, width=40).grid(row=i+1, column=1, padx=5, pady=3)
-
+        entry = tk.Entry(personal, width=40)
+        entry.grid(row=i+1, column=1, padx=5, pady=3)
 tk.Label(personal, text="Gender").grid(row=9, column=0, sticky="w", padx=5, pady=3)
 
 gender_frame = tk.Frame(personal, bg="#f4f4f4")
@@ -476,7 +476,7 @@ education_section.grid_columnconfigure(1, weight=1)
 education_section.grid_columnconfigure(2, weight=1)
 
     # === Submit Button ===
-submit_btn = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#4CAF50", fg="white", padx=20, pady=10)
+submit_btn = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#4CAF50", fg="white",command=FinalCheck, padx=20, pady=10)
 submit_btn.pack(pady=20)
 
 # Show personal details first
