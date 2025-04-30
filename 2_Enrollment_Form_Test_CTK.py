@@ -141,7 +141,7 @@ personal_details.pack(padx=20, pady=10, fill="x")
 age_label = CTkLabel(personal_details, text="Age", font=("Arial", 14))
 age_label.grid(row=0, column=0, sticky="w", padx=40, pady=15)
 age_values = ["Select Age"] + [str(i) for i in range(1, 101)]
-age_box = CTkComboBox(personal_details, values=age_values, width=8, state="normal")
+age_box = CTkComboBox(personal_details, values=age_values, width=150, state="normal")
 age_box.set("Select Age")
 age_box.configure(state="readonly")
 age_box.grid(row=0, column=1, sticky="w", padx=40, pady=15)
