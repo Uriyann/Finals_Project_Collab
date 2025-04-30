@@ -5,6 +5,79 @@ from tkinter import filedialog
 from PIL import Image, ImageTk
 from tkinter import messagebox
 
+# === Functions ===
+def CheckEntries():
+    required_fields = [
+        ("Student ID", StudentID_Entry), ("Course/Section", CourSec_Entry), ("LRN", LRN_Entry),
+        ("Surname", surname_entry), ("Firstname", firstname_entry), ("Middle Initial", middle_entry),
+        ("Email", email_entry), ("Phone No", phone_entry), ("Birthplace City", birthplace_entry),
+        ("Nationality", nationality_entry), ("Language Spoken", language_spoken_entry)
+    ] + [(field, entry) for field, entry in zip(address_fields, address_entries)]
+
+    for field_name, field in required_fields:
+        if field.get().strip() == "":
+            print(f"Error: {field_name} is required.")
+            return
+
+def CheckInt():
+    fields = [(LRN_Entry, "LRN"), (phone_entry, "Phone No"), (address_entries[4], "Zip Code")]
+    for field, field_name in fields:
+        value = field.get().strip()
+        if not value or not value.isdigit():
+            print(f"Error: {field_name} must be a valid integer.")
+            return False
+    return True
+
+def CheckChoices():
+    choices = [(month_box, "Month"), (day_box, "Day"), (year_box, "Year"),
+               (religion_box, "Religion"), (marital_box, "Marital Status")]
+    for box, field_name in choices:
+        if box.get() in ["MM", "DD", "YYYY", "Select Religion", "Select Marital Status"]:
+            print(f"Error: {field_name} is required.")
+            return False
+    return True
+
+def CheckBox():
+    if male_var.get() == 0 and female_var.get() == 0:
+        print("Error: Gender is required.")
+        return False
+    return True
+
+def CheckParent():
+    parent_fields = [
+        ("Father's Name", father_frame.winfo_children()[1]), ("Father's Occupation", father_frame.winfo_children()[3]), 
+        ("Father's Contact No", father_frame.winfo_children()[5]), ("Mother's Name", mother_frame.winfo_children()[1]),
+        ("Mother's Occupation", mother_frame.winfo_children()[3]), ("Mother's Contact No", mother_frame.winfo_children()[5]),
+        ("Guardian's Name", guardian_section.winfo_children()[1]), ("Guardian's Relationship", guardian_section.winfo_children()[3]),
+        ("Guardian's Contact No", guardian_section.winfo_children()[5])
+    ]
+    
+    for field_name, field in parent_fields:
+        if field.get().strip() == "":
+            print(f"Error: {field_name} is required.")
+            return False
+
+    contact_fields = [
+        (father_frame.winfo_children()[5], "Father's Contact No"),
+        (mother_frame.winfo_children()[5], "Mother's Contact No"),
+        (guardian_section.winfo_children()[5], "Guardian's Contact No")
+    ]
+    for field, field_name in contact_fields:
+        value = field.get().strip()
+        if not value or not value.isdigit():
+            print(f"Error: {field_name} must be a valid integer.")
+            return False
+
+    return True
+
+def FinalCheck():
+    CheckEntries()
+    CheckInt()
+    CheckChoices()
+    CheckBox()
+    CheckParent()
+
+
 # === Main Window ===
 root = tk.Tk()
 root.title("Student Enrollment Form")
@@ -76,61 +149,14 @@ top_section.pack(padx=20, pady=10, fill="x")
 left_top = tk.Frame(top_section, bg="#f4f4f4")
 left_top.pack(side="left", fill="both", expand=True)
 
-def image_id_section_debugger():
-    student= Student_entry.get()
-    course= Course_Section_enrty.get()
-    lrn= lrn_entry.get()
-    suname= surname_entry.get()
-    firsname= firstname_entry.get()
-    m_i= middle_entry.get()
-    month= month_box.get()
-    day= day_box.get()
-    year= year_box.get()
-    age= age_box.get()
-    religion= religion_box.get()
-    marital= marital_box.get()
+tk.Label(left_top, text="Student ID:").grid(row=0, column=0, sticky="w")
+tk.Entry(left_top, width=30).grid(row=0, column=1, pady=5)
 
+tk.Label(left_top, text="Course/Section:").grid(row=1, column=0, sticky="w")
+tk.Entry(left_top, width=30).grid(row=1, column=1, pady=5)
 
-
-    if (student and course and lrn and suname and firsname and m_i and month and day and year 
-        and age and religion and marital and age != "Select Age" and month != "MM" and day != "DD" and year != "YYYY" and religion != "Select Religion" 
-        and marital != "Select Marital Status"):
-        
-        print("Enrollment Entry: \n" \
-        "Student ID: " + student + "\n"
-        "Course/Section: " + course + "\n" \
-        "LRN: " + lrn + "\n"
-            
-        "Surname: " + suname + "\n\n" \
-        "Firstname: " + firsname + "\n" \
-        "M.I.: " + m_i + "\n"
-        
-        "Birthdate: " + month + "/n" + day + "/n" + year + "\n" \
-        "Age: " + age + "\n" ) 
-        
-
-        messagebox.showinfo(title="Enrollment Entry", message="Enrollment Entry Successful!")
-        return True
-    else:
-        messagebox.showerror(title="Enrollment Entry", message="Please fill in all fields.")
-        return False
-    
-
-
-
-
-
-Student_ID= tk.Label(left_top, text="Student ID:").grid(row=0, column=0, sticky="w")
-Student_entry = tk.Entry(left_top, width=30)
-Student_entry.grid(row=0, column=1, pady=5)
-
-Course_Section= tk.Label(left_top, text="Course/Section:").grid(row=1, column=0, sticky="w")
-Course_Section_enrty= tk.Entry(left_top, width=30)
-Course_Section_enrty.grid(row=1, column=1, pady=5)
-
-lrn= tk.Label(left_top, text="LRN:").grid(row=2, column=0, sticky="w")
-lrn_entry= tk.Entry(left_top, width=30)
-lrn_entry.grid(row=2, column=1, pady=5)
+tk.Label(left_top, text="LRN:").grid(row=2, column=0, sticky="w")
+tk.Entry(left_top, width=30).grid(row=2, column=1, pady=5)
 
 right_top = tk.Frame(top_section, bg="#f4f4f4")
 right_top.pack(side="right", padx=10)
@@ -183,21 +209,24 @@ middle_entry = tk.Entry(fullname_section, width=10)
 middle_entry.grid(row=0, column=2, padx=5)
 setup_entry(middle_entry, "M.I.")
 
+
 # Personal Details Section
 personal = tk.LabelFrame(frame, text="Personal Information", padx=10, pady=10)
 personal.pack(padx=20, pady=10, fill="x")
 
 tk.Label(personal, text="Age").grid(row=0, column=0, sticky="w", padx=5, pady=3)
 age_values = list(range(1, 101))  # Assuming age between 1 and 100
-age_box = ttk.Combobox(personal, values=age_values, width=8, state="readonly")
+age_box = ttk.Combobox(personal, values=age_values, width=10, state="readonly")
 age_box.set("Select Age")
 age_box.grid(row=0, column=1, sticky="w", padx=5, pady=3)
 
 fields = [
     ("Birthdate (MM/DD/YYYY)", 1),
     ("Birthplace City", 2),
-    ("Nationality", 4), ("Religion", 5),
-    ("Marital Status", 6), ("Language Spoken", 7)
+    ("Nationality", 4),
+    ("Religion", 5),
+    ("Marital Status", 6),
+    ("Language Spoken", 7)
 ]
 
 for label, i in fields:
@@ -233,9 +262,20 @@ for label, i in fields:
         marital_box.set("Select Marital Status")
         marital_box.grid(row=i+1, column=1, padx=5, pady=3)
 
+    elif label == "Birthplace City":
+        birthplace_entry = tk.Entry(personal, width=40)
+        birthplace_entry.grid(row=i+1, column=1, padx=5, pady=3)
+
+    elif label == "Nationality":
+        nationality_entry = tk.Entry(personal, width=40)
+        nationality_entry.grid(row=i+1, column=1, padx=5, pady=3)
+
+    elif label == "Language Spoken":
+        language_spoken_entry = tk.Entry(personal, width=40)
+        language_spoken_entry.grid(row=i+1, column=1, padx=5, pady=3)
+
     else:
-        personal_info = tk.Entry(personal, width=40)
-        personal_info.grid(row=i+1, column=1, padx=5, pady=3)
+        tk.Entry(personal, width=40).grid(row=i+1, column=1, padx=5, pady=3)
 
 tk.Label(personal, text="Gender").grid(row=9, column=0, sticky="w", padx=5, pady=3)
 
@@ -249,22 +289,32 @@ tk.Checkbutton(gender_frame, text="Male", variable=male_var, bg="#f4f4f4").pack(
 tk.Checkbutton(gender_frame, text="Female", variable=female_var, bg="#f4f4f4").pack(side="left", padx=5)
 
 # Address Section
+address_entries = []
+
 address = tk.LabelFrame(frame, text="Address", padx=10, pady=10)
 address.pack(padx=20, pady=10, fill="x")
 
 address_fields = ["Street No.", "Barangay", "City/Municipality", "Province", "Zip Code", "Country"]
 for i, field in enumerate(address_fields):
     tk.Label(address, text=field).grid(row=i, column=0, padx=5, pady=3)
-    tk.Entry(address, width=30).grid(row=i, column=1, padx=5, pady=3)
+    entry = tk.Entry(address, width=30)
+    entry.grid(row=i, column=1, padx=5, pady=3)
+    address_entries.append(entry)
 
 # Contact Information
 contact = tk.LabelFrame(frame, text="Contact Information", padx=10, pady=10)
 contact.pack(padx=20, pady=10, fill="x")
+contact_entries = []
 
 tk.Label(contact, text="Email:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(contact, width=40).grid(row=0, column=1, padx=5)
+email_entry = tk.Entry(contact, width=40)
+email_entry.grid(row=0, column=1, padx=5)
+contact_entries.append(email_entry)
+
 tk.Label(contact, text="Phone No:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(contact, width=40).grid(row=1, column=1, padx=5)
+phone_entry = tk.Entry(contact, width=40)
+phone_entry.grid(row=1, column=1, padx=5)
+contact_entries.append(phone_entry)
 
 # === FAMILY BACKGROUND PAGE ===
 family_canvas = tk.Canvas(family_frame, borderwidth=0, background="#f4f4f4")
@@ -426,7 +476,7 @@ education_section.grid_columnconfigure(1, weight=1)
 education_section.grid_columnconfigure(2, weight=1)
 
     # === Submit Button ===
-submit_btn = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#4CAF50", fg="white", padx=20, pady=10, command=image_id_section_debugger)
+submit_btn = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#4CAF50", fg="white", padx=20, pady=10)
 submit_btn.pack(pady=20)
 
 # Show personal details first
