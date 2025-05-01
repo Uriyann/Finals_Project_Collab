@@ -7,40 +7,69 @@ from tkinter import messagebox
 
 # === Functions ===
 def CheckEntries():
-    required_fields = [
-        ("Student ID", StudentID_Entry), ("Course/Section", CourSec_Entry), ("LRN", LRN_Entry),
-        ("Surname", surname_entry), ("Firstname", firstname_entry), ("Middle Initial", middle_entry),
-        ("Email", email_entry), ("Phone No", phone_entry), ("Birthplace City", birthplace_entry),
-        ("Nationality", nationality_entry), ("Language Spoken", language_spoken_entry)
-    ] + [(field, entry) for field, entry in zip(address_fields, address_entries)]
+    ReqFields = [
+        ("Student ID", StudentID_Entry), 
+        ("Course/Section", CourSec_Entry), 
+        ("LRN", LRN_Entry),
+        ("Surname", surname_entry), 
+        ("Firstname", firstname_entry), 
+        ("Middle Initial", middle_entry),
+        ("Email", email_entry), 
+        ("Phone No", phone_entry), 
+        ("Birthplace City", birthplace_entry),
+        ("Nationality", nationality_entry), 
+        ("Language Spoken", language_spoken_entry),
+        ("Elementary School Name", SchoolNameElem), 
+        ("Elementary Year of Graduation", YearGradElem),
+        ("Junior High School Name", SchoolNameJun), 
+        ("Junior High Year of Graduation", YearGradJun),
+        ("Senior High School Name", SchoolNameSen),
+        ("Senior High Strand", StrandSen), 
+        ("Senior High Year of Graduation", YearGradSen),
+        ("College School Name", SchoolNameCol),
+        ("College Year of Graduation", YearGradCol)
+    ]
+    
+    for field, entry in zip(address_fields, address_entries):
+        ReqFields.append((field, entry))
 
-    for field_name, field in required_fields:
+    for Fieldnames, field in ReqFields:
         if field.get().strip() == "":
-            print(f"Error: {field_name} is required.")
+            messagebox.showerror("Missing Requirement", f"Error: {Fieldnames} is required.")
             return
-
+        
 def CheckInt():
     fields = [(LRN_Entry, "LRN"), (phone_entry, "Phone No"), (address_entries[4], "Zip Code")]
-    for field, field_name in fields:
+    for field, Fieldnames in fields:
         value = field.get().strip()
         if not value or not value.isdigit():
-            print(f"Error: {field_name} must be a valid integer.")
+            messagebox.showerror("Missing Requirment",f"Error: {Fieldnames} must be a valid integer.")
             return False
     return True
 
 def CheckChoices():
     choices = [(month_box, "Month"), (day_box, "Day"), (year_box, "Year"),
                (religion_box, "Religion"), (marital_box, "Marital Status")]
-    for box, field_name in choices:
+    for box, Fieldnames in choices:
         if box.get() in ["MM", "DD", "YYYY", "Select Religion", "Select Marital Status"]:
-            print(f"Error: {field_name} is required.")
+            messagebox.showerror("Missing Requirment", f"Error: {Fieldnames} is required.")
             return False
     return True
 
 def CheckBox():
     if male_var.get() == 0 and female_var.get() == 0:
-        print("Error: Gender is required.")
+        messagebox.showerror("Missing Requirement", "Error: Please select a gender.")
         return False
+    
+    student_selected = any(var.get() == 1 for var in [
+        transferee_var, new_student_var, 
+        old_student_var, cross_enrollee_var, 
+        returnee_var])
+    
+    if not student_selected:
+        messagebox.showerror("Missing Requirement", "Error: Please select a student status.")
+        return False
+
     return True
 
 def CheckParent():
@@ -54,7 +83,7 @@ def CheckParent():
     
     for field_name, field in parent_fields:
         if field.get().strip() == "":
-            print(f"Error: {field_name} is required.")
+            messagebox.showerror("Missing Requirment", f"Error: {field_name} is required.")
             return False
 
     contact_fields = [
@@ -65,7 +94,7 @@ def CheckParent():
     for field, field_name in contact_fields:
         value = field.get().strip()
         if not value or not value.isdigit():
-            print(f"Error: {field_name} must be a valid integer.")
+            messagebox.showerror("Missing Requirment", f"Error: {field_name} must be a valid integer.")
             return False
 
     return True
@@ -417,33 +446,33 @@ elementary_frame = tk.LabelFrame(education_section, text="Elementary", padx=10, 
 elementary_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
 tk.Label(elementary_frame, text="School Name:").grid(row=0, column=0, sticky="w", pady=5)
-tk.Entry(elementary_frame, width=30).grid(row=0, column=1, pady=5)
+SchoolNameElem = tk.Entry(elementary_frame, width=30).grid(row=0, column=1, pady=5)
 
 tk.Label(elementary_frame, text="Year Graduated:").grid(row=1, column=0, sticky="w", pady=5)
-tk.Entry(elementary_frame, width=20).grid(row=1, column=1, pady=5)
+YearGradElem = tk.Entry(elementary_frame, width=20).grid(row=1, column=1, pady=5)
 
 # Junior High Frame
 junior_frame = tk.LabelFrame(education_section, text="Junior High School", padx=10, pady=10)
 junior_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
 tk.Label(junior_frame, text="School Name:").grid(row=0, column=0, sticky="w", pady=5)
-tk.Entry(junior_frame, width=30).grid(row=0, column=1, pady=5)
+SchoolNameJun = tk.Entry(junior_frame, width=30).grid(row=0, column=1, pady=5)
 
 tk.Label(junior_frame, text="Year Graduated:").grid(row=1, column=0, sticky="w", pady=5)
-tk.Entry(junior_frame, width=20).grid(row=1, column=1, pady=5)
+YearGradJun = tk.Entry(junior_frame, width=20).grid(row=1, column=1, pady=5)
 
 # Senior High Frame
 senior_frame = tk.LabelFrame(education_section, text="Senior High School", padx=10, pady=10)
 senior_frame.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
 
 tk.Label(senior_frame, text="School Name:").grid(row=0, column=0, sticky="w", pady=5)
-tk.Entry(senior_frame, width=30).grid(row=0, column=1, pady=5)
+SchoolNameSen = tk.Entry(senior_frame, width=30).grid(row=0, column=1, pady=5)
 
 tk.Label(senior_frame, text="Strand:").grid(row=1, column=0, sticky="w", pady=5)
-tk.Entry(senior_frame, width=20).grid(row=1, column=1, pady=5)
+StrandSen = tk.Entry(senior_frame, width=20).grid(row=1, column=1, pady=5)
 
 tk.Label(senior_frame, text="Year Graduated:").grid(row=2, column=0, sticky="w", pady=5)
-tk.Entry(senior_frame, width=20).grid(row=2, column=1, pady=5)
+YearGradSen = tk.Entry(senior_frame, width=20).grid(row=2, column=1, pady=5)
 
 # College
 college_section = tk.LabelFrame(education_inner, text="College", padx=10, pady=10)
@@ -451,25 +480,37 @@ college_section.pack(padx=20, pady=10, fill="x")
 
 # School Name
 tk.Label(college_section, text="School Name:").grid(row=0, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(college_section).grid(row=0, column=1, padx=5, pady=3)
+SchoolNameCol = tk.Entry(college_section).grid(row=0, column=1, padx=5, pady=3)
 
 # Year Graduated
 tk.Label(college_section, text="Year Graduated:").grid(row=1, column=0, sticky="w", padx=5, pady=3)
-tk.Entry(college_section).grid(row=1, column=1, padx=5, pady=3)
+YearGradCol =tk.Entry(college_section).grid(row=1, column=1, padx=5, pady=3)
 
 # Checkboxes
 transferee_var = tk.BooleanVar()
 new_student_var = tk.BooleanVar()
 old_student_var = tk.BooleanVar()
 cross_enrollee_var = tk.BooleanVar()
-returnee_var = tk.BooleanVar()  # added for Returnee
+returnee_var = tk.BooleanVar()
 
-tk.Checkbutton(college_section, text="Transferee", variable=transferee_var, bg=college_section.cget("bg")).grid(row=2, column=0, sticky="w", padx=5, pady=3)
-tk.Checkbutton(college_section, text="New Student", variable=new_student_var, bg=college_section.cget("bg")).grid(row=2, column=1, sticky="w", padx=5, pady=3)
-tk.Checkbutton(college_section, text="Old Student", variable=old_student_var, bg=college_section.cget("bg")).grid(row=3, column=0, sticky="w", padx=5, pady=3)
-tk.Checkbutton(college_section, text="Cross Enrollee", variable=cross_enrollee_var, bg=college_section.cget("bg")).grid(row=3, column=1, sticky="w", padx=5, pady=3)
-tk.Checkbutton(college_section, text="Returnee", variable=returnee_var, bg=college_section.cget("bg")).grid(row=4, column=0, sticky="w", padx=5, pady=3)
+Checkbuttons_Info = [
+    ("Transferee", transferee_var),
+    ("New Student", new_student_var),
+    ("Old Student", old_student_var),
+    ("Cross Enrollee", cross_enrollee_var),
+    ("Returnee", returnee_var)
+]
 
+for index, (text, var) in enumerate(Checkbuttons_Info):
+    row = 2 + (index // 2)
+    column = index % 2
+    
+    tk.Checkbutton(college_section, 
+                   text=text, 
+                   variable=var, 
+                   bg=college_section.cget("bg")).grid(
+                       row=row, column=column, sticky="w", padx=5, pady=3)
+    
 # Make columns expand evenly
 education_section.grid_columnconfigure(0, weight=1)
 education_section.grid_columnconfigure(1, weight=1)
