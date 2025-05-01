@@ -50,9 +50,9 @@ scrollable_personal_frame.place(x=0, y=0, relwidth=1, relheight=1)
 # Headers
 personal_header = CTkFrame(scrollable_personal_frame)
 personal_header.pack(pady=20)
-CTkLabel(personal_header, text="Lucena City", font=("Arial", 12)).pack()
-CTkLabel(personal_header, text="STUDENT ENROLLMENT FORM", font=("Arial", 18, "bold")).pack()
-CTkLabel(personal_header, text="Second Semester 2024-2025", font=("Arial", 12)).pack()
+CTkLabel(personal_header, text="Lucena City", font=("Arial", 22)).pack()
+CTkLabel(personal_header, text="STUDENT ENROLLMENT FORM", font=("Arial", 28, "bold")).pack()
+CTkLabel(personal_header, text="Second Semester 2024-2025", font=("Arial", 22)).pack()
 
 # Image and ID Section
 top_section = CTkFrame(scrollable_personal_frame, fg_color= "transparent")
@@ -159,7 +159,7 @@ none_binary_checkbox.grid(row=0, column=2)
 age_label = CTkLabel(second_row_personal_details_frame, text="Age:", font=("Arial", 14), bg_color="transparent")
 age_label.grid(row=1, column=1, sticky="w", padx=20, pady=7)
 age_values = ["Select Age"] + [str(i) for i in range(1, 101)]
-age_box = CTkComboBox(second_row_personal_details_frame, values=age_values, width=150, height= 35, bg_color= "transparent", state="readonly")
+age_box = CTkComboBox(second_row_personal_details_frame, values=age_values, width=150, height= 35, bg_color= "transparent", state="normal")
 age_box.set("Select Age")
 age_box.grid(row=2, column=1, sticky="wn", padx=20)
 
@@ -173,17 +173,17 @@ months = [
           "May", "June", "July", "August", "September", 
           "October", "November", "December"
           ]
-month_box = CTkComboBox(birthdate_frame, values=months, width=90, height= 35, bg_color= "transparent", state="readonly")
+month_box = CTkComboBox(birthdate_frame, values=months, width=90, height= 35, bg_color= "transparent", state="normal")
 month_box.set("MM")
 month_box.grid(row=0, column=0, padx=3)
 
 days = ["DD"] + [str(x) for x in range(1, 32)]
-day_box = CTkComboBox(birthdate_frame, values=days, width=80, height= 35, bg_color= "transparent", state="readonly")
+day_box = CTkComboBox(birthdate_frame, values=days, width=80, height= 35, bg_color= "transparent", state="normal")
 day_box.set("DD")
 day_box.grid(row=0, column=1, padx=3)
 
 years = ["YYYY"] + [str(x) for x in range(1900, datetime.now().year + 11)]
-year_box = CTkComboBox(birthdate_frame, values=years, width=150, height= 35, bg_color= "transparent", state="readonly")
+year_box = CTkComboBox(birthdate_frame, values=years, width=150, height= 35, bg_color= "transparent", state="normal")
 year_box.set("YYYY")
 year_box.grid(row=0, column=2, padx=3)
 
@@ -281,7 +281,7 @@ empty_label = CTkLabel(empty_frame, text="", font=("Arial", 14), bg_color="trans
 empty_label.grid(row=0, column=0)
 
 # Contact Information Title
-contact_title_info =CTkLabel(scrollable_personal_frame, text= "CONTACT INFORMATIN", font= ("Id Inter", 25))
+contact_title_info =CTkLabel(scrollable_personal_frame, text= "CONTACT INFORMATION", font= ("Id Inter", 25))
 contact_title_info.pack(padx=20, pady=10, anchor=W)
 
 # Contact Information Details Section
@@ -289,7 +289,7 @@ contact_info_details = CTkFrame(scrollable_personal_frame, bg_color="transparent
 contact_info_details.pack(padx=20, pady=10, fill="x")
 
 first_row_contact_info_details_frame = CTkFrame(contact_info_details, bg_color="transparent", fg_color= "transparent")
-first_row_contact_info_details_frame.grid(row=0, column=0, columnspan=3, sticky="we", padx=20, pady=7)
+first_row_contact_info_details_frame.grid(row=0, column=0, columnspan=3, sticky="we", padx=35, pady=7)
 
 email_label = CTkLabel(first_row_contact_info_details_frame, text="Email:", font=("Arial", 14), bg_color="transparent")
 email_label.grid(row=0, column=0, padx=10, pady=7, sticky="w")
@@ -302,7 +302,7 @@ num_entry = CTkEntry(first_row_contact_info_details_frame, width=250, font=("Ari
 num_entry.grid(row=0, column=3, padx=10, pady=7, sticky="wn")
 
 empty_frame = CTkFrame(contact_info_details, bg_color="transparent", fg_color= "transparent")
-empty_frame.grid(row=1, column=0, columnspan=3, sticky="we", padx=20, pady=6)
+empty_frame.grid(row=1, column=0, columnspan=3, sticky="we", padx=20, pady=7)
 
 empty_label = CTkLabel(empty_frame, text="", font=("Arial", 14), bg_color="transparent")
 empty_label.grid(row=0, column=0)
@@ -312,6 +312,34 @@ empty_label.grid(row=0, column=0)
 # Scrollable Frame
 scrollable_family_background_frame = CTkScrollableFrame(family_frame)
 scrollable_family_background_frame.place(x=0, y=0, relwidth=1, relheight=1)
+
+# Headers
+family_background_header = CTkFrame(scrollable_family_background_frame)
+family_background_header.pack(pady=20)
+CTkLabel(family_background_header, text="FAMILY BACKGROUND", font=("Arial", 28, "bold")).pack()
+
+# Parent's Information Title
+family_background_title_info =CTkLabel(scrollable_family_background_frame, text= "PARENT'S INFORMATION", font= ("Id Inter", 25))
+family_background_title_info.pack(padx=20, pady=10, anchor=W)
+
+# Parent's Details Section
+parents_details = CTkFrame(scrollable_family_background_frame, bg_color="transparent", fg_color= "transparent", border_width=6, corner_radius=10)
+parents_details.pack(padx=20, pady=10, fill="x")
+
+first_row_parents_details_frame = CTkFrame(parents_details, bg_color="transparent", fg_color= "transparent")
+first_row_parents_details_frame.grid(row=0, column=0, columnspan=3, sticky="we", padx=35, pady=7)
+
+name_label = CTkLabel(first_row_parents_details_frame, text="Name:", font=("Arial", 14), bg_color="transparent")
+name_label.grid(row=0, column=0, padx=10, pady=7, sticky="w")
+
+address_label = CTkLabel(first_row_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+address_label.grid(row=1, column=0, padx=10, pady=7, sticky="w")
+
+occupation_label = CTkLabel(first_row_parents_details_frame, text="Occupation:", font=("Arial", 14), bg_color="transparent")
+occupation_label.grid(row=2, column=0, padx=10, pady=7, sticky="w")
+
+phon_num_label = CTkLabel(first_row_parents_details_frame, text="Contact Number:", font=("Arial", 14), bg_color="transparent")
+phon_num_label.grid(row=3, column=0, padx=10, pady=7, sticky="w")
 
 
 # ==================== Window Starter ====================
