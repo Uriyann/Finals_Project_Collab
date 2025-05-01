@@ -1,20 +1,13 @@
-import customtkinter as ctk
-import tkinter.ttk as ttk
+from customtkinter import *
 
-app = ctk.CTk()
-app.geometry("500x400")
+app = CTk()
+app.geometry("400x300")
+set_appearance_mode("dark")
 
-frame = ctk.CTkFrame(app)
-frame.pack(pady=20)
+def slider_event(value):
+    print(value)
 
-# CTk Label
-ctk.CTkLabel(frame, text="CTk + ttk Example", font=("Arial", 18)).pack(pady=10)
-
-# ttk Treeview
-tree = ttk.Treeview(frame._get_tk(), columns=("Name", "Age"), show="headings")
-tree.heading("Name", text="Name")
-tree.heading("Age", text="Age")
-tree.insert("", "end", values=("Joshua", "21"))
-tree.pack()
+slider = CTkSlider(app, from_=0, to=100, command=slider_event)
+slider.pack(padx=20, pady=20)
 
 app.mainloop()

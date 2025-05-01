@@ -83,6 +83,8 @@ root = tk.Tk()
 root.title("Student Enrollment Form")
 root.geometry("900x700")
 
+
+
 # === Navigation Buttons ===
 nav_frame = tk.Frame(root, bg="#ddd")
 nav_frame.pack(side="top", fill="x")
@@ -138,6 +140,7 @@ header.pack(pady=10)
 tk.Label(header, text="Lucena City", font=("Arial", 12)).pack()
 tk.Label(header, text="STUDENT ENROLLMENT FORM", font=("Arial", 18, "bold")).pack()
 tk.Label(header, text="Second Semester 2024-2025", font=("Arial", 12)).pack()
+
 
 # Image and ID Section
 top_section = tk.Frame(frame, bg="#f4f4f4")
