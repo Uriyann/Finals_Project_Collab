@@ -178,9 +178,6 @@ top_section.pack(padx=20, pady=10, fill="x")
 left_top = tk.Frame(top_section, bg="#f4f4f4")
 left_top.pack(side="left", fill="both", expand=True)
 
-tk.Label(left_top, text="Student ID:").grid(row=0, column=0, sticky="w")
-StudentID_Entry = tk.Entry(left_top, width=30)
-StudentID_Entry.grid(row=0, column=1, pady=5)
 
 tk.Label(left_top, text="Course/Section:").grid(row=1, column=0, sticky="w")
 CourSec_Entry = tk.Entry(left_top, width=30)
