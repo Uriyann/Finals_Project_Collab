@@ -5,6 +5,7 @@ from tkinter import messagebox
 from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
+import subprocess
 
 # ==================== Window Setup ====================
 window = CTk()
@@ -32,6 +33,7 @@ def LOG_IN():
             for row in ws.iter_rows(min_row=2, values_only=True):
                 if row[3] == username and row[4] == password:
                     messagebox.showinfo("Login Success", f"Welcome, {username}!")
+                    GO_TO_ENROLLMENT_FORM()
                     return
                 
             messagebox.showerror(title= "Login Failed", message= "Incorrect username or password.")
@@ -97,6 +99,10 @@ def LOG_IN():
             login_password_entry.configure(show="")
         else:
             login_password_entry.configure(show="*")
+
+    def GO_TO_ENROLLMENT_FORM():
+        window.destroy()
+        subprocess.call(["python", "2_Enrollment_Form_Test_CTK.py   "])
 
     # Signup Window Switch Function
     def SIGN_UP():

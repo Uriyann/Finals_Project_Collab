@@ -2,8 +2,9 @@ from customtkinter import *
 import customtkinter as ctk
 from datetime import datetime
 from tkinter import filedialog
-from PIL import Image, ImageTk
+from PIL import Image
 from tkinter import messagebox
+from subprocess import call
 
 # ==================== Window Setup ====================
 window = CTk()
@@ -11,6 +12,17 @@ window.title("Student Enrollment Form")
 window.geometry('1300x825')
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
+
+mode = "dark"
+
+def sign_up_change_appearance_event():
+    global mode
+    if mode == "dark":
+        ctk.set_appearance_mode("light")
+        mode = "light"
+    else:
+        ctk.set_appearance_mode("dark")
+        mode = "dark"
 
 # ==================== Navigation Buttons ====================
 nav_frame = CTkFrame(window, fg_color="transparent", bg_color="gray13")
@@ -27,6 +39,10 @@ family_btn.pack(side="left", padx=5, pady=5)
 
 education_btn = CTkButton(nav_frame, text="Educational Background", command=lambda: show_frame(education_frame))
 education_btn.pack(side="left", padx=5, pady=5)
+
+# Light Switch
+switch_light_button = CTkSwitch(nav_frame, text="🌙 / ☀️", command= sign_up_change_appearance_event, border_width= 3, corner_radius= 13, height=25, bg_color="transparent")
+switch_light_button.pack(side="right", padx=5, pady=5)
 
 # ==================== Main Container ====================
 container = CTkFrame(window)
@@ -372,7 +388,140 @@ phon_father_entry.grid(row=4, column=1, padx=10, pady=7)
 phon_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
 phon_mother_entry.grid(row=4, column=2, padx=10, pady=7)
 
+guardian_label = CTkLabel(row_column_parents_details_frame, text="GUARDIAN", font=("Arial", 14, "bold"), bg_color="transparent")
+guardian_label.grid(row=5, column=0, padx=10, pady=7)
 
+name_label = CTkLabel(row_column_parents_details_frame, text="Name:", font=("Arial", 14), bg_color="transparent")
+name_label.grid(row=6, column=0, padx=10, pady=7, sticky="w")
+
+name_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
+name_guardian_entry.grid(row=6, column=1, padx=10, pady=7)
+
+rel_label = CTkLabel(row_column_parents_details_frame, text="Relationship to Student:", font=("Arial", 14), bg_color="transparent")
+rel_label.grid(row=6, column=2, padx=10, pady=7, sticky="s")
+
+address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+address_label.grid(row=7, column=0, padx=10, pady=7, sticky="w")
+
+address_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+address_guardian_entry.grid(row=7, column=1, padx=10, pady=7)
+
+rel_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Relationship", height= 35, fg_color= "transparent", bg_color= "transparent")
+rel_guardian_entry.grid(row=7, column=2, padx=10, pady=7)
+
+occupation_label = CTkLabel(row_column_parents_details_frame, text="Occupation:", font=("Arial", 14), bg_color="transparent")
+occupation_label.grid(row=8, column=0, padx=10, pady=7, sticky="w")
+
+occupation_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
+occupation_guardian_entry.grid(row=8, column=1, padx=10, pady=7)
+
+# ==================== FAMILY BACKGROUND PAGE ====================
+# Scrollable Frame
+scrollable_educ_background_frame = CTkScrollableFrame(education_frame)
+scrollable_educ_background_frame.place(x=0, y=0, relwidth=1, relheight=1)
+
+# Headers
+educ_background_header = CTkFrame(scrollable_educ_background_frame)
+educ_background_header.pack(pady=20)
+CTkLabel(educ_background_header, text="EDUCATIONAL BACKGROUND", font=("Arial", 28, "bold")).pack()
+
+# Educ's Information Title
+family_background_title_info =CTkLabel(scrollable_educ_background_frame, text= "EDUCATIONAL INFORMATION", font= ("Id Inter", 25))
+family_background_title_info.pack(padx=20, pady=10, anchor=W)
+
+# Educ's Details Section
+educ_details = CTkFrame(scrollable_educ_background_frame, bg_color="transparent", fg_color= "transparent", border_width=6, corner_radius=10)
+educ_details.pack(padx=20, pady=10, fill="x")
+
+row_column_parents_details_frame = CTkFrame(educ_details, bg_color="transparent", fg_color= "transparent")
+row_column_parents_details_frame.pack(anchor = CENTER, pady=30)
+
+empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
+empty_label.grid(row=0, column=0)
+
+elem_label = CTkLabel(row_column_parents_details_frame, text="ELEMENTARY", font=("Arial", 14, "bold"), bg_color="transparent")
+elem_label.grid(row=0, column=1, padx=10, pady=7)
+
+schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
+schl_label.grid(row=1, column=0, padx=10, pady=7, sticky="w")
+schl_elem_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
+schl_elem_entry.grid(row=1, column=1, padx=10, pady=7)
+
+address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+address_label.grid(row=2, column=0, padx=10, pady=7, sticky="w")
+address_elem_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+address_elem_entry.grid(row=2, column=1, padx=10, pady=7)
+
+yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
+yr_label.grid(row=3, column=0, padx=10, pady=7, sticky="w")
+yr_elem_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
+yr_elem_entry.grid(row=3, column=1, padx=10, pady=7)
+
+empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
+empty_label.grid(row=0, column=2)
+
+js_label = CTkLabel(row_column_parents_details_frame, text="JUNIOR HIGH SCHOOL", font=("Arial", 14, "bold"), bg_color="transparent")
+js_label.grid(row=0, column=3, padx=10, pady=7)
+
+schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
+schl_label.grid(row=1, column=2, padx=10, pady=7, sticky="w")
+schl_js_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
+schl_js_entry.grid(row=1, column=3, padx=10, pady=7)
+
+address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+address_label.grid(row=2, column=2, padx=10, pady=7, sticky="w")
+address_js_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+address_js_entry.grid(row=2, column=3, padx=10, pady=7)
+
+yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
+yr_label.grid(row=3, column=2, padx=10, pady=7, sticky="w")
+yr_js_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
+yr_js_entry.grid(row=3, column=3, padx=10, pady=7)
+
+empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
+empty_label.grid(row=4, column=0)
+
+shs_label = CTkLabel(row_column_parents_details_frame, text="SENIOR HIGH SCHOOL", font=("Arial", 14, "bold"), bg_color="transparent")
+shs_label.grid(row=4, column=1, padx=10, pady=7)
+
+schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
+schl_label.grid(row=5, column=0, padx=10, pady=7, sticky="w")
+schl_shs_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
+schl_shs_entry.grid(row=5, column=1, padx=10, pady=7)
+
+address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+address_label.grid(row=6, column=0, padx=10, pady=7, sticky="w")
+address_shs_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+address_shs_entry.grid(row=6, column=1, padx=10, pady=7)
+
+yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
+yr_label.grid(row=7, column=0, padx=10, pady=7, sticky="w")
+yr_shs_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
+yr_shs_entry.grid(row=7, column=1, padx=10, pady=7)
+
+empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
+empty_label.grid(row=4, column=2)
+
+cg_label = CTkLabel(row_column_parents_details_frame, text="COLLEGE", font=("Arial", 14, "bold"), bg_color="transparent")
+cg_label.grid(row=4, column=3, padx=10, pady=7, sticky="w")
+
+trans_label = CTkLabel(row_column_parents_details_frame, text="For Transferees", font=("Arial", 14), bg_color="transparent")
+trans_label.grid(row=4, column=3, padx=10, pady=7, sticky="e")
+
+schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
+schl_label.grid(row=5, column=2, padx=10, pady=7, sticky="w")
+schl_cg_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
+schl_cg_entry.grid(row=5, column=3, padx=10, pady=7)
+
+address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+address_label.grid(row=6, column=2, padx=10, pady=7, sticky="w")
+address_cg_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+address_cg_entry.grid(row=6, column=3, padx=10, pady=7)
+
+yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
+yr_label.grid(row=7, column=2, padx=10, pady=7, sticky="w")
+yr_cg_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
+yr_cg_entry.grid(row=7, column=3, padx=10, pady=7)
 
 # ==================== Window Starter ====================
 window.mainloop()
