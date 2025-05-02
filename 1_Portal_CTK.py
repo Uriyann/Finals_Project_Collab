@@ -41,6 +41,13 @@ def LOG_IN():
         except FileNotFoundError:
             messagebox.showerror(title= "Error", message= "User data file not found.")
 
+    def show_forg_pass():
+        terms_window = CTkToplevel(window)
+        terms_window.title("Forgot Password")
+        terms_window.geometry("400x300")
+        terms_label = CTkLabel(terms_window, text="Forgot Password go here.")
+        terms_label.pack(pady=20, padx=20)
+
     # Input Validation & Debugger Function
     def log_in_data_validation_debugger():
 
@@ -220,6 +227,13 @@ def LOG_IN():
             else:
                 messagebox.showerror(title="Error", message="Please fill out all fields.")
                 return False
+            
+        def show_terms_and_conditions():
+            terms_window = CTkToplevel(window)
+            terms_window.title("Terms and Conditions")
+            terms_window.geometry("400x300")
+            terms_label = CTkLabel(terms_window, text="Terms and Conditions go here.")
+            terms_label.pack(pady=20, padx=20)
             
         # First Name Delete & Restore Function
         def sign_up_on_first_name_click(event):
@@ -407,8 +421,8 @@ def LOG_IN():
         terms_chkbox = CTkCheckBox(sign_up_frame, text="I agree to the ", width=10, variable= terms_accept_var, onvalue= "Accepted", offvalue= "Not Accepted")
         terms_chkbox.grid(row=7, column=0, pady=6, padx= 15, sticky= "w")
 
-        login_button = CTkButton(sign_up_frame, text="terms & condition.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= GO_BACK, width=50, bg_color= "transparent")
-        login_button.grid(row=7, column=0, padx=119, sticky= "w")
+        terms_button = CTkButton(sign_up_frame, text="terms & condition.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= show_terms_and_conditions, width=50, bg_color= "transparent")
+        terms_button.grid(row=7, column=0, padx=119, sticky= "w")
 
         # Button Login
         sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
@@ -496,7 +510,7 @@ def LOG_IN():
     show_password.grid(row=6, column=0, pady=6, padx= 15, sticky= "w")
 
     # Forgot Password
-    forg_password = CTkButton(log_in_frame, text= "Forgot Password?", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="gray65", command= SIGN_UP, width=50, bg_color= "transparent")
+    forg_password = CTkButton(log_in_frame, text= "Forgot Password?", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="gray65", command= show_forg_pass, width=50, bg_color= "transparent")
     forg_password.grid(row=6, column=0, pady=6, padx= 15, sticky= "e")
 
     # Button Login
