@@ -14,6 +14,8 @@ window.geometry('1300x825')
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
 
+mode = "dark"
+
 def LOG_IN():
     # ==================== Functions ====================
     # Login Checker Function
