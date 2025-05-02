@@ -82,7 +82,9 @@ Student_entry.grid(row=0, column=1, pady=5)
 
 Course_Section = CTkLabel(left_top, text="Course/Section:", font=("Arial", 14))
 Course_Section.grid(row=1, column=0, padx=40, pady=5, sticky="w")
-Course_Section_enrty= CTkEntry(left_top, width=250, font=("Arial", 14), placeholder_text="Enter Course/Section", height= 35, fg_color= "transparent", bg_color= "transparent")
+sec_var = ["Select Section", "1A", "1B", "1C"]
+Course_Section_enrty= CTkComboBox(left_top, width=250, font=("Arial", 14), height= 35, bg_color= "transparent", values=sec_var, state="readonly")
+Course_Section_enrty.set("Select Section")
 Course_Section_enrty.grid(row=1, column=1, pady=5)
 
 lrn = CTkLabel(left_top, text="LRN:", font=("Arial", 14))
@@ -187,7 +189,7 @@ months = [
           "May", "June", "July", "August", "September", 
           "October", "November", "December"
           ]
-month_box = CTkComboBox(birthdate_frame, values=months, width=90, height= 35, bg_color= "transparent", state="normal")
+month_box = CTkComboBox(birthdate_frame, values=months, width=120, height= 35, bg_color= "transparent", state="normal")
 month_box.set("MM")
 month_box.grid(row=0, column=0, padx=3)
 
