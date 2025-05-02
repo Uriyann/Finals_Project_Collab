@@ -2,8 +2,6 @@ from customtkinter import *
 import customtkinter as ctk
 from datetime import datetime
 from tkinter import filedialog
-from tkinter import *
-from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
 
@@ -326,20 +324,54 @@ family_background_title_info.pack(padx=20, pady=10, anchor=W)
 parents_details = CTkFrame(scrollable_family_background_frame, bg_color="transparent", fg_color= "transparent", border_width=6, corner_radius=10)
 parents_details.pack(padx=20, pady=10, fill="x")
 
-first_row_parents_details_frame = CTkFrame(parents_details, bg_color="transparent", fg_color= "transparent")
-first_row_parents_details_frame.grid(row=0, column=0, columnspan=3, sticky="we", padx=35, pady=7)
+row_column_parents_details_frame = CTkFrame(parents_details, bg_color="transparent", fg_color= "transparent")
+row_column_parents_details_frame.pack(anchor = CENTER, pady=30)
 
-name_label = CTkLabel(first_row_parents_details_frame, text="Name:", font=("Arial", 14), bg_color="transparent")
-name_label.grid(row=0, column=0, padx=10, pady=7, sticky="w")
+empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
+empty_label.grid(row=0, column=0)
 
-address_label = CTkLabel(first_row_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
-address_label.grid(row=1, column=0, padx=10, pady=7, sticky="w")
+father_label = CTkLabel(row_column_parents_details_frame, text="FATHER", font=("Arial", 14, "bold"), bg_color="transparent")
+father_label.grid(row=0, column=1, padx=10, pady=7)
 
-occupation_label = CTkLabel(first_row_parents_details_frame, text="Occupation:", font=("Arial", 14), bg_color="transparent")
-occupation_label.grid(row=2, column=0, padx=10, pady=7, sticky="w")
+mother_label = CTkLabel(row_column_parents_details_frame, text="MOTHER", font=("Arial", 14, "bold"), bg_color="transparent")
+mother_label.grid(row=0, column=2, padx=10, pady=7)
 
-phon_num_label = CTkLabel(first_row_parents_details_frame, text="Contact Number:", font=("Arial", 14), bg_color="transparent")
-phon_num_label.grid(row=3, column=0, padx=10, pady=7, sticky="w")
+name_label = CTkLabel(row_column_parents_details_frame, text="Name:", font=("Arial", 14), bg_color="transparent")
+name_label.grid(row=1, column=0, padx=10, pady=7, sticky="w")
+
+name_father_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
+name_father_entry.grid(row=1, column=1, padx=10, pady=7)
+
+name_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
+name_mother_entry.grid(row=1, column=2, padx=10, pady=7)
+
+address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+address_label.grid(row=2, column=0, padx=10, pady=7, sticky="w")
+
+address_father_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+address_father_entry.grid(row=2, column=1, padx=10, pady=7)
+
+address_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+address_mother_entry.grid(row=2, column=2, padx=10, pady=7)
+
+occupation_label = CTkLabel(row_column_parents_details_frame, text="Occupation:", font=("Arial", 14), bg_color="transparent")
+occupation_label.grid(row=3, column=0, padx=10, pady=7, sticky="w")
+
+occupation_father_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
+occupation_father_entry.grid(row=3, column=1, padx=10, pady=7)
+
+occupation_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
+occupation_mother_entry.grid(row=3, column=2, padx=10, pady=7)
+
+phon_num_label = CTkLabel(row_column_parents_details_frame, text="Contact Number:", font=("Arial", 14), bg_color="transparent")
+phon_num_label.grid(row=4, column=0, padx=10, pady=7, sticky="w")
+
+phon_father_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
+phon_father_entry.grid(row=4, column=1, padx=10, pady=7)
+
+phon_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
+phon_mother_entry.grid(row=4, column=2, padx=10, pady=7)
+
 
 
 # ==================== Window Starter ====================
