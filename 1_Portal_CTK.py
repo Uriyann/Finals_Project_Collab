@@ -304,7 +304,7 @@ def LOG_IN():
 
         # ==================== UI ====================
         # Background & Banner Img
-        background_image = Image.open(r".\wallhaven-85gxp2.png")
+        background_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-85gxp2.png")
         bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
         bg_label = CTkLabel(window, image=bg_img, text="")
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -421,12 +421,12 @@ def LOG_IN():
 
     # ==================== UI ====================
     # Background & Banner Img
-    background_image = Image.open(r".\wallhaven-85gxp2.png")
+    background_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-85gxp2.png")
     bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
     bg_label = CTkLabel(window, image=bg_img, text="")
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-    side_image = Image.open(r".\wallhaven-73616y.png")
+    side_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-73616y.png")
     side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
     side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
     side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -268)
