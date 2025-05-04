@@ -14,6 +14,7 @@ window.title("Login Portal")
 window.geometry('1300x825')
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 
 mode = "dark"
 
