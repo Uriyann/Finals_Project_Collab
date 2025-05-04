@@ -111,6 +111,7 @@ def LOG_IN():
         else:
             login_password_entry.configure(show="*")
 
+    # Log In Window Switch Function
     def GO_TO_ENROLLMENT_FORM():
         window.destroy()
         subprocess.call(["python", "2_Enrollment_Form_Test_CTK.py   "])
@@ -182,9 +183,29 @@ def LOG_IN():
         def show_terms_and_conditions():
             terms_window = CTkToplevel(window)
             terms_window.title("Terms and Conditions")
-            terms_window.geometry("400x300")
-            terms_label = CTkLabel(terms_window, text="Terms and Conditions go here.")
-            terms_label.pack(pady=20, padx=20)
+            terms_window.geometry("450x320")
+            terms_window.resizable(False, False)
+
+            terms_main_frame = CTkFrame(terms_window)
+            terms_main_frame.pack(pady=10, padx=10)
+
+            terms_text = """
+                SYSTEM TERMS AND CONDITIONS
+
+                1. Only authorized users are allowed to access this system.
+                2. All data entered will be stored securely and used for official purposes only.
+                3. Unauthorized modification or duplication of system data is prohibited.
+                4. System activity may be logged for monitoring and audit purposes.
+                5. By clicking "Accept", you agree to follow all guidelines stated.
+
+                Please read carefully before proceeding.
+                """
+            
+            terms_label = CTkLabel(terms_main_frame, text=terms_text, justify="left", wraplength=380, anchor="w", font=("Arial", 13))
+            terms_label.pack(pady=3, padx=10)
+
+            terms_accept_button = CTkButton(terms_main_frame, text="Accept", command=terms_window.destroy)
+            terms_accept_button.pack(pady=5)
 
         # Format Fixer Function
         def format_excel():
