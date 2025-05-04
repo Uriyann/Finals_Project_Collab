@@ -4,7 +4,7 @@ from datetime import datetime
 from tkinter import filedialog
 from PIL import Image
 from tkinter import messagebox
-import subprocess
+from subprocess import call
 
 # ==================== Window Setup ====================
 window = CTk()
@@ -12,41 +12,36 @@ window.title("Student Enrollment Form")
 window.geometry('1300x825')
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
 
-# ==================== Events ====================
-def change_light_dark_mode_event(new_appearance_mode: str):
-    ctk.set_appearance_mode(new_appearance_mode)
+mode = "dark"
 
-# ==================== Switch Window ====================
-# Main Portal Window Switch Function
-def GO_TO_PORTAL_WINDOW():
-    window.destroy()
-    subprocess.call(["python", "1_Portal_CTK.py"])
-
-# //////////////////////////////////////////////////////////
+def sign_up_change_appearance_event():
+    global mode
+    if mode == "dark":
+        ctk.set_appearance_mode("light")
+        mode = "light"
+    else:
+        ctk.set_appearance_mode("dark")
+        mode = "dark"
 
 # ==================== Navigation Buttons ====================
-nav_frame = CTkFrame(window, fg_color="transparent")
+nav_frame = CTkFrame(window, fg_color="transparent", bg_color="gray13")
 nav_frame.pack(side="top", fill="x")
 
 def show_frame(frame):
     frame.tkraise()
 
-# Navigation Buttons
-personal_btn = CTkButton(nav_frame, text="Personal Details", font=("Arial", 15, "bold"), command=lambda: show_frame(personal_frame))
+personal_btn = CTkButton(nav_frame, text="Personal Details", command=lambda: show_frame(personal_frame))
 personal_btn.pack(side="left", padx=5, pady=5)
 
-family_btn = CTkButton(nav_frame, text="Family Background", font=("Arial", 15, "bold"), command=lambda: show_frame(family_frame))
+family_btn = CTkButton(nav_frame, text="Family Background", command=lambda: show_frame(family_frame))
 family_btn.pack(side="left", padx=5, pady=5)
 
-education_btn = CTkButton(nav_frame, text="Educational Background", font=("Arial", 15, "bold"), command=lambda: show_frame(education_frame))
+education_btn = CTkButton(nav_frame, text="Educational Background", command=lambda: show_frame(education_frame))
 education_btn.pack(side="left", padx=5, pady=5)
 
-logout_btn = CTkButton(nav_frame, text="Logout", font=("Arial", 15, "bold"), command= GO_TO_PORTAL_WINDOW)
-logout_btn.pack(side="right", padx=5, pady=5)
-
-switch_light_button = CTkOptionMenu(nav_frame, values=["Dark", "Light"], command= change_light_dark_mode_event)
+# Light Switch
+switch_light_button = CTkSwitch(nav_frame, text="🌙 / ☀️", command= sign_up_change_appearance_event, border_width= 3, corner_radius= 13, height=25, bg_color="transparent")
 switch_light_button.pack(side="right", padx=5, pady=5)
 
 # ==================== Main Container ====================
@@ -60,13 +55,6 @@ education_frame = CTkFrame(container)
 
 for frame in (personal_frame, family_frame, education_frame):
     frame.place(x=0, y=0, relwidth=1, relheight=1)
-
-# ==================== Submit Button ====================
-sub_frame = CTkFrame(window, fg_color="transparent")
-sub_frame.pack(side="bottom", fill="x")
-
-submit_btn = CTkButton(sub_frame, text="Submit", font=("Arial", 15, "bold"))
-submit_btn.pack(side="right", padx=5, pady=5)
 
 # ==================== PERSONAL DETAILS PAGE ====================
 # Scrollable Frame

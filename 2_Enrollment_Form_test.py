@@ -8,7 +8,7 @@ from tkinter import messagebox
 # === Functions ===
 def CheckEntries():
     ReqFields = [
-        ("Student ID", StudentID_Entry), 
+        ("Student ID"), 
         ("Course/Section", CourSec_Entry), 
         ("LRN", LRN_Entry),
         ("Surname", surname_entry), 
