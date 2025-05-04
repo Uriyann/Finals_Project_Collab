@@ -137,9 +137,11 @@ subject_data = [
 
 current_month_year = datetime.now().strftime("%B, %Y")
 
-for subject_code, title in subject_data:
+for index, (subject_code, title) in enumerate(subject_data):
     subject_frame = CTkFrame(scrollable_subject_container, width=600, height=200, border_width=6, corner_radius=10)
-    subject_frame.pack(pady=10, padx=20)
+    row = index // 2
+    col = index % 2
+    subject_frame.grid(row=row, column=col, padx=10, pady=10, sticky="nsew")
     subject_frame.pack_propagate(False)
 
     subject_code_label = CTkLabel(subject_frame, text=subject_code, font=("Arial", 18, "bold"))
@@ -170,4 +172,5 @@ for subject_code, title in subject_data:
     present_text = CTkLabel(present_box, text="Present", font=("Arial", 12))
     present_text.pack(pady=5)
 
-window.mainloop()
+
+window.mainloop() 
