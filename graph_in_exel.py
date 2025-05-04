@@ -155,11 +155,7 @@ def insert_chart_to_excel():
 mainframe= tk.Frame(window, bg= "gray25")
 mainframe.place( anchor= "center", relx= 0.5, rely= 0.5, relwidth= 0.8, relheight= 0.8)
 
-img = tk.PhotoImage(file = r'C:\Users\Mark Vincent\desktop\ITCCS103 2nd sem\quiz2_itcs103\LOGO BSIT.png')
-img1 = img.subsample(2, 2)
 
-# setting image with the help of label
-Label(mainframe, image = img1).place(x=0, y=0, relwidth=1, relheight=1)
 user_frame= tk.LabelFrame(mainframe,bg= "gray30", )
 
 user_frame.pack(pady=20, padx=20, fill= "both", expand= True)
@@ -196,6 +192,6 @@ show_data_button.grid(row= 2, column= 1, padx= 10, pady= 10)
 show_graph_button= tk.Button(input_frame, text= "Show Graph", font= ("Arial", 15), bg= "dodger blue", command= show_chart_image)
 show_graph_button.grid(row= 2, column= 2, padx= 10, pady= 10)   
 
-
+create_excel_file()
 window.mainloop()
 

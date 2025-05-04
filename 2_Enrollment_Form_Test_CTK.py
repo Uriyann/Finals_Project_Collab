@@ -5,6 +5,84 @@ from tkinter import filedialog
 from PIL import Image
 from tkinter import messagebox
 import subprocess
+import openpyxl
+from openpyxl import load_workbook
+from openpyxl.styles import Font
+from openpyxl.utils import get_column_letter
+
+# ==================== Functions ====================
+# Creating a new sheet in the workbook and saving it
+def create_new_sheet():
+    try:
+
+        sections = Course_Section_enrty.get()
+        if sections not in ["1A", "1B", "1C"]:
+            messagebox.showerror(title="Error", message="Please select a valid section.")
+            return
+        
+        new_sheet_name = f"{sections} Enrollment Information "
+        file_path_to_excel = "user_account_data.xlsx"
+
+        wb = load_workbook(file_path_to_excel)
+        if new_sheet_name in wb.sheetnames:
+            new_sheet = wb[new_sheet_name]    
+
+        else:
+            new_sheet = wb.create_sheet(new_sheet_name)
+
+        new_headers = [
+                "Student ID", "Course/Section", "LRN", "", "Surname", "Firstname", 
+                "Middle Initial", "","Gender", "Age", "Birthdate", "Birthplace", 
+                "Nationality", "Religion", "Marital Status", "Language Spoken", "", 
+                "Street", "Barangay", "City", "Zip Code", "Province", "Country", "",
+                "Email", "Contact Number"
+                    ]
+        new_sheet.append(new_headers)
+
+        student_info_data = [
+                Student_entry.get(), Course_Section_enrty.get(), lrn_entry.get(), ""
+                ]
+
+        personal_detail_data = [
+                surname_entry.get(), firstname_entry.get(), middle_entry.get(), "",
+                "Male" if male_var.get() else "Female" if female_var.get() else "Prefer not to answer", 
+                age_box.get(), f"{month_box.get()} {day_box.get()}, {year_box.get()}",
+                birthplace_entry.get(), nationality_entry.get(), religion_box.get(),
+                marital_status_box.get(), language_entry.get(), "",
+                street_entry.get(), brgy_entry.get(), city_entry.get(), zip_code_entry.get(),
+                province_entry.get(), country_entry.get(), "",
+                email_entry.get(), num_entry.get()
+                ]
+        
+        new_sheet.append(student_info_data + personal_detail_data)
+        wb.save(file_path_to_excel)
+        messagebox.showinfo(title= "Success", message= "Data saved successfully!")
+        print("✅ user_account_data.xlsx created!")
+
+    except FileNotFoundError:
+        messagebox.showerror(title= "Error", message= "User data file not found.")
+        print("❌ user_account_data.xlsx not found!")
+
+# Format Fixer Function
+def format_excel():
+    sections = Course_Section_enrty.get()
+
+    new_sheet_name = f"{sections} Enrollment Information "
+
+    wb = load_workbook("user_account_data.xlsx")
+    ws = wb[new_sheet_name]
+
+    # Bold Headers
+    for cells in ws[1]:
+        cells.font = Font(bold=True)
+
+    # Auto Column Width
+    for cols in ws.columns:
+        max_length = max(len(str(cells.value)) for cell in cols)
+        col_letter = get_column_letter(cols[0].column)
+        ws.column_dimensions[col_letter].width = max_length + 2
+
+    wb.save("user_account_data.xlsx")
 
 # ==================== Window Setup ====================
 window = CTk()
@@ -65,7 +143,7 @@ for frame in (personal_frame, family_frame, education_frame):
 sub_frame = CTkFrame(window, fg_color="transparent")
 sub_frame.pack(side="bottom", fill="x")
 
-submit_btn = CTkButton(sub_frame, text="Submit", font=("Arial", 15, "bold"))
+submit_btn = CTkButton(sub_frame, text="Submit", font=("Arial", 15, "bold"), command=create_new_sheet)
 submit_btn.pack(side="right", padx=5, pady=5)
 
 # ==================== PERSONAL DETAILS PAGE ====================
