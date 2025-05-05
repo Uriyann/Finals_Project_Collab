@@ -9,7 +9,7 @@ from tkinter import messagebox
 def FinalCheck():
     # Validate Student ID, Course/Section, and LRN fields
     ReqFields = [
-        ("Student ID"), 
+        ("Student ID", StudentID_Entry), 
         ("Course/Section", CourSec_Entry), 
         ("LRN", LRN_Entry),
     ]
@@ -343,6 +343,9 @@ top_section.pack(padx=20, pady=10, fill="x")
 left_top = tk.Frame(top_section, bg="#f4f4f4")
 left_top.pack(side="left", fill="both", expand=True)
 
+tk.Label(left_top, text="Student ID:").grid(row=0, column=0, sticky="w")
+StudentID_Entry = tk.Entry(left_top, width=30)
+StudentID_Entry.grid(row=0, column=1, pady=5)
 
 tk.Label(left_top, text="Course/Section:").grid(row=1, column=0, sticky="w")
 CourSec_Entry = tk.Entry(left_top, width=30)
@@ -566,6 +569,9 @@ tk.Entry(mother_frame, width=30).grid(row=2, column=1, pady=5)
 # Make them expand evenly
 parents_section.grid_columnconfigure(0, weight=1)
 parents_section.grid_columnconfigure(1, weight=1)
+
+checkbox = tk.Checkbutton(family_inner, text="Same as Guardian", bg=parents_section.cget("bg"))
+checkbox.pack(pady=10, side="left", padx=20)
 
 # Guardian Section
 guardian_section = tk.LabelFrame(family_inner, text="Guardian's Information", padx=15, pady=15)

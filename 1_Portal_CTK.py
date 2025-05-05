@@ -7,7 +7,6 @@ from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 import re
 import subprocess
-import log_in_users
 
 # ==================== Window Setup ====================
 window = CTk()
