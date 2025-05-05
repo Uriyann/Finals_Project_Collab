@@ -183,19 +183,20 @@ def FinalCheck():
         return False
 
     # Validate Guardian's Information
-    guardian_name = guardian_section.winfo_children()[1].get().strip()  # Guardian's Name entry
-    guardian_relationship = guardian_section.winfo_children()[3].get().strip()  # Relationship entry
-    guardian_contact = guardian_section.winfo_children()[5].get().strip()  # Contact entry
+    if checkbox_var.get() == 0:  # If 'Same as Guardian' is unchecked
+        guardian_name = guardian_name_entry.get().strip()
+        guardian_relationship = guardian_relationship_entry.get().strip()
+        guardian_contact = guardian_contact_entry.get().strip()
 
-    if guardian_name == "" or guardian_relationship == "" or guardian_contact == "":
-        messagebox.showerror("Missing Requirement", "Error: Guardian's information is incomplete.")
-        return False    
-    if not guardian_name.isalpha() or not guardian_relationship.isalpha():
-        messagebox.showerror("Invalid Input", "Error: Guardian's Name and Relationship should be strings.")
-        return False
-    if guardian_contact != "N/A" and not guardian_contact.isdigit():
-        messagebox.showerror("Invalid Input", "Error: Guardian's Contact No should be an integer or 'N/A'.")
-        return False    
+        if guardian_name == "" or guardian_relationship == "" or guardian_contact == "":
+            messagebox.showerror("Missing Requirement", "Error: Guardian's information is incomplete.")
+            return False    
+        if not guardian_name.isalpha() or not guardian_relationship.isalpha():
+            messagebox.showerror("Invalid Input", "Error: Guardian's Name and Relationship should be strings.")
+            return False
+        if guardian_contact != "N/A" and not guardian_contact.isdigit():
+            messagebox.showerror("Invalid Input", "Error: Guardian's Contact No should be an integer or 'N/A'.")
+            return False  
 
     # Validate Educational Information (Elementary, Junior High, Senior High, College)
     # Elementary
@@ -570,21 +571,48 @@ tk.Entry(mother_frame, width=30).grid(row=2, column=1, pady=5)
 parents_section.grid_columnconfigure(0, weight=1)
 parents_section.grid_columnconfigure(1, weight=1)
 
-checkbox = tk.Checkbutton(family_inner, text="Same as Guardian", bg=parents_section.cget("bg"))
+# Create the IntVar for the checkbox to track its state
+checkbox_var = tk.IntVar()
+
+# Same-as-Guardian checkbox
+checkbox = tk.Checkbutton(
+    family_inner,
+    text="Same as Guardian",
+    variable=checkbox_var,
+    bg=parents_section.cget("bg")
+)
 checkbox.pack(pady=10, side="left", padx=20)
 
 # Guardian Section
 guardian_section = tk.LabelFrame(family_inner, text="Guardian's Information", padx=15, pady=15)
 guardian_section.pack(padx=20, pady=20, fill="x")
 
+# Guardian's Name
 tk.Label(guardian_section, text="Guardian's Name:").grid(row=0, column=0, sticky="w", pady=5)
-tk.Entry(guardian_section, width=40).grid(row=0, column=1, pady=5)
+guardian_name_entry = tk.Entry(guardian_section, width=40)
+guardian_name_entry.grid(row=0, column=1, pady=5)
 
+# Relationship
 tk.Label(guardian_section, text="Relationship:").grid(row=1, column=0, sticky="w", pady=5)
-tk.Entry(guardian_section, width=40).grid(row=1, column=1, pady=5)
+guardian_relationship_entry = tk.Entry(guardian_section, width=40)
+guardian_relationship_entry.grid(row=1, column=1, pady=5)
 
+# Contact No.
 tk.Label(guardian_section, text="Contact No:").grid(row=2, column=0, sticky="w", pady=5)
-tk.Entry(guardian_section, width=40).grid(row=2, column=1, pady=5)
+guardian_contact_entry = tk.Entry(guardian_section, width=40)
+guardian_contact_entry.grid(row=2, column=1, pady=5)
+
+# Function to toggle the state of the guardian fields based on checkbox state
+def toggle_guardian_fields():
+    state = "disabled" if checkbox_var.get() == 1 else "normal"
+    guardian_name_entry.config(state=state)
+    guardian_relationship_entry.config(state=state)
+    guardian_contact_entry.config(state=state)
+
+# Bind it and set initial state
+checkbox.config(command=toggle_guardian_fields)
+toggle_guardian_fields()
+
 
 # === EDUCATIONAL BACKGROUND PAGE ===
 education_canvas = tk.Canvas(education_frame, borderwidth=0, background="#f4f4f4")
