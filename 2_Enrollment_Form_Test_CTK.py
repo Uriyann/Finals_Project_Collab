@@ -8,6 +8,7 @@ import subprocess
 from openpyxl import load_workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
+import re
 
 # ==================== Functions ====================
 # Creating a new sheet in the workbook and saving it
@@ -133,7 +134,10 @@ def FinalCheck():
         except AttributeError:
             messagebox.showerror("Internal Error", f"Field '{Fieldnames}' is not a valid input widget.")
             return False
-
+        
+    if Course_Section_entry.get() == "Select Section":
+        messagebox.showerror("Missing Requirement", "Error: Please select a course/section.")
+        return False
     # Validate LRN (must be an integer)
     lrn_value = lrn_entry.get().strip()
     if not lrn_value.isdigit():
@@ -215,11 +219,11 @@ def FinalCheck():
         return False
 
     # Check Gender Section
-    if male_var.get() == 0 and female_var.get() == 0:
+    if male_var.get() + female_var.get() + none_binary_var.get() == 0:
         messagebox.showerror("Missing Requirement", "Error: Please select a gender.")
         return False
-    elif male_var.get() == 1 and female_var.get() == 1:
-        messagebox.showerror("Invalid Selection", "Error: Please only select one gender.")
+    if male_var.get() + female_var.get() + none_binary_var.get() > 1:
+        messagebox.showerror("Invalid Selection", "Error: Please select only one gender.")
         return False
 
     # Validate Address Section (Street, Barangay, City/Municipality, Province, Zip Code, Country)
@@ -242,16 +246,14 @@ def FinalCheck():
         if not field_value:
             messagebox.showerror("Missing Requirement", f"Error: {Fieldnames} is required.")
             return False
-        # Ensure Street No., Zip code are integers
-        if Fieldnames in ["Street", "Zip Code"]:
-            if not field_value.isdigit():
-                messagebox.showerror("Invalid Input", f"Error: {Fieldnames} must be a valid integer.")
-                return False
-        # Ensure Barangay, City, Province, and Country are strings
-        if Fieldnames in ["Barangay", "City/Municipality", "Province", "Country"]:
-            if not field_value.isalpha():
-                messagebox.showerror("Invalid Input", f"Error: {Fieldnames} should contain only letters.")
-                return False
+    # Ensure Zip Code is an integer
+    if Fieldnames == "Zip Code" and not field_value.isdigit():
+        messagebox.showerror("Invalid Input", f"Error: {Fieldnames} must be a valid integer.")
+        return False
+    # Ensure Barangay, City, Province, and Country are strings
+    if Fieldnames in ["Street", "Barangay", "City/Municipality", "Province", "Country"] and not field_value.isalpha():
+        messagebox.showerror("Invalid Input", f"Error: {Fieldnames} should contain only letters.")
+        return False
 
     # Validate Contact Information (Email and Phone No)
     email_value = email_entry.get().strip()
@@ -260,22 +262,23 @@ def FinalCheck():
     if email_value == "":
         messagebox.showerror("Missing Requirement", "Error: Email is required.")
         return False
-    if "@" not in email_value:
-        messagebox.showerror("Invalid Input", "Error: Email must contain '@'.")
+    email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    if not re.match(email_regex, email_value):
+        messagebox.showerror("Invalid Input", "Error: Please enter a valid email address.")
         return False
 
     if phone_value == "":
         messagebox.showerror("Missing Requirement", "Error: Phone Number is required.")
         return False
-    if not phone_value.isdigit():
-        messagebox.showerror("Invalid Input", "Error: Phone Number must be a valid integer.")
+    if not phone_value.isdigit() and not phone_value.startswith("+"):
+        messagebox.showerror("Invalid Input", "Error: Phone Number must be a valid integer or start with '+'.")
         return False
 
     # Validate Parents' Information (Father's and Mother's Sections)
-    father_name = name_father_entry.winfo_children()[1].get().strip()  # Name entry
-    father_occupation = occupation_father_entry.winfo_children()[3].get().strip()  # Occupation entry
-    father_contact = phon_father_entry.winfo_children()[5].get().strip()  # Contact entry
-    
+    father_name = name_father_entry.get().strip()
+    father_occupation = occupation_father_entry.get().strip()
+    father_contact = phon_father_entry.get().strip()
+
     if father_name == "" or father_occupation == "" or father_contact == "":
         messagebox.showerror("Missing Requirement", "Error: Father's information is incomplete.")
         return False
@@ -324,9 +327,6 @@ def FinalCheck():
     if elem_school_name == "" or elem_year_grad == "":
         messagebox.showerror("Missing Requirement", "Error: Elementary school information is incomplete.")
         return False
-    if not elem_school_name.isalpha():
-        messagebox.showerror("Invalid Input", "Error: Elementary school name should be a string.")
-        return False
     if not elem_year_grad.isdigit():
         messagebox.showerror("Invalid Input", "Error: Elementary Year Graduated must be an integer.")
         return False
@@ -337,9 +337,6 @@ def FinalCheck():
 
     if jun_school_name == "" or jun_year_grad == "":
         messagebox.showerror("Missing Requirement", "Error: Junior High school information is incomplete.")
-        return False
-    if not jun_school_name.isalpha():
-        messagebox.showerror("Invalid Input", "Error: Junior High school name should be a string.")
         return False
     if not jun_year_grad.isdigit():
         messagebox.showerror("Invalid Input", "Error: Junior High Year Graduated must be an integer.")
@@ -353,9 +350,6 @@ def FinalCheck():
     if sen_school_name == "" or sen_strand == "" or sen_year_grad == "":
         messagebox.showerror("Missing Requirement", "Error: Senior High school information is incomplete.")
         return False
-    if not sen_school_name.isalpha() or not sen_strand.isalpha():
-        messagebox.showerror("Invalid Input", "Error: Senior High school name and strand should be strings.")
-        return False
     if not sen_year_grad.isdigit():
         messagebox.showerror("Invalid Input", "Error: Senior High Year Graduated must be an integer.")
         return False
@@ -367,23 +361,18 @@ def FinalCheck():
     if col_school_name == "" or col_year_grad == "":
         messagebox.showerror("Missing Requirement", "Error: College information is incomplete.")
         return False
-    if not col_school_name.isalpha():
-        messagebox.showerror("Invalid Input", "Error: College school name should be a string.")
-        return False
     if col_year_grad != "N/A" and not col_year_grad.isdigit():
         messagebox.showerror("Invalid Input", "Error: College Year Graduated must be an integer or 'N/A'.")
         return False
 
     # Check Student Status (Only one should be selected)
-    selected_status_count = sum(var.get() == 1 for var in [
-        transferee_var, new_student_var, 
-        old_student_var, cross_enrollee_var, 
-        returnee_var])
-    
+    selected_status_count = sum(var.get() for var in [
+        transferee_var, new_student_var, old_student_var, cross_enrollee_var, returnee_var
+    ])
     if selected_status_count > 1:
-        messagebox.showerror("Invalid Selection", "Error: Please only select one student status.")
+        messagebox.showerror("Invalid Selection", "Error: Please select only one student status.")
         return False
-    elif selected_status_count == 0:
+    if selected_status_count == 0:
         messagebox.showerror("Missing Requirement", "Error: Please select a student status.")
         return False
 
