@@ -1,24 +1,29 @@
 from PIL import Image
 from customtkinter import *
 import customtkinter as ctk
-from subprocess import call
 from tkinter import messagebox
 from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
- 
+import re
+import subprocess
+import log_in_users
+
 # ==================== Window Setup ====================
 window = CTk()
 window.title("Login Portal")
 window.geometry('1300x825')
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
+
+mode = "dark"
 
 def LOG_IN():
     # ==================== Functions ====================
     # Login Checker Function
     def login_checker():
-        if not log_in_data_validation_debugger():
+        if not validate_login_name_pass_str():
             return
 
         username = login_user_entry.get()
@@ -31,6 +36,7 @@ def LOG_IN():
             for row in ws.iter_rows(min_row=2, values_only=True):
                 if row[3] == username and row[4] == password:
                     messagebox.showinfo("Login Success", f"Welcome, {username}!")
+                    GO_TO_ENROLLMENT_FORM()
                     return
                 
             messagebox.showerror(title= "Login Failed", message= "Incorrect username or password.")
@@ -38,13 +44,21 @@ def LOG_IN():
         except FileNotFoundError:
             messagebox.showerror(title= "Error", message= "User data file not found.")
 
+    def show_forg_pass():
+        terms_window = CTkToplevel(window)
+        terms_window.title("Forgot Password")
+        terms_window.geometry("400x300")
+        terms_label = CTkLabel(terms_window, text="Forgot Password go here.")
+        terms_label.pack(pady=20, padx=20)
+
+    # ==================== Debuggers ====================
     # Input Validation & Debugger Function
     def log_in_data_validation_debugger():
 
         username = login_user_entry.get()
         password = login_password_entry.get()
 
-        if username and password and username != "Username" and password != "Password":
+        if (username and password):
             print("\n\nData Entry Form:\n\n" \
                 "Username:",username,
                 "\nPassword:",password,
@@ -55,26 +69,27 @@ def LOG_IN():
             messagebox.showerror(title= "Error", message= "Error. Input Required")
             return False
 
-    # Username Delete & Restore Function
-    def log_in_on_username_click(event):
-        if login_user_entry.get() == "Username":
-            login_user_entry.delete(0, 'end')
+    # Str Debugger
+    def validate_login_name_pass_str():
+        if not log_in_data_validation_debugger():
+            return
 
-    def log_in_on_username_leave(event):
         name = login_user_entry.get()
-        if name == "":
-            login_user_entry.insert(0, "Username")
-
-    # Password Delete & Restore Function
-    def log_in_on_password_click(event):
-        if login_password_entry.get() == "Password":
-            login_password_entry.delete(0, END)
-
-    def log_in_on_password_leave(event):
         password = login_password_entry.get()
-        if password == "":
-            login_password_entry.insert(0, "Password")
+        if not re.fullmatch(r"[A-Za-z0-9_\s]+", name):      
+            messagebox.showerror(title= "Invalid Input", message= "Special Characters are not allowed.")
+            login_user_entry.delete(0, END)
+            login_password_entry.delete(0, END)
+            return False
 
+        if len(password) < 6:
+            messagebox.showerror(title= "Invalid Input", message= "Password must be at least 6 characters long.")
+            login_password_entry.delete(0, END)
+            return False
+        
+        return True
+
+    # ==================== Events ====================
     # Log In Enter Event
     def log_in_handle_enter(event):
         if not login_checker():
@@ -91,11 +106,17 @@ def LOG_IN():
             ctk.set_appearance_mode("dark")
             mode = "dark"
 
+    # Log In Show Password Event
     def log_in_show_password():
         if show_password.get() == 1:
             login_password_entry.configure(show="")
         else:
             login_password_entry.configure(show="*")
+
+    # Log In Window Switch Function
+    def GO_TO_ENROLLMENT_FORM():
+        window.destroy()
+        subprocess.call(["python", "2_Enrollment_Form_Test_CTK.py   "])
 
     # Signup Window Switch Function
     def SIGN_UP():
@@ -106,25 +127,33 @@ def LOG_IN():
         # ==================== Functions ====================
         # Create and Save to Excel Function
         def save_to_excel():
-            if not sign_up_data_validation_debugger():
+            if not validate_signin_name_pass_str():
                 return
             
             terms_accept = terms_accept_var.get()
 
             if terms_accept == "Accepted":
             
-
                 first_name = sign_up_first_name_entry.get()
                 last_name = sign_up_last_name_entry.get()
                 email = sign_up_email_entry.get()
                 username = sign_up_username_entry.get()
                 password = sign_up_password_entry.get()
-                confirm_password = sign_up_confirm_password_entry.get()
 
                 try:
                     wb = load_workbook("user_account_data.xlsx")
                     if "Userdata" in wb.sheetnames:
                         ws = wb["Userdata"]
+                        for row in ws.iter_rows(min_row=2, values_only=True):
+                            if row[2] == email:
+                                messagebox.showerror( title= "Error", message= "Email already exists. Please use a different email.")
+                                return
+                            elif row[3] == username:
+                                messagebox.showerror( title= "Error", message= "Username already exists. Please use a different username.")
+                                return
+                            elif row[4] == password:
+                                messagebox.showerror( title= "Error", message= "Password already exists. Please use a different password.")
+                                return
                     else:
                         ws = wb.create_sheet("Userdata")
 
@@ -149,15 +178,35 @@ def LOG_IN():
                 sign_up_password_entry.delete(0, END)
                 sign_up_confirm_password_entry.delete(0, END)
 
-                sign_up_first_name_entry.insert(0, "First name")
-                sign_up_last_name_entry.insert(0, "Last name")
-                sign_up_email_entry.insert(0, "Email")
-                sign_up_username_entry.insert(0, "Username")
-                sign_up_password_entry.insert(0, "Password")
-                sign_up_confirm_password_entry.insert(0, "Confirm Password")
-            
             else:
-                messagebox.showerror(title="Error", message="You have not accepted the temrs & conditions.")
+                messagebox.showerror(title="Error", message="You have not accepted the terms & conditions.")
+
+        def show_terms_and_conditions():
+            terms_window = CTkToplevel(window)
+            terms_window.title("Terms and Conditions")
+            terms_window.geometry("450x320")
+            terms_window.resizable(False, False)
+
+            terms_main_frame = CTkFrame(terms_window)
+            terms_main_frame.pack(pady=10, padx=10)
+
+            terms_text = """
+                SYSTEM TERMS AND CONDITIONS
+
+                1. Only authorized users are allowed to access this system.
+                2. All data entered will be stored securely and used for official purposes only.
+                3. Unauthorized modification or duplication of system data is prohibited.
+                4. System activity may be logged for monitoring and audit purposes.
+                5. By clicking "Accept", you agree to follow all guidelines stated.
+
+                Please read carefully before proceeding.
+                """
+            
+            terms_label = CTkLabel(terms_main_frame, text=terms_text, justify="left", wraplength=380, anchor="w", font=("Arial", 13))
+            terms_label.pack(pady=3, padx=10)
+
+            terms_accept_button = CTkButton(terms_main_frame, text="Accept", command=terms_window.destroy)
+            terms_accept_button.pack(pady=5)
 
         # Format Fixer Function
         def format_excel():
@@ -194,9 +243,9 @@ def LOG_IN():
             first_name = sign_up_first_name_entry.get()
             last_name = sign_up_last_name_entry.get()
             email = sign_up_email_entry.get()
-            username = sign_up_username_entry.get()   # (fixed variable name!)
+            username = sign_up_username_entry.get()
             password = sign_up_password_entry.get()
-            confirm_password = sign_up_confirm_password_entry.get()
+            confirm_password = sign_up_confirm_password_entry.get() 
 
             if (first_name and last_name and email and username and password and confirm_password):
                 if password == confirm_password:
@@ -214,59 +263,42 @@ def LOG_IN():
                 messagebox.showerror(title="Error", message="Please fill out all fields.")
                 return False
             
-        # First Name Delete & Restore Function
-        def sign_up_on_first_name_click(event):
-            if sign_up_first_name_entry.get() == "First name":
-                sign_up_first_name_entry.delete(0, END)
-        def sign_up_on_first_name_leave(event):
-            name = sign_up_first_name_entry.get()
-            if name == "":
-                sign_up_first_name_entry.insert(0, "First name")
+        # Str Debugger
+        def validate_signin_name_pass_str():
+            if not sign_up_data_validation_debugger():
+                return
 
-        # Last Name Delete & Restore Function
-        def sign_up_on_last_name_click(event):
-            if sign_up_last_name_entry.get() == "Last name":
-                sign_up_last_name_entry.delete(0, END)
-        def sign_up_on_last_name_leave(event):
-            password = sign_up_last_name_entry.get()
-            if password == "":
-                sign_up_last_name_entry.insert(0, "Last name")
+            firstname = sign_up_first_name_entry.get().strip()
+            lastname = sign_up_last_name_entry.get().strip()
+            email = sign_up_email_entry.get().strip()
+            username = sign_up_username_entry.get().strip()
+            passwords = sign_up_password_entry.get().strip()
 
-        # Email Delete & Restore Function
-        def sign_up_on_email_click(event):
-            if sign_up_email_entry.get() == "Email":
-                sign_up_email_entry.delete(0, END)
-        def sign_up_on_email_leave(event):
-            name = sign_up_email_entry.get()
-            if name == "":
-                sign_up_email_entry.insert(0, "Email")
+            str_pattern = r"[A-Za-z0-9_\s]+"
+            email_pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 
-        # Username Delete & Restore Function
-        def sign_up_on_username_click(event):
-            if sign_up_username_entry.get() == "Username":
-                sign_up_username_entry.delete(0, END)
-        def sign_up_on_username_leave(event):
-            password = sign_up_username_entry.get()
-            if password == "":
-                sign_up_username_entry.insert(0, "Username")
 
-        # Password Delete & Restore Function
-        def sign_up_on_password_click(event):
-            if sign_up_password_entry.get() == "Password":
-                sign_up_password_entry.delete(0, END)
-        def sign_up_on_password_leave(event):
-            name = sign_up_password_entry.get()
-            if name == "":
-                sign_up_password_entry.insert(0, "Password")
-
-        # Confirm Password Delete & Restore Function
-        def sign_up_on_confirm_password_click(event):
-            if sign_up_confirm_password_entry.get() == "Confirm Password":
-                sign_up_confirm_password_entry.delete(0, END)
-        def sign_up_on_confirm_password_leave(event):
-            password = sign_up_confirm_password_entry.get()
-            if password == "":
-                sign_up_confirm_password_entry.insert(0, "Confirm Password")
+            if not re.fullmatch(str_pattern, firstname):      
+                messagebox.showerror(title= "Invalid Input", message= "Special Characters are not allowed.")
+                return False
+            
+            if not re.fullmatch(str_pattern, lastname):      
+                messagebox.showerror(title= "Invalid Input", message= "Special Characters are not allowed.")
+                return False
+            
+            if not re.fullmatch(str_pattern, username):      
+                messagebox.showerror(title= "Invalid Input", message= "Special Characters are not allowed.")
+                return False
+            
+            if not re.fullmatch(email_pattern, email):      
+                messagebox.showerror(title= "Invalid Input", message= "Invalid email format.")
+                return False
+            
+            if len(passwords) < 6:
+                messagebox.showerror(title= "Invalid Input", message= "Password must be at least 6 characters long.")
+                return False
+            
+            return True
         
         # Sign Up Enter Event
         def sign_up_handle_enter(event):
@@ -294,7 +326,7 @@ def LOG_IN():
 
         # ==================== UI ====================
         # Background & Banner Img
-        background_image = Image.open(".\wallhaven-85gxp2.png")
+        background_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-85gxp2.png")
         bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
         bg_label = CTkLabel(window, image=bg_img, text="")
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -324,8 +356,6 @@ def LOG_IN():
         # Firstname Entry
         sign_up_first_name_entry = CTkEntry(master=sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="First name", height= 55, fg_color= "transparent", bg_color= "transparent")
         sign_up_first_name_entry.grid(row=3, column=0, sticky= "nw", padx= 15)
-        sign_up_first_name_entry.bind("<FocusIn>", sign_up_on_first_name_click)
-        sign_up_first_name_entry.bind("<FocusOut>", sign_up_on_first_name_leave)
         sign_up_first_name_entry.bind('<Return>', sign_up_handle_enter)
 
         # Divider Line
@@ -335,8 +365,6 @@ def LOG_IN():
         # Lastname Entry
         sign_up_last_name_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Last name", height= 55, fg_color= "transparent", bg_color= "transparent")
         sign_up_last_name_entry.grid(row=3, column=0, sticky= "ne", padx= 15)
-        sign_up_last_name_entry.bind("<FocusIn>", sign_up_on_last_name_click)
-        sign_up_last_name_entry.bind("<FocusOut>", sign_up_on_last_name_leave)
         sign_up_last_name_entry.bind('<Return>', sign_up_handle_enter)
 
         # Divider Line
@@ -346,8 +374,6 @@ def LOG_IN():
         # Email Entry
         sign_up_email_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Email", height= 55, fg_color= "transparent", bg_color= "transparent")
         sign_up_email_entry.grid(row=4, column=0, sticky= "n", padx= 15)
-        sign_up_email_entry.bind("<FocusIn>", sign_up_on_email_click)
-        sign_up_email_entry.bind("<FocusOut>", sign_up_on_email_leave)
         sign_up_email_entry.bind('<Return>', sign_up_handle_enter)
 
         # Divider Line
@@ -357,8 +383,6 @@ def LOG_IN():
         # Username Entry
         sign_up_username_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username", height= 55, fg_color= "transparent", bg_color= "transparent")
         sign_up_username_entry.grid(row=5, column=0, sticky= "n", padx= 15)
-        sign_up_username_entry.bind("<FocusIn>", sign_up_on_username_click)
-        sign_up_username_entry.bind("<FocusOut>", sign_up_on_username_leave)
         sign_up_username_entry.bind('<Return>', sign_up_handle_enter)
 
         # Divider Line
@@ -368,8 +392,6 @@ def LOG_IN():
         # Password Entry
         sign_up_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Password", show="*", height= 55, fg_color= "transparent", bg_color= "transparent")
         sign_up_password_entry.grid(row=6, column=0, sticky= "nw", padx= 15)
-        sign_up_password_entry.bind("<FocusIn>", sign_up_on_password_click)
-        sign_up_password_entry.bind("<FocusOut>", sign_up_on_password_leave)
         sign_up_password_entry.bind('<Return>', sign_up_handle_enter)
 
         # Divider Line
@@ -379,8 +401,6 @@ def LOG_IN():
         # Confirm Password Entry
         sign_up_confirm_password_entry = CTkEntry(sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="Confirm Password", show="*", height= 55, fg_color= "transparent", bg_color= "transparent")
         sign_up_confirm_password_entry.grid(row=6, column=0, sticky= "ne", padx= 15)
-        sign_up_confirm_password_entry.bind("<FocusIn>", sign_up_on_confirm_password_click)
-        sign_up_confirm_password_entry.bind("<FocusOut>", sign_up_on_confirm_password_leave)
         sign_up_confirm_password_entry.bind('<Return>', sign_up_handle_enter)
 
         # Divider Line
@@ -400,8 +420,8 @@ def LOG_IN():
         terms_chkbox = CTkCheckBox(sign_up_frame, text="I agree to the ", width=10, variable= terms_accept_var, onvalue= "Accepted", offvalue= "Not Accepted")
         terms_chkbox.grid(row=7, column=0, pady=6, padx= 15, sticky= "w")
 
-        login_button = CTkButton(sign_up_frame, text="terms & condition.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= GO_BACK, width=50, bg_color= "transparent")
-        login_button.grid(row=7, column=0, padx=119, sticky= "w")
+        terms_button = CTkButton(sign_up_frame, text="terms & condition.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= show_terms_and_conditions, width=50, bg_color= "transparent")
+        terms_button.grid(row=7, column=0, padx=119, sticky= "w")
 
         # Button Login
         sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
@@ -423,12 +443,12 @@ def LOG_IN():
 
     # ==================== UI ====================
     # Background & Banner Img
-    background_image = Image.open(".\wallhaven-85gxp2.png")
+    background_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-85gxp2.png")
     bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
     bg_label = CTkLabel(window, image=bg_img, text="")
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-    side_image = Image.open(".\wallhaven-73616y.png")
+    side_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-73616y.png")
     side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
     side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
     side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -268)
@@ -457,8 +477,6 @@ def LOG_IN():
     # User Entry
     login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username or Email", height= 55, fg_color= "transparent", bg_color= "transparent", )
     login_user_entry.grid(row=3, column=0, sticky= "n", padx= 15)
-    login_user_entry.bind("<FocusIn>", log_in_on_username_click)
-    login_user_entry.bind("<FocusOut>", log_in_on_username_leave)
     login_user_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
@@ -468,8 +486,6 @@ def LOG_IN():
     # Password Entry
     login_password_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*", height= 55, fg_color= "transparent", bg_color= "transparent")
     login_password_entry.grid(row=4, column=0, sticky= "n", padx= 15)
-    login_password_entry.bind("<FocusIn>", log_in_on_password_click)
-    login_password_entry.bind("<FocusOut>", log_in_on_password_leave)
     login_password_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
@@ -489,7 +505,7 @@ def LOG_IN():
     show_password.grid(row=6, column=0, pady=6, padx= 15, sticky= "w")
 
     # Forgot Password
-    forg_password = CTkButton(log_in_frame, text= "Forgot Password?", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="gray65", command= SIGN_UP, width=50, bg_color= "transparent")
+    forg_password = CTkButton(log_in_frame, text= "Forgot Password?", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="gray65", command= show_forg_pass, width=50, bg_color= "transparent")
     forg_password.grid(row=6, column=0, pady=6, padx= 15, sticky= "e")
 
     # Button Login

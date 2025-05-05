@@ -4,115 +4,7 @@ from datetime import datetime
 from tkinter import filedialog
 from PIL import Image
 from tkinter import messagebox
-import subprocess
-from openpyxl import load_workbook
-from openpyxl.styles import Font
-from openpyxl.utils import get_column_letter
-
-# ==================== Functions ====================
-# Creating a new sheet in the workbook and saving it
-def create_new_sheet():
-    try:
-
-        sections = Course_Section_enrty.get()
-        if sections not in ["1A", "1B", "1C"]:
-            messagebox.showerror(title="Error", message="Please select a valid section.")
-            return
-        
-        new_sheet_name = f"{sections} Enrollment Information "
-        file_path_to_excel = "user_account_data.xlsx"
-
-        wb = load_workbook(file_path_to_excel)
-        if new_sheet_name in wb.sheetnames:
-            new_sheet = wb[new_sheet_name]    
-
-        else:
-            new_sheet = wb.create_sheet(new_sheet_name)
-
-        new_headers = [
-                "Student ID", "Course/Section", "LRN", "", "Surname", "Firstname", 
-                "Middle Initial", "","Gender", "Age", "Birthdate", "Birthplace", 
-                "Nationality", "Religion", "Marital Status", "Language Spoken", "", 
-                "Street", "Barangay", "City", "Zip Code", "Province", "Country", "",
-                "Email", "Contact Number"
-                    ]
-        new_sheet.append(new_headers)
-
-        student_name_data = [
-            surname_entry.get(), firstname_entry.get(), middle_entry.get(), ""
-                ]
-
-        student_info_data = [
-                Student_entry.get(), Course_Section_enrty.get(), lrn_entry.get(), ""
-                ]
-
-        student_personal_detail_data = [
-                "Male" if male_var.get() else "Female" if female_var.get() else "Prefer not to answer", 
-                age_box.get(), f"{month_box.get()} {day_box.get()}, {year_box.get()}",
-                birthplace_entry.get(), nationality_entry.get(), religion_box.get(),
-                marital_status_box.get(), language_entry.get(), "",
-                street_entry.get(), brgy_entry.get(), city_entry.get(), zip_code_entry.get(),
-                province_entry.get(), country_entry.get(), "",
-                email_entry.get(), num_entry.get()
-                ]
-        
-        new_sheet.append(student_name_data + student_info_data + student_personal_detail_data)
-        format_excel()
-
-        wb.save(file_path_to_excel)
-        messagebox.showinfo(title= "Success", message= "Data saved successfully!")
-
-    except FileNotFoundError:
-        messagebox.showerror(title= "Error", message= "User data file not found.")
-
-# Validating the User per Email
-def validating_user_email():
-    try:
-
-        email = email_entry.get()
-        if not email:
-            messagebox.showerror(title="Error", message="Please enter an email address.")
-            return
-
-        wb = load_workbook("user_account_data.xlsx")
-        account_data_sheet = wb["Userdata"]
-        for row in account_data_sheet.iter_rows(min_row=2, values_only=True):
-            if row[2] == email:
-                surname_entry.delete(0, END)
-                surname_entry.insert(0, row[1])
-
-                firstname_entry.delete(0, END)
-                firstname_entry.insert(0, row[0])
-
-                email_entry.delete(0, END)
-                email_entry.insert(0, row[2])
-                return 
-        
-        messagebox.showerror(title="Error", message="User not found.")
-            
-    except Exception as e:
-        messagebox.showerror(title="Error", message=f"An error occurred: {e}")
-
-# Format Fixer Function
-def format_excel():
-    sections = Course_Section_enrty.get()
-
-    new_sheet_name = f"{sections} Enrollment Information "
-
-    wb = load_workbook("user_account_data.xlsx")
-    ws = wb[new_sheet_name]
-
-    # Bold Headers
-    for cells in ws[1]:
-        cells.font = Font(bold=True)
-
-    # Auto Column Width
-    for cols in ws.columns:
-        max_length = max(len(str(cells.value)) for cell in cols)
-        col_letter = get_column_letter(cols[0].column)
-        ws.column_dimensions[col_letter].width = max_length + 2
-
-    wb.save("user_account_data.xlsx")
+from subprocess import call
 
 # ==================== Window Setup ====================
 window = CTk()
@@ -120,41 +12,36 @@ window.title("Student Enrollment Form")
 window.geometry('1300x825')
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
 
-# ==================== Events ====================
-def change_light_dark_mode_event(new_appearance_mode: str):
-    ctk.set_appearance_mode(new_appearance_mode)
+mode = "dark"
 
-# ==================== Switch Window ====================
-# Main Portal Window Switch Function
-def GO_TO_PORTAL_WINDOW():
-    window.destroy()
-    subprocess.call(["python", "1_Portal_CTK.py"])
-
-# //////////////////////////////////////////////////////////
+def sign_up_change_appearance_event():
+    global mode
+    if mode == "dark":
+        ctk.set_appearance_mode("light")
+        mode = "light"
+    else:
+        ctk.set_appearance_mode("dark")
+        mode = "dark"
 
 # ==================== Navigation Buttons ====================
-nav_frame = CTkFrame(window, fg_color="transparent")
+nav_frame = CTkFrame(window, fg_color="transparent", bg_color="gray13")
 nav_frame.pack(side="top", fill="x")
 
 def show_frame(frame):
     frame.tkraise()
 
-# Navigation Buttons
-personal_btn = CTkButton(nav_frame, text="Personal Details", font=("Arial", 15, "bold"), command=lambda: show_frame(personal_frame))
+personal_btn = CTkButton(nav_frame, text="Personal Details", command=lambda: show_frame(personal_frame))
 personal_btn.pack(side="left", padx=5, pady=5)
 
-family_btn = CTkButton(nav_frame, text="Family Background", font=("Arial", 15, "bold"), command=lambda: show_frame(family_frame))
+family_btn = CTkButton(nav_frame, text="Family Background", command=lambda: show_frame(family_frame))
 family_btn.pack(side="left", padx=5, pady=5)
 
-education_btn = CTkButton(nav_frame, text="Educational Background", font=("Arial", 15, "bold"), command=lambda: show_frame(education_frame))
+education_btn = CTkButton(nav_frame, text="Educational Background", command=lambda: show_frame(education_frame))
 education_btn.pack(side="left", padx=5, pady=5)
 
-logout_btn = CTkButton(nav_frame, text="Logout", font=("Arial", 15, "bold"), command= GO_TO_PORTAL_WINDOW)
-logout_btn.pack(side="right", padx=5, pady=5)
-
-switch_light_button = CTkOptionMenu(nav_frame, values=["Dark", "Light"], command= change_light_dark_mode_event)
+# Light Switch
+switch_light_button = CTkSwitch(nav_frame, text="🌙 / ☀️", command= sign_up_change_appearance_event, border_width= 3, corner_radius= 13, height=25, bg_color="transparent")
 switch_light_button.pack(side="right", padx=5, pady=5)
 
 # ==================== Main Container ====================
@@ -168,13 +55,6 @@ education_frame = CTkFrame(container)
 
 for frame in (personal_frame, family_frame, education_frame):
     frame.place(x=0, y=0, relwidth=1, relheight=1)
-
-# ==================== Buttons ====================
-sub_frame = CTkFrame(window, fg_color="transparent")
-sub_frame.pack(side="bottom", fill="x")
-
-submit_btn = CTkButton(sub_frame, text="Submit", font=("Arial", 15, "bold"), command=create_new_sheet)
-submit_btn.pack(side="right", padx=5, pady=5)
 
 # ==================== PERSONAL DETAILS PAGE ====================
 # Scrollable Frame
@@ -431,7 +311,6 @@ email_label = CTkLabel(first_row_contact_info_details_frame, text="Email:", font
 email_label.grid(row=0, column=0, padx=10, pady=7, sticky="w")
 email_entry = CTkEntry(first_row_contact_info_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Email", height= 35, fg_color= "transparent", bg_color= "transparent")
 email_entry.grid(row=0, column=1, padx=10, pady=7, sticky="wn")
-email_entry.bind("<FocusOut>", lambda event: validating_user_email())
 
 num_label = CTkLabel(first_row_contact_info_details_frame, text="Contact Number:", font=("Arial", 14), bg_color="transparent")
 num_label.grid(row=0, column=2, padx=10, pady=7, sticky="w")
