@@ -5,7 +5,6 @@ from tkinter import filedialog
 from PIL import Image
 from tkinter import messagebox
 import subprocess
-import openpyxl
 from openpyxl import load_workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
@@ -39,12 +38,15 @@ def create_new_sheet():
                     ]
         new_sheet.append(new_headers)
 
+        student_name_data = [
+            surname_entry.get(), firstname_entry.get(), middle_entry.get(), ""
+                ]
+
         student_info_data = [
                 Student_entry.get(), Course_Section_enrty.get(), lrn_entry.get(), ""
                 ]
 
-        personal_detail_data = [
-                surname_entry.get(), firstname_entry.get(), middle_entry.get(), "",
+        student_personal_detail_data = [
                 "Male" if male_var.get() else "Female" if female_var.get() else "Prefer not to answer", 
                 age_box.get(), f"{month_box.get()} {day_box.get()}, {year_box.get()}",
                 birthplace_entry.get(), nationality_entry.get(), religion_box.get(),
@@ -54,14 +56,42 @@ def create_new_sheet():
                 email_entry.get(), num_entry.get()
                 ]
         
-        new_sheet.append(student_info_data + personal_detail_data)
+        new_sheet.append(student_name_data + student_info_data + student_personal_detail_data)
+        format_excel()
+
         wb.save(file_path_to_excel)
         messagebox.showinfo(title= "Success", message= "Data saved successfully!")
-        print("✅ user_account_data.xlsx created!")
 
     except FileNotFoundError:
         messagebox.showerror(title= "Error", message= "User data file not found.")
-        print("❌ user_account_data.xlsx not found!")
+
+# Validating the User per Email
+def validating_user_email():
+    try:
+
+        email = email_entry.get()
+        if not email:
+            messagebox.showerror(title="Error", message="Please enter an email address.")
+            return
+
+        wb = load_workbook("user_account_data.xlsx")
+        account_data_sheet = wb["Userdata"]
+        for row in account_data_sheet.iter_rows(min_row=2, values_only=True):
+            if row[2] == email:
+                surname_entry.delete(0, END)
+                surname_entry.insert(0, row[1])
+
+                firstname_entry.delete(0, END)
+                firstname_entry.insert(0, row[0])
+
+                email_entry.delete(0, END)
+                email_entry.insert(0, row[2])
+                return 
+        
+        messagebox.showerror(title="Error", message="User not found.")
+            
+    except Exception as e:
+        messagebox.showerror(title="Error", message=f"An error occurred: {e}")
 
 # Format Fixer Function
 def format_excel():
@@ -139,7 +169,7 @@ education_frame = CTkFrame(container)
 for frame in (personal_frame, family_frame, education_frame):
     frame.place(x=0, y=0, relwidth=1, relheight=1)
 
-# ==================== Submit Button ====================
+# ==================== Buttons ====================
 sub_frame = CTkFrame(window, fg_color="transparent")
 sub_frame.pack(side="bottom", fill="x")
 
@@ -401,6 +431,7 @@ email_label = CTkLabel(first_row_contact_info_details_frame, text="Email:", font
 email_label.grid(row=0, column=0, padx=10, pady=7, sticky="w")
 email_entry = CTkEntry(first_row_contact_info_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Email", height= 35, fg_color= "transparent", bg_color= "transparent")
 email_entry.grid(row=0, column=1, padx=10, pady=7, sticky="wn")
+email_entry.bind("<FocusOut>", lambda event: validating_user_email())
 
 num_label = CTkLabel(first_row_contact_info_details_frame, text="Contact Number:", font=("Arial", 14), bg_color="transparent")
 num_label.grid(row=0, column=2, padx=10, pady=7, sticky="w")
