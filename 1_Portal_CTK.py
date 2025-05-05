@@ -7,6 +7,7 @@ from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 import re
 import subprocess
+import log_in_users
 
 # ==================== Window Setup ====================
 window = CTk()
@@ -133,7 +134,6 @@ def LOG_IN():
 
             if terms_accept == "Accepted":
             
-
                 first_name = sign_up_first_name_entry.get()
                 last_name = sign_up_last_name_entry.get()
                 email = sign_up_email_entry.get()
@@ -243,7 +243,7 @@ def LOG_IN():
             first_name = sign_up_first_name_entry.get()
             last_name = sign_up_last_name_entry.get()
             email = sign_up_email_entry.get()
-            username = sign_up_username_entry.get()   # (fixed variable name!)
+            username = sign_up_username_entry.get()
             password = sign_up_password_entry.get()
             confirm_password = sign_up_confirm_password_entry.get() 
 
