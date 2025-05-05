@@ -5,10 +5,18 @@ from tkinter import filedialog
 from PIL import Image
 from tkinter import messagebox
 import subprocess
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 import re
+    
+# ==================== Window Setup ====================
+window = CTk()
+window.title("Student Enrollment Form")
+window.geometry('1300x825')
+window.resizable(False, False)
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 
 # ==================== Functions ====================
 # Creating a new sheet in the workbook and saving it
@@ -26,25 +34,43 @@ def create_new_sheet():
         new_sheet_name = f"{sections} Enrollment Information "
         file_path_to_excel = "user_account_data.xlsx"
 
-        wb = load_workbook(file_path_to_excel)
+        try:
+            wb = load_workbook(file_path_to_excel)
+        except FileNotFoundError:
+            wb = Workbook()
+            wb.save(file_path_to_excel)
+
         if new_sheet_name in wb.sheetnames:
             new_sheet = wb[new_sheet_name]    
 
         else:
             new_sheet = wb.create_sheet(new_sheet_name)
-
-        new_headers = [
-                "Surname", "Firstname", "Middle Initial", 
-                "", 
-                "Student ID", "Course/Section", "LRN", 
-                "", 
-                "Gender", "Age", "Birthdate", "Birthplace", "Nationality", "Religion", "Marital Status", "Language Spoken", 
-                "", 
-                "Street", "Barangay", "City", "Zip Code", "Province", "Country", 
-                "", 
-                "Email", "Contact Number" 
-                    ]
-        new_sheet.append(new_headers)
+            new_headers = [
+                    "Surname", "Firstname", "Middle Initial", 
+                    "", 
+                    "Student ID", "Course/Section", "LRN", 
+                    "", 
+                    "Gender", "Age", "Birthdate", "Birthplace", "Nationality", "Religion", "Marital Status", "Language Spoken", 
+                    "", 
+                    "Street", "Barangay", "City", "Zip Code", "Province", "Country", 
+                    "", 
+                    "Email", "Contact Number",
+                    "",
+                    "Father's Name", "Father's Occupation", "Father's Contact No",
+                    "Mother's Name", "Mother's Occupation", "Mother's Contact No",
+                    "",
+                    "Guardian's Name", "Guardian's Relationship", "Guardian's Address", "Guardian's Occupation", "Guardian's Contact No",
+                    "",
+                    "Elementary School", "Elementary Address", "Elementary Year Graduated",
+                    "",
+                    "Junior High School", "Junior High Address", "Junior High Year Graduated",
+                    "",
+                    "Senior High School", "Senior High Strand", "Senior High Year Graduated",
+                    "",
+                    "College", "College Address", "College Year Graduated",
+                    "Student Status"
+                        ]
+            new_sheet.append(new_headers)
 
         student_name_data = [
             surname_entry.get().strip().strip(), firstname_entry.get().strip(), middle_entry.get().strip(), 
@@ -57,24 +83,44 @@ def create_new_sheet():
                 ]
 
         student_personal_detail_data = [
-                gender_var.get(), age_box.get().strip(), f"{month_box.get().strip()} {day_box.get().strip()}, {year_box.get().strip()}",
+                "Male" if gender_var.get() == 1 else "Female" if gender_var.get() == 2 else "Prefer not to answer", 
+                age_box.get().strip(), f"{month_box.get().strip()} {day_box.get().strip()}, {year_box.get().strip()}",
                 birthplace_entry.get().strip(), nationality_entry.get().strip(), religion_box.get().strip(), marital_status_box.get().strip(), 
                 language_entry.get().strip(), 
                 "", 
                 street_entry.get().strip(), brgy_entry.get().strip(), city_entry.get().strip(),
                 zip_code_entry.get().strip(), province_entry.get().strip(), country_entry.get().strip(), 
                 "",
-                email_entry.get().strip(), num_entry.get().strip()
+                email_entry.get().strip(), num_entry.get().strip(),
+                ""
+                ]
+        student_family_detail_data = [
+                name_father_entry.get().strip(), occupation_father_entry.get().strip(), phon_father_entry.get().strip(),
+                name_mother_entry.get().strip(), occupation_mother_entry.get().strip(), phon_mother_entry.get().strip(),
+                "",
+                name_guardian_entry.get().strip(), rel_guardian_entry.get().strip(), address_guardian_entry.get().strip(),
+                occupation_guardian_entry.get().strip(), phon_guardian_entry.get().strip(),
+                ""
+                ]
+        student_educational_detail_data = [
+                schl_elem_entry.get().strip(), yr_elem_entry.get().strip(),
+                "",
+                schl_js_entry.get().strip(), yr_js_entry.get().strip(),
+                "",
+                schl_shs_entry.get().strip(), strand_shs_entry.get().strip(), yr_shs_entry.get().strip(),
+                "",
+                schl_cg_entry.get().strip(), yr_cg_entry.get().strip(),
+                student_status.get()
                 ]
         
-        new_sheet.append(student_name_data + student_info_data + student_personal_detail_data)
+        new_sheet.append(student_name_data + student_info_data + student_personal_detail_data + student_family_detail_data + student_educational_detail_data)
         
 
         wb.save(file_path_to_excel)
         messagebox.showinfo(title= "Success", message= "Data saved successfully!")
         format_excel()
-    except FileNotFoundError:
-        messagebox.showerror(title= "Error", message= "User data file not found.")
+    except Exception as e:
+        messagebox.showerror(title= "Error", message= f"An error occurred: {e}")
 
 # Validating the User per Email
 def validating_user_email():
@@ -294,110 +340,115 @@ def FinalCheck():
         messagebox.showerror(title="Invalid Input", message="Error: Phone Number must be a valid integer or start with '+'.")
         return False
 
-    # # ==================== FAMILY BACKGROUND PAGE ====================
-    # # Validate Parents' Information
-    # father_name = name_father_entry.get().strip()
-    # father_occupation = occupation_father_entry.get().strip()
-    # father_contact = phon_father_entry.get().strip()
+    # ==================== FAMILY BACKGROUND PAGE ====================
+    # Validate Parents' Information
+    father_name = name_father_entry.get().strip()
+    father_occupation = occupation_father_entry.get().strip()
+    father_contact = phon_father_entry.get().strip()
 
-    # if father_name == "" or father_occupation == "" or father_contact == "":
-    #     messagebox.showerror("Missing Requirement", "Error: Father's information is incomplete.")
-    #     return False
-    # if not father_name.isalpha() or not father_occupation.isalpha():
-    #     messagebox.showerror("Invalid Input", "Error: Father's Name and Occupation should be strings.")
-    #     return False
-    # if father_contact != "N/A" and not father_contact.isdigit():
-    #     messagebox.showerror("Invalid Input", "Error: Father's Contact No should be an integer or 'N/A'.")
-    #     return False
+    if father_name == "" or father_occupation == "" or father_contact == "":
+        messagebox.showerror("Missing Requirement", "Error: Father's information is incomplete.")
+        return False
+    if not father_name.isalpha() or not father_occupation.isalpha():
+        messagebox.showerror("Invalid Input", "Error: Father's Name and Occupation should be strings.")
+        return False
+    if father_contact != "N/A" and not father_contact.isdigit():
+        messagebox.showerror("Invalid Input", "Error: Father's Contact No should be an integer or 'N/A'.")
+        return False
 
-    # mother_name = name_mother_entry.winfo_children()[1].get().strip()  # Name entry
-    # mother_occupation = occupation_mother_entry.winfo_children()[3].get().strip()  # Occupation entry
-    # mother_contact = phon_mother_entry.winfo_children()[5].get().strip()  # Contact entry
+    mother_name = name_mother_entry.get().strip()  # Name entry
+    mother_occupation = occupation_mother_entry.get().strip()  # Occupation entry
+    mother_contact = phon_mother_entry.get().strip()  # Contact entry
 
-    # if mother_name == "" or mother_occupation == "" or mother_contact == "":
-    #     messagebox.showerror("Missing Requirement", "Error: Mother's information is incomplete.")
-    #     return False
-    # if not mother_name.isalpha() or not mother_occupation.isalpha():
-    #     messagebox.showerror("Invalid Input", "Error: Mother's Name and Occupation should be strings.")
-    #     return False
-    # if mother_contact != "N/A" and not mother_contact.isdigit():
-    #     messagebox.showerror("Invalid Input", "Error: Mother's Contact No should be an integer or 'N/A'.")
-    #     return False
+    if mother_name == "" or mother_occupation == "" or mother_contact == "":
+        messagebox.showerror("Missing Requirement", "Error: Mother's information is incomplete.")
+        return False
+    if not mother_name.isalpha() or not mother_occupation.isalpha():
+        messagebox.showerror("Invalid Input", "Error: Mother's Name and Occupation should be strings.")
+        return False
+    if mother_contact != "N/A" and not mother_contact.isdigit():
+        messagebox.showerror("Invalid Input", "Error: Mother's Contact No should be an integer or 'N/A'.")
+        return False
 
-    # # Validate Guardian's Information
-    # if same_chk_var.get() == 0:
-    #     guardian_name = name_guardian_entry.get().strip()
-    #     guardian_relationship = rel_guardian_entry.get().strip()
-    #     guardian_address = address_guardian_entry.get().strip()
-    #     guardian_occupation = occupation_guardian_entry.get().strip()
-    #     guardian_contact = phon_guardian_entry.get().strip()
+    # Validate Guardian's Information
+    if same_chk_var.get() == 0:
+        guardian_name = name_guardian_entry.get().strip()
+        guardian_relationship = rel_guardian_entry.get().strip()
+        guardian_address = address_guardian_entry.get().strip()
+        guardian_occupation = occupation_guardian_entry.get().strip()
+        guardian_contact = phon_guardian_entry.get().strip()
 
         
-    #     if guardian_name == "" or guardian_relationship == "" or guardian_address == "" or guardian_occupation == "" or guardian_contact == "":
-    #         messagebox.showerror("Missing Requirement", "Error: Guardian's information is incomplete.")
-    #         return False
-    #     if not guardian_name.replace(" ", "").isalpha():
-    #         messagebox.showerror("Invalid Input", "Error: Guardian's Name should contain only letters.")
-    #         return False
-    #     if not guardian_relationship.replace(" ", "").isalpha():
-    #         messagebox.showerror("Invalid Input", "Error: Guardian's Relationship should contain only letters.")
-    #         return False
+        if guardian_name == "" or guardian_relationship == "" or guardian_address == "" or guardian_occupation == "" or guardian_contact == "":
+            messagebox.showerror("Missing Requirement", "Error: Guardian's information is incomplete.")
+            return False
+        if not guardian_name.replace(" ", "").isalpha():
+            messagebox.showerror("Invalid Input", "Error: Guardian's Name should contain only letters.")
+            return False
+        if not guardian_relationship.replace(" ", "").isalpha():
+            messagebox.showerror("Invalid Input", "Error: Guardian's Relationship should contain only letters.")
+            return False
 
-    #     # Validate that Contact Number is a valid integer or "N/A"
-    #     if guardian_contact != "N/A" and not guardian_contact.isdigit():
-    #         messagebox.showerror("Invalid Input", "Error: Guardian's Contact Number should be a valid integer or 'N/A'.")
-    #         return False
+        # Validate that Contact Number is a valid integer or "N/A"
+        if guardian_contact != "N/A" and not guardian_contact.isdigit():
+            messagebox.showerror("Invalid Input", "Error: Guardian's Contact Number should be a valid integer or 'N/A'.")
+            return False
 
-    # # ==================== EDUCATIONAL BACKGROUND PAGE ====================
-    # # Validate Educational Information
-    # # Elementary
-    # elem_school_name = schl_elem_entry.get().strip()
-    # elem_year_grad = yr_elem_entry.get().strip()
-    # if elem_school_name == "" or elem_year_grad == "":
-    #     messagebox.showerror("Missing Requirement", "Error: Elementary school information is incomplete.")
-    #     return False
-    # if not elem_year_grad.isdigit():
-    #     messagebox.showerror("Invalid Input", "Error: Elementary Year Graduated must be an integer.")
-    #     return False
+    # ==================== EDUCATIONAL BACKGROUND PAGE ====================
+    # Validate Educational Information
+    # Elementary
+    elem_school_name = schl_elem_entry.get().strip()
+    elem_address = address_elem_entry.get().strip()
+    elem_year_grad = yr_elem_entry.get().strip()
+    if elem_school_name == "" or elem_address == "" or elem_year_grad == "":
+        messagebox.showerror("Missing Requirement", "Error: Elementary school information is incomplete.")
+        return False
+    if not elem_year_grad.isdigit():
+        messagebox.showerror("Invalid Input", "Error: Elementary Year Graduated must be an integer.")
+        return False
 
-    # # Junior High
-    # jun_school_name = schl_js_entry.get().strip()
-    # jun_year_grad = yr_js_entry.get().strip()
-    # if jun_school_name == "" or jun_year_grad == "":
-    #     messagebox.showerror("Missing Requirement", "Error: Junior High school information is incomplete.")
-    #     return False
-    # if not jun_year_grad.isdigit():
-    #     messagebox.showerror("Invalid Input", "Error: Junior High Year Graduated must be an integer.")
-    #     return False
+    # Junior High
+    jun_school_name = schl_js_entry.get().strip()
+    jun_address = address_js_entry.get().strip()
+    jun_year_grad = yr_js_entry.get().strip()
+    if jun_school_name == "" or jun_address == "" or jun_year_grad == "":
+        messagebox.showerror("Missing Requirement", "Error: Junior High school information is incomplete.")
+        return False
+    if not jun_year_grad.isdigit():
+        messagebox.showerror("Invalid Input", "Error: Junior High Year Graduated must be an integer.")
+        return False
 
-    # # Senior High
-    # sen_school_name = schl_shs_entry.get().strip()
-    # sen_strand = strand_shs_entry.get().strip()
-    # sen_year_grad = yr_shs_entry.get().strip()
-    # if sen_school_name == "" or sen_strand == "" or sen_year_grad == "":
-    #     messagebox.showerror("Missing Requirement", "Error: Senior High school information is incomplete.")
-    #     return False
-    # if not sen_year_grad.isdigit():
-    #     messagebox.showerror("Invalid Input", "Error: Senior High Year Graduated must be an integer.")
-    #     return False
+    # Senior High
+    sen_school_name = schl_shs_entry.get().strip()
+    sen_address = address_shs_entry.get().strip()
+    sen_strand = strand_shs_entry.get().strip()
+    sen_year_grad = yr_shs_entry.get().strip()
+    if sen_school_name == "" or  sen_address == "" or sen_strand == "" or sen_year_grad == "":
+        messagebox.showerror("Missing Requirement", "Error: Senior High school information is incomplete.")
+        return False
+    if not sen_year_grad.isdigit():
+        messagebox.showerror("Invalid Input", "Error: Senior High Year Graduated must be an integer.")
+        return False
 
-    # # College
-    # col_school_name = schl_cg_entry.get().strip()
-    # col_year_grad = yr_cg_entry.get().strip()
-    # if col_school_name == "" or col_year_grad == "":
-    #     messagebox.showerror("Missing Requirement", "Error: College information is incomplete.")
-    #     return False
-    # if col_year_grad != "N/A" and not col_year_grad.isdigit():
-    #     messagebox.showerror("Invalid Input", "Error: College Year Graduated must be an integer or 'N/A'.")
-    #     return False
+    # College
+    col_school_name = schl_cg_entry.get().strip()
+    col_address = address_cg_entry.get().strip()
+    col_year_grad = yr_cg_entry.get().strip()
+    if col_school_name == "" or col_address == "" or col_year_grad == "":
+        messagebox.showerror("Missing Requirement", "Error: College information is incomplete.")
+        return False
+    if col_year_grad != "N/A" and not col_year_grad.isdigit():
+        messagebox.showerror("Invalid Input", "Error: College Year Graduated must be an integer or 'N/A'.")
+        return False
     
-    # if student_status.get() == "":
-    #     messagebox.showerror("Missing Requirement", "Error: Please select a student status.")
-    #     return False
+    if not student_status.get():
+        messagebox.showerror("Missing Requirement", "Error: Please select a student status.")
+        return False
 
     
     return True
 
+# Guardian Checkbox Toggler
 def toggle_guardian_fields():
     state = "disabled" if same_chk_var.get() == 1 else "normal"
     if same_chk_var.get() == 1:
@@ -419,14 +470,6 @@ def toggle_guardian_fields():
     phon_guardian_entry.configure(state=state)
     occupation_guardian_entry.configure(state=state)
     rel_guardian_entry.configure(state=state)
-    
-# ==================== Window Setup ====================
-window = CTk()
-window.title("Student Enrollment Form")
-window.geometry('1300x825')
-window.resizable(False, False)
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
 
 # ==================== Events ====================
 def change_light_dark_mode_event(new_appearance_mode: str):
@@ -437,6 +480,10 @@ def change_light_dark_mode_event(new_appearance_mode: str):
 def GO_TO_PORTAL_WINDOW():
     window.destroy()
     subprocess.call(["python", "1_Portal_CTK.py"])
+
+# Attendance Top Level Window Switch Function
+def GO_TO_ATTENDANCE_WINDOW():
+    subprocess.call(["python", "3_Attendance_Sheet_Test_CTK.py"])
 
 # //////////////////////////////////////////////////////////
 
@@ -456,6 +503,9 @@ family_btn.pack(side="left", padx=5, pady=5)
 
 education_btn = CTkButton(nav_frame, text="Educational Background", font=("Arial", 15, "bold"), command=lambda: show_frame(education_frame))
 education_btn.pack(side="left", padx=5, pady=5)
+
+attendance_btn = CTkButton(nav_frame, text="Attendance", font=("Arial", 15, "bold"), command=GO_TO_ATTENDANCE_WINDOW)
+attendance_btn.pack(side="left", padx=5, pady=5)
 
 logout_btn = CTkButton(nav_frame, text="Logout", font=("Arial", 15, "bold"), command= GO_TO_PORTAL_WINDOW)
 logout_btn.pack(side="right", padx=5, pady=5)
@@ -971,11 +1021,11 @@ checkbox_frame = CTkFrame(row_column_parents_details_frame, bg_color="transparen
 checkbox_frame.grid(row=8, column=3, columnspan=2, padx=10, pady=10, sticky="w")
 
 Checkbuttons_Info = [
-    ("Transferee", student_status),
-    ("New Student", student_status),
-    ("Old Student", student_status),
-    ("Cross Enrollee", student_status),
-    ("Returnee", student_status)
+    ("Transferee", "Transferee"),
+    ("New Student", "New Student"),
+    ("Old Student", "Old Student"),
+    ("Cross Enrollee", "Cross Enrollee"),
+    ("Returnee", "Returnee")
 ]
 
 for index, (text, var) in enumerate(Checkbuttons_Info):
@@ -984,7 +1034,8 @@ for index, (text, var) in enumerate(Checkbuttons_Info):
     CTkRadioButton(
         checkbox_frame,
         text=text,
-        variable=var,
+        variable=student_status,
+        value=var,
         font=("Arial", 14),
         bg_color="transparent"
     ).grid(row=row, column=column, sticky="w", padx=5, pady=3)

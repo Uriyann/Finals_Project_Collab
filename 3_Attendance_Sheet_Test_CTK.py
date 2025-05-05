@@ -7,6 +7,11 @@ from tkinter import messagebox
 import subprocess
 from datetime import datetime
 
+# ==================== Window Switch Function ====================
+def SWITCH_WINDOW():
+    window.destroy()
+
+
 # ==================== Window Setup ====================
 window = CTk()
 window.title("Student Enrollment Form")
@@ -19,7 +24,7 @@ ctk.set_default_color_theme("blue")
 nav_top_frame = CTkFrame(window, fg_color="transparent")
 nav_top_frame.pack(side="top", fill="x")
 
-logout_btn = CTkButton(nav_top_frame, text="Logout", font=("Arial", 15, "bold"))
+logout_btn = CTkButton(nav_top_frame, text="Logout", font=("Arial", 15, "bold"), command=SWITCH_WINDOW)
 logout_btn.pack(side="right", padx=5, pady=5)
 
 # ==================== Main Container ====================
