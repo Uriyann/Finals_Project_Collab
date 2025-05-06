@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageDraw, ImageOps
 from customtkinter import *
 import customtkinter as ctk
 from tkinter import messagebox
@@ -94,6 +94,21 @@ def LOG_IN():
             return False
         
         return True
+
+    # Portal Logo
+    def make_rounded_image(image_path, size, corner_radius):
+        
+        image = Image.open(image_path).convert("RGBA")
+        image = image.resize(size, Image.Resampling.LANCZOS)
+        
+        mask = Image.new("L", size, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.rounded_rectangle((0, 0, size[0], size[1]), radius=corner_radius, fill=255)
+
+        rounded_image = ImageOps.fit(image, size, centering=(0.5, 0.5))
+        rounded_image.putalpha(mask)
+
+        return rounded_image
 
     # ==================== Events ====================
     # Log In Enter Event
@@ -491,6 +506,13 @@ def LOG_IN():
     # //////////////////////////////////////////////////////////
 
     # ==================== Labels & Inputs ====================
+    # Logo
+    image_path = r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\UniPass Logo.png"
+    rounded_img = make_rounded_image(image_path, size=(70, 70), corner_radius=25)
+    ctk_image = CTkImage(light_image=rounded_img, dark_image=rounded_img, size=(70, 70))
+    label = CTkLabel(log_in_frame, image=ctk_image, text="")
+    label.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+
     # Project Name
     login_project_label = CTkLabel(log_in_frame, text= "PROJECT UniPass", font= ("Times New Roman bold", 40))
     login_project_label.grid(row=1, column=0, sticky="n", pady= 10, padx= 15)
