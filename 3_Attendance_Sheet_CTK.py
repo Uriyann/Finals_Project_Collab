@@ -181,5 +181,5 @@ for index, (subject_code, title) in enumerate(subject_data):
     present_text = CTkLabel(present_box, text="Present", font=("Arial", 12))
     present_text.pack(pady=5)
 
-
+# ==================== Window Starter ====================
 window.mainloop() 

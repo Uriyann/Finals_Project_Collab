@@ -472,6 +472,8 @@ educ_student_table.pack(fill="both", expand=True)
 style = ttk.Style()
 style.configure("Treeview", background="#2b2b2b", foreground="white", fieldbackground="#2b2b2b")
 
+
+# ==================== Window Starter ====================
 window.columnconfigure(0, weight=1)
 window.rowconfigure(0, weight=1)
 window.mainloop()
