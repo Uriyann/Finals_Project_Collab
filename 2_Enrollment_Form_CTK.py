@@ -122,6 +122,29 @@ def create_new_sheet():
         wb.save(file_path_to_excel)
         messagebox.showinfo(title= "Success", message= "Data saved successfully!")
         format_excel()
+
+        fields_to_clear = [
+            Student_entry, Course_Section_entry, lrn_entry, surname_entry, firstname_entry, middle_entry,
+            birthplace_entry, nationality_entry, language_entry, street_entry, brgy_entry, city_entry,
+            zip_code_entry, province_entry, country_entry, email_entry, num_entry, name_father_entry,
+            occupation_father_entry, phon_father_entry, name_mother_entry, occupation_mother_entry,
+            phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
+            occupation_guardian_entry, phon_guardian_entry, schl_elem_entry, address_elem_entry,
+            yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
+            strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry
+        ]
+        for field in fields_to_clear:
+            field.delete(0, END)
+
+        gender_var.set(0)
+        age_box.set("Select Age")
+        month_box.set("MM")
+        day_box.set("DD")
+        year_box.set("YYYY")
+        religion_box.set("Select Religion")
+        marital_status_box.set("Select Marital Status")
+        student_status.set("")
+
     except Exception as e:
         messagebox.showerror(title= "Error", message= f"An error occurred: {e}")
 
