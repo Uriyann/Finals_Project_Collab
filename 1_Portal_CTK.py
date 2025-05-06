@@ -23,6 +23,9 @@ ctk.set_default_color_theme("blue")
 mode = "dark"
 
 def LOG_IN():
+    global login_user_entry
+    global login_password_entry
+    
     # ==================== Functions ====================
     # Login Checker Function
     def login_checker():
@@ -60,6 +63,24 @@ def LOG_IN():
         terms_label = CTkLabel(terms_window, text="Forgot Password go here.")
         terms_label.pack(pady=20, padx=20)
 
+    # ==================== Debuggers ====================
+    # Input Validation & Debugger Function
+    def log_in_data_validation_debugger():
+        if not login_user_entry or not login_password_entry:
+            messagebox.showerror("Error", "Login fields are not initialized.")
+            return False
+
+        username = login_user_entry.get()
+        password = login_password_entry.get()
+
+        if username and password:
+            print(f"Username: {username}, \nPassword: {password}")
+            return True
+        
+        else:
+            messagebox.showerror(title= "Error", message= "Error. Input Required")
+            return False
+        
     # Portal Logo
     def make_rounded_image(image_path, size, corner_radius):
         
@@ -74,25 +95,7 @@ def LOG_IN():
         rounded_image.putalpha(mask)
 
         return rounded_image
-
-    # ==================== Debuggers ====================
-    # Input Validation & Debugger Function
-    def log_in_data_validation_debugger():
-
-        username = login_user_entry.get()
-        password = login_password_entry.get()
-
-        if (username and password):
-            print("\n\nData Entry Form:\n\n" \
-                "Username:",username,
-                "\nPassword:",password,
-                "\n")
-            return True
-        
-        else:
-            messagebox.showerror(title= "Error", message= "Error. Input Required")
-            return False
-
+    
     # Str Debugger
     def validate_login_name_pass_str():
         if not log_in_data_validation_debugger():
@@ -146,6 +149,11 @@ def LOG_IN():
     def GO_TO_ADMIN_PANEL():
         window.destroy()
         subprocess.call(["python", "4_Admin_Panel_CTK.py"])
+
+    # Home Page Window Switch Function
+    def GO_TO_HOME_PAGE():
+        window.destroy()
+        subprocess.call(["python", "0_Home_Page_CTK.py"])
 
     # Signup Window Switch Function
     def SIGN_UP():
@@ -482,6 +490,9 @@ def LOG_IN():
     side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -275)
 
     # //////////////////////////////////////////////////////////
+
+    back_homepge_btn = CTkButton(window, text="🏠", font=("Arial", 20, "bold"), command=GO_TO_HOME_PAGE, width=50, height=50, corner_radius=10)
+    back_homepge_btn.place(relx=0.5, rely=0.5, x= -635, y= -400)
 
     # ==================== Frames ====================
     log_in_frame = CTkFrame(window, border_width= 3, corner_radius= 15)
