@@ -1,12 +1,13 @@
 from customtkinter import *
 import customtkinter as ctk
-from tkinter import ttk
-from datetime import datetime
-from tkinter import filedialog
+from tkinter import ttk, messagebox, filedialog
 from PIL import Image, ImageDraw, ImageOps
-from tkinter import messagebox
 import subprocess
 from datetime import datetime
+from openpyxl import Workbook, load_workbook
+import pandas as pd
+import numpy as np
+
 
 # ==================== Window Setup ====================
 window = CTk()
@@ -20,7 +21,28 @@ window.resizable(False, False)
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+style = ttk.Style()
+style.theme_use('clam')
+
 # ==================== Functions ====================
+def user_account_show_data():
+    opening_file = filedialog.askopenfilename(title="Select File", filetypes=[("Excel Files", "*.xlsx")])
+
+    try:
+        df = pd.read_excel(opening_file)
+        print(df)
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to open file: {e}")
+        return
+    
+    user_account_student_table.delete(*user_account_student_table.get_children())
+
+    df_rows = df.to_numpy().tolist()
+    for row in df_rows:
+        user_account_student_table.insert("", "end", values=row)
+
+
+
 # Admin Logo
 def make_rounded_image(image_path, size, corner_radius):
     
@@ -116,6 +138,9 @@ left_attendance_label.pack(anchor="w", padx=30, pady=(10, 0))
 left_attendance_btn = CTkButton(left_frame, text="View Attendance Records", font=("Arial", 14), width=200, command=lambda: show_frame(attendance))
 left_attendance_btn.pack(anchor="w", padx=30, pady=(5, 10))
 
+pick_file_btn = CTkButton(left_frame, text="Import Data", font=("Arial", 14), width=200, command=lambda: user_account_show_data())
+pick_file_btn.pack(side="bottom", padx=30, pady=(5, 10))
+
 right_frame = CTkFrame(user_data_container, width=1000, corner_radius=10, fg_color="transparent")
 right_frame.pack(side="right", fill="both", expand=True, padx=20, pady=10)
 
@@ -147,22 +172,18 @@ user_account_right_title.pack(pady=10, padx=50)
 user_account_right_top_frame = CTkFrame(user_account, fg_color="transparent")
 user_account_right_top_frame.pack(side="top", fill="x", padx=20, pady=10)
 
-user_account_section_option = CTkOptionMenu(user_account_right_top_frame, values=["1A", "1B", "1C"], width=125, height=30)
-user_account_section_option.set("Select Section")
-user_account_section_option.grid(row=0, column=0, padx=5, pady=5)
-
-user_account_search_option = CTkOptionMenu(user_account_right_top_frame, values=["Username", "Email"], width=125, height=30)
+user_account_search_option = CTkOptionMenu(user_account_right_top_frame, values=["Username", "Email"], width=200, height=30)
 user_account_search_option.set("Search By")
-user_account_search_option.grid(row=0, column=1, padx=5, pady=5)
+user_account_search_option.grid(row=0, column=0, padx=5, pady=5)
 
-user_account_search_entry = CTkEntry(user_account_right_top_frame, width=340, height=30, placeholder_text="Search Here", font=("Arial", 14))
-user_account_search_entry.grid(row=0, column=2, padx=5, pady=5)
+user_account_search_entry = CTkEntry(user_account_right_top_frame, width=400, height=30, placeholder_text="Search Here", font=("Arial", 14))
+user_account_search_entry.grid(row=0, column=1, padx=5, pady=5)
 
 user_account_search_btn = CTkButton(user_account_right_top_frame, text="Search", width=100, height=30)
-user_account_search_btn.grid(row=0, column=3, padx=5, pady=5)
+user_account_search_btn.grid(row=0, column=2, padx=5, pady=5)
 
 user_account_show_all_btn = CTkButton(user_account_right_top_frame, text="Show All", width=100, height=30)
-user_account_show_all_btn.grid(row=0, column=4, padx=5, pady=5)
+user_account_show_all_btn.grid(row=0, column=3, padx=5, pady=5)
 
 # User Account Table
 user_account_table_frame = CTkFrame(user_account)
@@ -171,21 +192,21 @@ user_account_table_frame.pack(side="top", fill="both", expand=True, padx=20, pad
 cols = (
         "First Name", "Last Name", "Email", "Username", "Password"
         )
-student_table = ttk.Treeview(user_account_table_frame, columns=cols, show="headings")
+user_account_student_table = ttk.Treeview(user_account_table_frame, columns=cols, show="headings")
 
 for col in cols:
-    student_table.heading(col, text=col.capitalize())
-    student_table.column(col, width=120)
+    user_account_student_table.heading(col, text=col.capitalize())
+    user_account_student_table.column(col, width=120)
 
-vertical_scrollbar = ttk.Scrollbar(user_account_table_frame, orient="vertical", command=student_table.yview)
+vertical_scrollbar = ttk.Scrollbar(user_account_table_frame, orient="vertical", command=user_account_student_table.yview)
 vertical_scrollbar.pack(side="right", fill="y")
-student_table.configure(yscrollcommand=vertical_scrollbar.set)
+user_account_student_table.configure(yscrollcommand=vertical_scrollbar.set)
 
-horizontal_scrollbar = ttk.Scrollbar(user_account_table_frame, orient="horizontal", command=student_table.xview)
+horizontal_scrollbar = ttk.Scrollbar(user_account_table_frame, orient="horizontal", command=user_account_student_table.xview)
 horizontal_scrollbar.pack(side="bottom", fill="x")
-student_table.configure(xscrollcommand=horizontal_scrollbar.set)
+user_account_student_table.configure(xscrollcommand=horizontal_scrollbar.set)
 
-student_table.pack(fill="both", expand=True)
+user_account_student_table.pack(fill="both", expand=True)
 
 
 # ==================== PERSONAL BACKGROUND FRAME ====================
@@ -228,21 +249,21 @@ cols = (
         "Email", "Contact Number"
         )
 
-student_table = ttk.Treeview(personal_table_frame, columns=cols, show="headings")
+personal_student_table = ttk.Treeview(personal_table_frame, columns=cols, show="headings")
 
 for col in cols:
-    student_table.heading(col, text=col.capitalize())
-    student_table.column(col, width=120)
+    personal_student_table.heading(col, text=col.capitalize())
+    personal_student_table.column(col, width=120)
 
-vertical_scrollbar = ttk.Scrollbar(personal_table_frame, orient="vertical", command=student_table.yview)
+vertical_scrollbar = ttk.Scrollbar(personal_table_frame, orient="vertical", command=personal_student_table.yview)
 vertical_scrollbar.pack(side="right", fill="y")
-student_table.configure(yscrollcommand=vertical_scrollbar.set)
+personal_student_table.configure(yscrollcommand=vertical_scrollbar.set)
 
-horizontal_scrollbar = ttk.Scrollbar(personal_table_frame, orient="horizontal", command=student_table.xview)
+horizontal_scrollbar = ttk.Scrollbar(personal_table_frame, orient="horizontal", command=personal_student_table.xview)
 horizontal_scrollbar.pack(side="bottom", fill="x")
-student_table.configure(xscrollcommand=horizontal_scrollbar.set)
+personal_student_table.configure(xscrollcommand=horizontal_scrollbar.set)
 
-student_table.pack(fill="both", expand=True)
+personal_student_table.pack(fill="both", expand=True)
 
 
 # ==================== FAMILY BACKGROUND FRAME ====================
@@ -280,21 +301,21 @@ cols = (
         "Guardian's Name", "Guardian's Relationship", "Guardian's Address", "Guardian's Occupation", "Guardian's Contact No",
         )
 
-student_table = ttk.Treeview(family_table_frame, columns=cols, show="headings")
+family_student_table = ttk.Treeview(family_table_frame, columns=cols, show="headings")
 
 for col in cols:
-    student_table.heading(col, text=col.capitalize())
-    student_table.column(col, width=150)
+    family_student_table.heading(col, text=col.capitalize())
+    family_student_table.column(col, width=150)
 
-vertical_scrollbar = ttk.Scrollbar(family_table_frame, orient="vertical", command=student_table.yview)
+vertical_scrollbar = ttk.Scrollbar(family_table_frame, orient="vertical", command=family_student_table.yview)
 vertical_scrollbar.pack(side="right", fill="y")
-student_table.configure(yscrollcommand=vertical_scrollbar.set)
+family_student_table.configure(yscrollcommand=vertical_scrollbar.set)
 
-horizontal_scrollbar = ttk.Scrollbar(family_table_frame, orient="horizontal", command=student_table.xview)
+horizontal_scrollbar = ttk.Scrollbar(family_table_frame, orient="horizontal", command=family_student_table.xview)
 horizontal_scrollbar.pack(side="bottom", fill="x")
-student_table.configure(xscrollcommand=horizontal_scrollbar.set)
+family_student_table.configure(xscrollcommand=horizontal_scrollbar.set)
 
-student_table.pack(fill="both", expand=True)
+family_student_table.pack(fill="both", expand=True)
 
 
 # ==================== FAMILY BACKGROUND FRAME ====================
@@ -336,20 +357,20 @@ cols = (
         "Student Status"
         )
 
-student_table = ttk.Treeview(educ_table_frame, columns=cols, show="headings")
+educ_student_table = ttk.Treeview(educ_table_frame, columns=cols, show="headings")
 
 for col in cols:
-    student_table.heading(col, text=col.capitalize())
-    student_table.column(col, width=150)
+    educ_student_table.heading(col, text=col.capitalize())
+    educ_student_table.column(col, width=150)
 
-vertical_scrollbar = ttk.Scrollbar(educ_table_frame, orient="vertical", command=student_table.yview)
+vertical_scrollbar = ttk.Scrollbar(educ_table_frame, orient="vertical", command=educ_student_table.yview)
 vertical_scrollbar.pack(side="right", fill="y")
-student_table.configure(yscrollcommand=vertical_scrollbar.set)
+educ_student_table.configure(yscrollcommand=vertical_scrollbar.set)
 
-horizontal_scrollbar = ttk.Scrollbar(educ_table_frame, orient="horizontal", command=student_table.xview)
+horizontal_scrollbar = ttk.Scrollbar(educ_table_frame, orient="horizontal", command=educ_student_table.xview)
 horizontal_scrollbar.pack(side="bottom", fill="x")
-student_table.configure(xscrollcommand=horizontal_scrollbar.set)
-student_table.pack(fill="both", expand=True)
+educ_student_table.configure(xscrollcommand=horizontal_scrollbar.set)
+educ_student_table.pack(fill="both", expand=True)
 
 style = ttk.Style()
 style.configure("Treeview", background="#2b2b2b", foreground="white", fieldbackground="#2b2b2b")
