@@ -10,7 +10,7 @@ from datetime import datetime
 # ==================== Window Setup ====================
 window = CTk()
 window.title("Home Page")
-window.geometry('500x700')
+window.geometry('900x700')
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")

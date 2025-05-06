@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageDraw, ImageOps
 from customtkinter import *
 import customtkinter as ctk
 from tkinter import messagebox
@@ -42,17 +42,38 @@ def LOG_IN():
                     GO_TO_ENROLLMENT_FORM()
                     return
                 
+                elif row[3] == "admin" and row[4] == "admin123":
+                    messagebox.showinfo("Login Success", f"Welcome, {username}!")
+                    GO_TO_ADMIN_PANEL()
+                    return
+                
             messagebox.showerror(title= "Login Failed", message= "Incorrect username or password.")
 
         except FileNotFoundError:
             messagebox.showerror(title= "Error", message= "User data file not found.")
 
+    # Forgot Password Function
     def show_forg_pass():
         terms_window = CTkToplevel(window)
         terms_window.title("Forgot Password")
         terms_window.geometry("400x300")
         terms_label = CTkLabel(terms_window, text="Forgot Password go here.")
         terms_label.pack(pady=20, padx=20)
+
+    # Portal Logo
+    def make_rounded_image(image_path, size, corner_radius):
+        
+        image = Image.open(image_path).convert("RGBA")
+        image = image.resize(size, Image.Resampling.LANCZOS)
+        
+        mask = Image.new("L", size, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.rounded_rectangle((0, 0, size[0], size[1]), radius=corner_radius, fill=255)
+
+        rounded_image = ImageOps.fit(image, size, centering=(0.5, 0.5))
+        rounded_image.putalpha(mask)
+
+        return rounded_image
 
     # ==================== Debuggers ====================
     # Input Validation & Debugger Function
@@ -120,6 +141,11 @@ def LOG_IN():
     def GO_TO_ENROLLMENT_FORM():
         window.destroy()
         subprocess.call(["python", "2_Enrollment_Form_Test_CTK.py   "])
+
+    # Admin Panel Window Switch Function
+    def GO_TO_ADMIN_PANEL():
+        window.destroy()
+        subprocess.call(["python", "4_Admin_Panel_CTK.py"])
 
     # Signup Window Switch Function
     def SIGN_UP():
@@ -348,13 +374,12 @@ def LOG_IN():
         sign_up_project_label.grid(row=0, column=0, sticky="n", pady= 10, padx= 15)
 
         # Short Description
-        short_desc_label =  CTkLabel(sign_up_frame, text= "/Short Description/", font= ("Helvetica bold", 18))
+        short_desc_label =  CTkLabel(sign_up_frame, text= "/Secure and user-friendly student access portal./", font= ("Helvetica bold", 13))
         short_desc_label.grid(row=1, column=0, sticky="n")
 
         # Login
         sign_up_label = CTkLabel(sign_up_frame, text= "Sign Up to Project", font= ("Helvetica bold", 17))
         sign_up_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
-
        
         # Firstname Entry
         sign_up_first_name_entry = CTkEntry(master=sign_up_frame, font= ("Arial", 16), border_width=0, width=195, placeholder_text="First name", height= 55, fg_color= "transparent", bg_color= "transparent")
@@ -454,46 +479,53 @@ def LOG_IN():
     side_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-73616y.png")
     side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
     side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
-    side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -268)
+    side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -275)
 
     # //////////////////////////////////////////////////////////
 
     # ==================== Frames ====================
     log_in_frame = CTkFrame(window, border_width= 3, corner_radius= 15)
-    log_in_frame.place(relx = 0.5, rely = 0.5, x= 90, y= -200)
+    log_in_frame.place(relx = 0.5, rely = 0.5, x= 90, y= -255)
 
     # //////////////////////////////////////////////////////////
 
     # ==================== Labels & Inputs ====================
+    
+    image_path = r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\UniPass Logo.png"
+    rounded_img = make_rounded_image(image_path, size=(70, 70), corner_radius=25)
+    ctk_image = CTkImage(light_image=rounded_img, dark_image=rounded_img, size=(70, 70))
+    label = CTkLabel(log_in_frame, image=ctk_image, text="")
+    label.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+
     # Project Name
     login_project_label = CTkLabel(log_in_frame, text= "PROJECT UniPass", font= ("Times New Roman bold", 40))
-    login_project_label.grid(row=0, column=0, sticky="n", pady= 10, padx= 15)
+    login_project_label.grid(row=1, column=0, sticky="n", pady= 10, padx= 15)
 
     # Short Description
-    short_desc_label =  CTkLabel(log_in_frame, text= "/Short Description/", font= ("Helvetica bold", 18))
-    short_desc_label.grid(row=1, column=0, sticky="n")
+    short_desc_label =  CTkLabel(log_in_frame, text= "/Secure and user-friendly student access portal/", font= ("Helvetica bold", 13))
+    short_desc_label.grid(row=2, column=0, sticky="n")
 
     # Login
     login_label = CTkLabel(log_in_frame, text= "Log In to Project", font= ("Helvetica bold", 17))
-    login_label.grid(row=2, column=0, sticky="w", pady=15, padx= 15)
+    login_label.grid(row=3, column=0, sticky="w", pady=15, padx= 15)
 
     # User Entry
     login_user_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Username or Email", height= 55, fg_color= "transparent", bg_color= "transparent", )
-    login_user_entry.grid(row=3, column=0, sticky= "n", padx= 15)
+    login_user_entry.grid(row=4, column=0, sticky= "n", padx= 15)
     login_user_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
     user_line = CTkFrame(log_in_frame, width=400, height=2)
-    user_line.grid(row=3, column=0, sticky= S)
+    user_line.grid(row=4, column=0, sticky= S)
 
     # Password Entry
     login_password_entry = CTkEntry(log_in_frame, font= ("Arial", 16), border_width=0, width=400, placeholder_text="Password", show="*", height= 55, fg_color= "transparent", bg_color= "transparent")
-    login_password_entry.grid(row=4, column=0, sticky= "n", padx= 15)
+    login_password_entry.grid(row=5, column=0, sticky= "n", padx= 15)
     login_password_entry.bind('<Return>', log_in_handle_enter)
 
     # Divider Line
     pass_line = CTkFrame(log_in_frame, width=400, height=2)
-    pass_line.grid(row=4, column=0, sticky= S)
+    pass_line.grid(row=5, column=0, sticky= S)
 
     # //////////////////////////////////////////////////////////
 

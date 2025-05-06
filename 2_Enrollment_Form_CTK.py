@@ -50,9 +50,9 @@ def create_new_sheet():
         else:
             new_sheet = wb.create_sheet(new_sheet_name)
             new_headers = [
-                    "Surname", "Firstname", "Middle Initial", 
-                    "", 
                     "Student ID", "Course/Section", "LRN", 
+                    "", 
+                    "Surname", "Firstname", "Middle Initial", 
                     "", 
                     "Gender", "Age", "Birthdate", "Birthplace", "Nationality", "Religion", "Marital Status", "Language Spoken", 
                     "", 
@@ -69,23 +69,22 @@ def create_new_sheet():
                     "",
                     "Junior High School", "Junior High Address", "Junior High Year Graduated",
                     "",
-                    "Senior High School", "Senior High Strand", "Senior High Year Graduated",
+                    "Senior High School", "Senior High Address", "Senior High Strand", "Senior High Year Graduated",
                     "",
                     "College", "College Address", "College Year Graduated",
                     "Student Status"
                         ]
             new_sheet.append(new_headers)
 
-        student_name_data = [
-            surname_entry.get().strip().strip(), firstname_entry.get().strip(), middle_entry.get().strip(), 
-            ""
-                ]
-
         student_info_data = [
                 Student_entry.get().strip(), Course_Section_entry.get().strip(), lrn_entry.get().strip(), 
                 ""
                 ]
-
+        student_name_data = [
+            surname_entry.get().strip().strip(), firstname_entry.get().strip(), middle_entry.get().strip(), 
+            ""
+                ]
+        
         student_personal_detail_data = [
                 "Male" if gender_var.get() == 1 else "Female" if gender_var.get() == 2 else "Prefer not to answer", 
                 age_box.get().strip(), f"{month_box.get().strip()} {day_box.get().strip()}, {year_box.get().strip()}",
@@ -107,17 +106,17 @@ def create_new_sheet():
                 ""
                 ]
         student_educational_detail_data = [
-                schl_elem_entry.get().strip(), yr_elem_entry.get().strip(),
+                schl_elem_entry.get().strip(), address_elem_entry.get().strip(), yr_elem_entry.get().strip(),
                 "",
-                schl_js_entry.get().strip(), yr_js_entry.get().strip(),
+                schl_js_entry.get().strip(), address_js_entry.get().strip(), yr_js_entry.get().strip(),
                 "",
-                schl_shs_entry.get().strip(), strand_shs_entry.get().strip(), yr_shs_entry.get().strip(),
+                schl_shs_entry.get().strip(), address_shs_entry.get().strip(), strand_shs_entry.get().strip(), yr_shs_entry.get().strip(),
                 "",
-                schl_cg_entry.get().strip(), yr_cg_entry.get().strip(),
+                schl_cg_entry.get().strip(), address_cg_entry.get().strip(), yr_cg_entry.get().strip(),
                 student_status.get()
                 ]
         
-        new_sheet.append(student_name_data + student_info_data + student_personal_detail_data + student_family_detail_data + student_educational_detail_data)
+        new_sheet.append(student_info_data + student_name_data + student_personal_detail_data + student_family_detail_data + student_educational_detail_data)
         
 
         wb.save(file_path_to_excel)

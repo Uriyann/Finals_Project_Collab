@@ -24,7 +24,6 @@ ctk.set_default_color_theme("blue")
 def SWITCH_WINDOW():
     window.destroy()
 
-
 # ==================== Top Frame ====================
 nav_top_frame = CTkFrame(window, fg_color="transparent")
 nav_top_frame.pack(side="top", fill="x")
@@ -41,7 +40,7 @@ main_top_container = CTkFrame(main_container, fg_color="transparent", bg_color="
 main_top_container.pack(side="top", fill="x", padx=20, pady=20)
 
 main_top_label = CTkLabel(main_top_container, text="Student Attendance Sheet", font=("Arial", 30, "bold"))
-main_top_label.pack(pady=10)
+main_top_label.pack(pady=10, side="top")
 
 # ==================== Main User Data Container ====================
 user_data_container = CTkFrame(main_container)
