@@ -36,16 +36,16 @@ def LOG_IN():
             wb = load_workbook("user_account_data.xlsx")
             ws = wb["Userdata"]
 
+            if username == "admin" and password == "admin123":
+                messagebox.showinfo("Login Success", f"Welcome, {username}!")
+                GO_TO_ADMIN_PANEL()
+                return True
+
             for row in ws.iter_rows(min_row=2, values_only=True):
                 if row[3] == username and row[4] == password:
                     messagebox.showinfo("Login Success", f"Welcome, {username}!")
                     GO_TO_ENROLLMENT_FORM()
-                    return
-                
-                elif row[3] == "admin" and row[4] == "admin123":
-                    messagebox.showinfo("Login Success", f"Welcome, {username}!")
-                    GO_TO_ADMIN_PANEL()
-                    return
+                    return True
                 
             messagebox.showerror(title= "Login Failed", message= "Incorrect username or password.")
 
@@ -101,7 +101,7 @@ def LOG_IN():
         name = login_user_entry.get()
         password = login_password_entry.get()
         if not re.fullmatch(r"[A-Za-z0-9_\s]+", name):      
-            messagebox.showerror(title= "Invalid Input", message= "Special Characters are not allowed.")
+            messagebox.showerror(title= "Invalid Input", message= "Special Characters are not allowed in the username.")
             login_user_entry.delete(0, END)
             login_password_entry.delete(0, END)
             return False
@@ -140,7 +140,7 @@ def LOG_IN():
     # Log In Window Switch Function
     def GO_TO_ENROLLMENT_FORM():
         window.destroy()
-        subprocess.call(["python", "2_Enrollment_Form_Test_CTK.py   "])
+        subprocess.call(["python", "2_Enrollment_Form_CTK.py"])
 
     # Admin Panel Window Switch Function
     def GO_TO_ADMIN_PANEL():
@@ -248,7 +248,7 @@ def LOG_IN():
 
             # Auto Column Width
             for cols in ws.columns:
-                max_length = max(len(str(cells.value)) for cell in cols)
+                max_length = max((len(str(cells.value)) for cell in cols if cell.value), default=0)
                 col_letter = get_column_letter(cols[0].column)
                 ws.column_dimensions[col_letter].width = max_length + 2
 
