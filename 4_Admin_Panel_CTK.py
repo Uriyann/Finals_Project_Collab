@@ -41,6 +41,97 @@ def user_account_show_data():
     for row in df_rows:
         user_account_student_table.insert("", "end", values=row)
 
+def personal_details_show_data():
+    try:
+        sections = personal_section_option.get().strip()
+        if sections not in ["1A", "1B", "1C"]:
+            messagebox.showerror("Error", "Please select a valid section.")
+            return
+        
+        new_sheet_name = f"{sections} Enrollment Information "
+        file_path_to_excel = "user_account_data.xlsx"
+
+        wb = load_workbook(file_path_to_excel)
+        if new_sheet_name not in wb.sheetnames:
+            messagebox.showerror("Error", f"Sheet '{new_sheet_name}' not found in the workbook.")
+            return
+        
+        ws = wb[new_sheet_name]
+        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, max_col=26, values_only=True)
+        rset = [r for r in rset]
+        wb.close()
+        print(rset)
+
+        personal_student_table.delete(*personal_student_table.get_children())
+        for row in rset:
+            personal_student_table.insert("", "end", values=row)
+
+    except FileNotFoundError:
+        messagebox.showerror("Error", "File not found.")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to open file: {e}")
+
+
+def family_details_show_data():
+    try:
+        sections = family_section_option.get().strip()
+        if sections not in ["1A", "1B", "1C"]:
+            messagebox.showerror("Error", "Please select a valid section.")
+            return
+        
+        new_sheet_name = f"{sections} Enrollment Information "
+        file_path_to_excel = "user_account_data.xlsx"
+
+        wb = load_workbook(file_path_to_excel)
+        if new_sheet_name not in wb.sheetnames:
+            messagebox.showerror("Error", f"Sheet '{new_sheet_name}' not found in the workbook.")
+            return
+        
+        ws = wb[new_sheet_name]
+        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=28,max_col=39, values_only=True)
+        rset = [r for r in rset]
+        wb.close()
+        print(rset)
+
+        family_student_table.delete(*family_student_table.get_children())
+        for row in rset:
+            family_student_table.insert("", "end", values=row)
+
+    except FileNotFoundError:
+        messagebox.showerror("Error", "File not found.")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to open file: {e}")
+
+def educational_details_show_data():
+    try:
+        sections = educ_section_option.get().strip()
+        if sections not in ["1A", "1B", "1C"]:
+            messagebox.showerror("Error", "Please select a valid section.")
+            return
+        
+        new_sheet_name = f"{sections} Enrollment Information "
+        file_path_to_excel = "user_account_data.xlsx"
+
+        wb = load_workbook(file_path_to_excel)
+        if new_sheet_name not in wb.sheetnames:
+            messagebox.showerror("Error", f"Sheet '{new_sheet_name}' not found in the workbook.")
+            return
+        
+        ws = wb[new_sheet_name]
+        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=41, max_col=57, values_only=True)
+        rset = [r for r in rset]
+        wb.close()
+        print(rset)
+
+        educ_student_table.delete(*educ_student_table.get_children())
+        for row in rset:
+            educ_student_table.insert("", "end", values=row)
+
+    except FileNotFoundError:
+        messagebox.showerror("Error", "File not found.")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to open file: {e}")
+    
 
 
 # Admin Logo
@@ -64,6 +155,12 @@ def change_light_dark_mode_event(new_appearance_mode: str):
 
 def show_frame(frame):
     frame.tkraise()
+    if frame == personal_details:
+        personal_details_show_data()
+    elif frame == family_background:
+        family_details_show_data()
+    elif frame == educational_background:
+        educational_details_show_data()
 
 # ==================== Window Switch Function ====================
 def SWITCH_WINDOW():
@@ -138,7 +235,7 @@ left_attendance_label.pack(anchor="w", padx=30, pady=(10, 0))
 left_attendance_btn = CTkButton(left_frame, text="View Attendance Records", font=("Arial", 14), width=200, command=lambda: show_frame(attendance))
 left_attendance_btn.pack(anchor="w", padx=30, pady=(5, 10))
 
-pick_file_btn = CTkButton(left_frame, text="Import Data", font=("Arial", 14), width=200, command=lambda: user_account_show_data())
+pick_file_btn = CTkButton(left_frame, text="Import Data", font=("Arial", 14), width=200, command=user_account_show_data)
 pick_file_btn.pack(side="bottom", padx=30, pady=(5, 10))
 
 right_frame = CTkFrame(user_data_container, width=1000, corner_radius=10, fg_color="transparent")
@@ -216,8 +313,8 @@ personal_right_title.pack(pady=10, padx=50)
 personal_right_top_frame = CTkFrame(personal_details, fg_color="transparent")
 personal_right_top_frame.pack(side="top", fill="x", padx=20, pady=10)
 
-personal_section_option = CTkOptionMenu(personal_right_top_frame, values=["1A", "1B", "1C"], width=125, height=30)
-personal_section_option.set("Select Section")
+personal_section_option = CTkOptionMenu(personal_right_top_frame, values=["1A", "1B", "1C"], width=125, height=30, command=lambda _: personal_details_show_data())
+personal_section_option.set("1A")
 personal_section_option.grid(row=0, column=0, padx=5, pady=5)
 
 personal_search_option = CTkOptionMenu(personal_right_top_frame, values=["Student ID", "Surname"], width=125, height=30)
@@ -273,8 +370,8 @@ family_right_title.pack(pady=10, padx=50)
 family_right_top_frame = CTkFrame(family_background, fg_color="transparent")
 family_right_top_frame.pack(side="top", fill="x", padx=20, pady=10)
 
-family_section_option = CTkOptionMenu(family_right_top_frame, values=["1A", "1B", "1C"], width=125, height=30)
-family_section_option.set("Select Section")
+family_section_option = CTkOptionMenu(family_right_top_frame, values=["1A", "1B", "1C"], width=125, height=30, command=lambda _: family_details_show_data())
+family_section_option.set("1A")
 family_section_option.grid(row=0, column=0, padx=5, pady=5)
 
 family_search_option = CTkOptionMenu(family_right_top_frame, values=["Father's Name", "Mother's Name", "Guardian's Name"], width=125, height=30)
@@ -325,8 +422,8 @@ educ_right_title.pack(pady=10, padx=50)
 educ_right_top_frame = CTkFrame(educational_background, fg_color="transparent")
 educ_right_top_frame.pack(side="top", fill="x", padx=20, pady=10)
 
-educ_section_option = CTkOptionMenu(educ_right_top_frame, values=["1A", "1B", "1C"], width=125, height=30)
-educ_section_option.set("Select Section")
+educ_section_option = CTkOptionMenu(educ_right_top_frame, values=["1A", "1B", "1C"], width=125, height=30, command=lambda _: educational_details_show_data())
+educ_section_option.set("1A")
 educ_section_option.grid(row=0, column=0, padx=5, pady=5)
 
 educ_search_option = CTkOptionMenu(educ_right_top_frame, values=["Elementary School", "Junior High School", "Senior High School", "College"], width=125, height=30)
