@@ -7,18 +7,23 @@ from tkinter import messagebox
 import subprocess
 from datetime import datetime
 
-# ==================== Window Switch Function ====================
-def SWITCH_WINDOW():
-    window.destroy()
-
 
 # ==================== Window Setup ====================
 window = CTk()
 window.title("Student Enrollment Form")
-window.geometry('1300x825')
+height = 825
+width = 1300
+x = (window.winfo_screenwidth()//2)-(width//2) 
+y = (window.winfo_screenheight()//2)-(height//2) 
+window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
+
+# ==================== Window Switch Function ====================
+def SWITCH_WINDOW():
+    window.destroy()
+
 
 # ==================== Top Frame ====================
 nav_top_frame = CTkFrame(window, fg_color="transparent")
