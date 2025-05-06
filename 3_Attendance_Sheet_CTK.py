@@ -7,19 +7,28 @@ from tkinter import messagebox
 import subprocess
 from datetime import datetime
 
+
 # ==================== Window Setup ====================
 window = CTk()
 window.title("Student Enrollment Form")
-window.geometry('1300x825')
+height = 825
+width = 1300
+x = (window.winfo_screenwidth()//2)-(width//2) 
+y = (window.winfo_screenheight()//2)-(height//2) 
+window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
+
+# ==================== Window Switch Function ====================
+def SWITCH_WINDOW():
+    window.destroy()
 
 # ==================== Top Frame ====================
 nav_top_frame = CTkFrame(window, fg_color="transparent")
 nav_top_frame.pack(side="top", fill="x")
 
-logout_btn = CTkButton(nav_top_frame, text="Logout", font=("Arial", 15, "bold"))
+logout_btn = CTkButton(nav_top_frame, text="Logout", font=("Arial", 15, "bold"), command=SWITCH_WINDOW)
 logout_btn.pack(side="right", padx=5, pady=5)
 
 # ==================== Main Container ====================
@@ -31,7 +40,7 @@ main_top_container = CTkFrame(main_container, fg_color="transparent", bg_color="
 main_top_container.pack(side="top", fill="x", padx=20, pady=20)
 
 main_top_label = CTkLabel(main_top_container, text="Student Attendance Sheet", font=("Arial", 30, "bold"))
-main_top_label.pack(pady=10)
+main_top_label.pack(pady=10, side="top")
 
 # ==================== Main User Data Container ====================
 user_data_container = CTkFrame(main_container)
