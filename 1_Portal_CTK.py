@@ -11,7 +11,11 @@ import subprocess
 # ==================== Window Setup ====================
 window = CTk()
 window.title("Login Portal")
-window.geometry('1300x825')
+height = 825
+width = 1300
+x = (window.winfo_screenwidth()//2)-(width//2) 
+y = (window.winfo_screenheight()//2)-(height//2) 
+window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 window.resizable(False, False)
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
