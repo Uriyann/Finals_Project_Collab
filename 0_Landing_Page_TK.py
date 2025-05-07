@@ -7,11 +7,21 @@ import customtkinter as ctk
 import pywinstyles as pyw
 import pygame
 import os 
+import subprocess
+
+window = tk.Tk()
+height = 480
+width = 640
+x = (window.winfo_screenwidth()//2)-(width//2) 
+y = (window.winfo_screenheight()//2)-(height//2) 
+window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+window.title("Unipass")
+window.resizable(width=False, height=False)
+
 c=0
 def addnum():
     global c
     c+=1
-    print(c)
 
 def showb(self):
     addnum()
@@ -63,10 +73,8 @@ def hideb(self):
     elif c==7:
         pyw.set_opacity(b, 0, color="#000001")
         self.after(60, addnum)
-    
 
 class slidepanel(ctk.CTkFrame):
-    
     def __init__(self, parent, startpos, endpos):
         super().__init__(master=parent, fg_color='lightgray')
         
@@ -82,6 +90,7 @@ class slidepanel(ctk.CTkFrame):
         #layout
         self.place(relx=self.startpos,rely=0,relwidth=self.width, relheight=1)
         self.tkraise()
+
     def animate(self):
         if self.instartpos:
             self.animateforward()
@@ -103,7 +112,6 @@ class slidepanel(ctk.CTkFrame):
         else:
             self.instartpos=False
             
-
     def animatebackwards(self):
         if self.pos<self.startpos:
             self.pos += 0.008
@@ -117,9 +125,6 @@ class slidepanel(ctk.CTkFrame):
         else:
             self.instartpos=True
             
-    
-        
-
 class ImageLabel(tk.Label):
     def load(self, im):
         if isinstance(im, str):
@@ -131,7 +136,6 @@ class ImageLabel(tk.Label):
             for i in count(1):
                 frames.append(ImageTk.PhotoImage(im.copy()))
                 im.seek(i)
-                print(i," frame/s loaded")
 
         except EOFError:
             pass
@@ -141,57 +145,43 @@ class ImageLabel(tk.Label):
         self.totalframes = i
 
         try:
-            print("used gif speed")
             self.delay = im.info['duration']
             
         except:
-            print("used default speed")
             self.delay = 100
 
         if len(frames) == 1:
             self.config(image=next(self.frames))
         else:
             self.next_frame()
-            
     isempty='no'
 
     def unload(self):
         if self.isempty=='no':
             self.config(image=None)
             self.frames = None
-            print("cleared image")
             self.isempty='yup'
         elif self.isempty=='yup':
-            print("shut up dude i already cleared it")
-        
-        
+            pass
     counter=0
+
     def next_frame(self):
    
         if self.frames:
 
             self.counter+=1
-            print(f"running frame {self.counter}")
             
             self.config(image=next(self.frames))
             
             if self.counter==self.totalframes:
                 os.system('cls')
-                print("RESULTS:")
-                print(self.totalframes," total frame/s succesfully loaded")
-                print(f"used delay: {self.delay} frames per second")
-                print("gif stopped.")
                 showb(b)
             elif self.counter<=self.totalframes:
                 self.after(self.delay, self.next_frame)
 
-
-
-
-window = tk.Tk()
-window.geometry("640x480")
-window.title("Unipass")
-window.resizable(width=False, height=False)
+def GO_TO_LOGIN():
+    window.destroy()
+    subprocess.call(["python", "1_Portal_CTK.py"])
 
 #stuff
 note=Label(window, text="about us section here", font="bahnschrift, 10")
@@ -205,25 +195,19 @@ lbl = ImageLabel(animpanel, width=900, height=600)
 # button widget
 b=CTkButton(master=animpanel, width=10, height=10, corner_radius=999, text='Next -->', bg_color="#000001", fg_color="gray18", command=lambda: [animpanel.animate(), hideb(b)]) 
 lbl.pack()
-lbl.load(r'python\Finals_Project_Collab-main\landpg.gif')
+lbl.load(r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\landpg.gif')
 by=0.5
 
 ##hey man, here's the buttons for login in and sign up. if i have time ill clean my code
-loginb=CTkButton(master=navpanel, width=10, height=10, corner_radius=999, text='login', bg_color="#000001", fg_color="gray18", command=print("login")) 
+loginb=CTkButton(master=navpanel, width=10, height=10, corner_radius=999, text='login', bg_color="#000001", fg_color="gray18", command=GO_TO_LOGIN) 
 signupb=CTkButton(master=navpanel, width=10, height=10, corner_radius=999, text='signup', bg_color="#000001", fg_color="gray18", command=print("signup")) 
-find me here
-
 
 pyw.set_opacity(b, 0, color="#000001")
 pyw.set_opacity(b1, 1, color="#000001")
 
-#placement
-#welcome.place(relx = 1, x =-1, y = 1, anchor = NE)
-#desc.place(relx = 1, x =-150, y = 150, anchor = NE)
 b.place(relx=1,rely=by, x =-157, y = 100, anchor = NE)
 b1.place(relx=1,rely=by, x =-150, y = 100, anchor = NE)
 loginb.place(relx=1,rely=by, x =-0, y = 0, anchor = NE)
 signupb.place(relx=1,rely=by, x =0, y = 100, anchor = NE)
-
 
 window.mainloop()
