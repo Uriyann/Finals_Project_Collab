@@ -90,7 +90,7 @@ def family_details_show_data():
             return
         
         ws = wb[new_sheet_name]
-        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=28,max_col=39, values_only=True)
+        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=28,max_col=42, values_only=True)
         rset = [r for r in rset]
         wb.close()
         print(rset)
@@ -121,7 +121,7 @@ def educational_details_show_data():
             return
         
         ws = wb[new_sheet_name]
-        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=41, max_col=57, values_only=True)
+        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=44, max_col=60, values_only=True)
         rset = [r for r in rset]
         wb.close()
         print(rset)
@@ -395,8 +395,9 @@ family_table_frame = CTkFrame(family_background)
 family_table_frame.pack(side="top", fill="both", expand=True, padx=20, pady=10)
 
 cols = (                
-        "Father's Name", "Father's Occupation", "Father's Contact No",
-        "Mother's Name", "Mother's Occupation", "Mother's Contact No",
+        "Father's Name", "Father's Address", "Father's Occupation", "Father's Contact No",
+        "",
+        "Mother's Name", "Mother's Address", "Mother's Occupation", "Mother's Contact No",
         "",
         "Guardian's Name", "Guardian's Relationship", "Guardian's Address", "Guardian's Occupation", "Guardian's Contact No",
         )
