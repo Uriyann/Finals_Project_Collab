@@ -25,6 +25,7 @@ style = ttk.Style()
 style.theme_use('clam')
 
 # ==================== Functions ====================
+# User Account Show Data Table
 def user_account_show_data():
     opening_file = filedialog.askopenfilename(title="Select File", filetypes=[("Excel Files", "*.xlsx")])
 
@@ -41,6 +42,7 @@ def user_account_show_data():
     for row in df_rows:
         user_account_student_table.insert("", "end", values=row)
 
+# Personal Details Show Data Table
 def personal_details_show_data():
     try:
         sections = personal_section_option.get().strip()
@@ -71,7 +73,7 @@ def personal_details_show_data():
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open file: {e}")
 
-
+# Family Details Show Data Table
 def family_details_show_data():
     try:
         sections = family_section_option.get().strip()
@@ -102,6 +104,7 @@ def family_details_show_data():
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open file: {e}")
 
+# Educational Details Show Data Table
 def educational_details_show_data():
     try:
         sections = educ_section_option.get().strip()
@@ -131,8 +134,6 @@ def educational_details_show_data():
         messagebox.showerror("Error", "File not found.")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open file: {e}")
-    
-
 
 # Admin Logo
 def make_rounded_image(image_path, size, corner_radius):
@@ -148,6 +149,8 @@ def make_rounded_image(image_path, size, corner_radius):
     rounded_image.putalpha(mask)
 
     return rounded_image
+
+
 
 # ==================== Events ====================
 def change_light_dark_mode_event(new_appearance_mode: str):
