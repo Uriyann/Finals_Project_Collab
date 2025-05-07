@@ -226,7 +226,7 @@ def ask_password():
     return result["success"]
 
 # Loading the user's data
-def loading_user_data_after_login():
+def load_user_data():
     try:
 
         student_user_account = Student_entry.get().strip()
@@ -257,7 +257,7 @@ def loading_user_data_after_login():
 
         for row in student_details_sheet.iter_rows(min_row=2, values_only=True):
             if row[0] == student_user_account and row[1] == student_sections and row[2] == student_lrn:
-                
+
                 if not ask_password():
                     return
 
@@ -410,6 +410,29 @@ def loading_user_data_after_login():
             
     except Exception as e:
         messagebox.showerror(title="Error", message=f"An error occurred: {e}")
+
+def edit_user_data():
+        
+    fields_to_enable = [
+    Student_entry, Course_Section_entry, lrn_entry, surname_entry, firstname_entry, middle_entry,
+    male_checkbox, female_checkbox, none_binary_checkbox, age_box, month_box, day_box, year_box,
+    birthplace_entry, nationality_entry, religion_box, marital_status_box, language_entry, 
+    street_entry, brgy_entry, city_entry, zip_code_entry, province_entry, country_entry, 
+    email_entry, num_entry, name_father_entry, address_father_entry, occupation_father_entry, 
+    phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
+    phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
+    occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
+    yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
+    strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry
+    ]
+    for field in fields_to_enable:
+        try:
+            field.configure(state="normal")
+        except AttributeError:
+            pass
+
+    for all_buttons in student_stat_rad_button:
+        all_buttons.configure(state="normal")
 
 # Format Fixer Function
 def format_excel():
@@ -793,10 +816,10 @@ sub_frame.pack(side="bottom", fill="x")
 submit_btn = CTkButton(sub_frame, text="Submit", font=("Arial", 15, "bold"), command=create_new_sheet)
 submit_btn.pack(side="right", padx=5, pady=5)
 
-load_btn = CTkButton(sub_frame, text="Load User Data", font=("Arial", 15, "bold"), command=loading_user_data_after_login)
+load_btn = CTkButton(sub_frame, text="Load User Data", font=("Arial", 15, "bold"), command=load_user_data)
 load_btn.pack(side="left", padx=5, pady=5)
 
-edit_btn = CTkButton(sub_frame, text="Edit User Data", font=("Arial", 15, "bold"))
+edit_btn = CTkButton(sub_frame, text="Edit User Data", font=("Arial", 15, "bold"), command=edit_user_data)
 edit_btn.pack(side="left", padx=5, pady=5)
 
 update_btn = CTkButton(sub_frame, text="Update User Data", font=("Arial", 15, "bold"))
