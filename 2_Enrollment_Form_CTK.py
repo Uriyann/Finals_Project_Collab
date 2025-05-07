@@ -60,8 +60,9 @@ def create_new_sheet():
                     "", 
                     "Email", "Contact Number",
                     "",
-                    "Father's Name", "Father's Occupation", "Father's Contact No",
-                    "Mother's Name", "Mother's Occupation", "Mother's Contact No",
+                    "Father's Name", "Father's Address", "Father's Occupation", "Father's Contact No",
+                    "",
+                    "Mother's Name", "Mother's Address","Mother's Occupation", "Mother's Contact No",
                     "",
                     "Guardian's Name", "Guardian's Relationship", "Guardian's Address", "Guardian's Occupation", "Guardian's Contact No",
                     "",
@@ -98,8 +99,9 @@ def create_new_sheet():
                 ""
                 ]
         student_family_detail_data = [
-                name_father_entry.get().strip(), occupation_father_entry.get().strip(), phon_father_entry.get().strip(),
-                name_mother_entry.get().strip(), occupation_mother_entry.get().strip(), phon_mother_entry.get().strip(),
+                name_father_entry.get().strip(), address_father_entry.get().strip(), occupation_father_entry.get().strip(), phon_father_entry.get().strip(),
+                "",
+                name_mother_entry.get().strip(), address_mother_entry.get().strip(), occupation_mother_entry.get().strip(), phon_mother_entry.get().strip(),
                 "",
                 name_guardian_entry.get().strip(), rel_guardian_entry.get().strip(), address_guardian_entry.get().strip(),
                 occupation_guardian_entry.get().strip(), phon_guardian_entry.get().strip(),
@@ -127,8 +129,8 @@ def create_new_sheet():
             Student_entry, Course_Section_entry, lrn_entry, surname_entry, firstname_entry, middle_entry,
             birthplace_entry, nationality_entry, language_entry, street_entry, brgy_entry, city_entry,
             zip_code_entry, province_entry, country_entry, email_entry, num_entry, name_father_entry,
-            occupation_father_entry, phon_father_entry, name_mother_entry, occupation_mother_entry,
-            phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
+            address_father_entry, occupation_father_entry, phon_father_entry, name_mother_entry, address_mother_entry,
+            occupation_mother_entry, phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
             occupation_guardian_entry, phon_guardian_entry, schl_elem_entry, address_elem_entry,
             yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
             strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry
@@ -175,6 +177,235 @@ def validating_user_email():
                 email_entry.insert(0, row[2])
                 return 
         
+        messagebox.showerror(title="Error", message="User not found.")
+            
+    except Exception as e:
+        messagebox.showerror(title="Error", message=f"An error occurred: {e}")
+
+# Validating the User per Password
+def ask_password():
+    result = {"success": False}
+
+    def check_password():
+        try:
+            file_path_to_excel = "user_account_data.xlsx"
+            wb = load_workbook(file_path_to_excel)
+            account_ask_password = wb["Userdata"]
+
+            for row in account_ask_password.iter_rows(min_row=2, values_only=True):
+                if row[4] == password_entry.get().strip():
+                    messagebox.showinfo(title= "Access Granted", message= "Welcome!")
+                    result["success"] = True
+                    ask_password_window.destroy()
+                    return
+                
+            messagebox.showerror(title= "Access Denied", message= "Incorrect Password.")
+
+        except FileNotFoundError:
+            messagebox.showerror(title="Error", message="The file 'user_account_data.xlsx' was not found.")
+        except Exception as e:
+            messagebox.showerror(title="Error", message=f"An error occurred: {e}")
+
+    ask_password_window = CTkToplevel(window)
+    ask_password_window.title("Password Required")
+    ask_password_window.geometry("300x160")
+    ask_password_window.resizable(False, False)
+    ask_password_window.grab_set()
+
+    pass_label = CTkLabel(ask_password_window, text="Enter Password:", font=("Arial", 16))
+    pass_label.pack(pady=10)
+
+    password_entry = CTkEntry(ask_password_window, show="*", width=200)
+    password_entry.pack(pady=5)
+    password_entry.focus()
+
+    pass_submit_btn = ctk.CTkButton(ask_password_window, text="Submit", command=check_password)
+    pass_submit_btn.pack(pady=15)
+
+    ask_password_window.wait_window()
+    return result["success"]
+
+# Loading the user's data
+def loading_user_data_after_login():
+    try:
+
+        student_user_account = Student_entry.get().strip()
+        student_sections = Course_Section_entry.get().strip()
+        student_lrn = lrn_entry.get().strip()
+
+        if not student_user_account:
+            messagebox.showerror(title="Error", message="Please enter your Student ID.")
+            return
+        
+        if student_sections not in ["1A", "1B", "1C"]:
+            messagebox.showerror(title="Error", message="Please select a valid section.")
+            return
+        
+        if not student_lrn:
+            messagebox.showerror(title="Error", message="Please enter your LRN.")
+            return
+
+        new_sheet_name = f"{student_sections} Enrollment Information "
+        file_path_to_excel = "user_account_data.xlsx"
+
+        wb = load_workbook(file_path_to_excel)
+        if new_sheet_name not in wb.sheetnames:
+            messagebox.showerror(title="Error", message=f"Sheet '{new_sheet_name}' does not exist.")
+            return
+        
+        student_details_sheet = wb[new_sheet_name]
+
+        for row in student_details_sheet.iter_rows(min_row=2, values_only=True):
+            if row[0] == student_user_account and row[1] == student_sections and row[2] == student_lrn:
+                
+                if not ask_password():
+                    return
+
+                surname_entry.delete(0, END)
+                surname_entry.insert(0, row[4])
+                firstname_entry.delete(0, END)
+                firstname_entry.insert(0, row[5])
+                middle_entry.delete(0, END)
+                middle_entry.insert(0, row[6])
+
+                gender = row[8]
+                if gender == "Male":
+                    gender_var.set(1)
+                elif gender == "Female":
+                    gender_var.set(2)
+                elif gender == "Prefer not to answer":
+                    gender_var.set(3)
+                else:
+                    gender_var.set(0)
+                age_box.set(row[9])
+                birthdate = row[10]
+                if birthdate:
+                    try:
+                        month, day_year = birthdate.split(" ", 1)
+                        day, year = day_year.replace(",", "").split(" ")
+                        month_box.set(month)
+                        day_box.set(day)
+                        year_box.set(year)
+                    except ValueError:
+                        month_box.set("MM")
+                        day_box.set("DD")
+                        year_box.set("YYYY")
+                else:
+                    month_box.set("MM")
+                    day_box.set("DD")
+                    year_box.set("YYYY")
+                birthplace_entry.delete(0, END)
+                birthplace_entry.insert(0, row[11])
+                nationality_entry.delete(0, END)
+                nationality_entry.insert(0, row[12])
+                religion_box.set(row[13])
+                marital_status_box.set(row[14])
+                language_entry.delete(0, END)
+                language_entry.insert(0, row[15])
+
+                street_entry.delete(0, END)
+                street_entry.insert(0, row[17])
+                brgy_entry.delete(0, END)
+                brgy_entry.insert(0, row[18])
+                city_entry.delete(0, END)
+                city_entry.insert(0, row[19])
+                zip_code_entry.delete(0, END)
+                zip_code_entry.insert(0, row[20])
+                province_entry.delete(0, END)
+                province_entry.insert(0, row[21])
+                country_entry.delete(0, END)
+                country_entry.insert(0, row[22])
+
+                email_entry.delete(0, END)
+                email_entry.insert(0, row[24])
+                num_entry.delete(0, END)
+                num_entry.insert(0, row[25])
+
+                name_father_entry.delete(0, END)
+                name_father_entry.insert(0, row[27])
+                address_father_entry.delete(0, END)
+                address_father_entry.insert(0, row[28])
+                occupation_father_entry.delete(0, END)
+                occupation_father_entry.insert(0, row[29])                
+                phon_father_entry.delete(0, END)
+                phon_father_entry.insert(0, row[30])
+
+                name_mother_entry.delete(0, END)
+                name_mother_entry.insert(0, row[32])
+                address_mother_entry.delete(0, END)
+                address_mother_entry.insert(0, row[33])
+                occupation_mother_entry.delete(0, END)
+                occupation_mother_entry.insert(0, row[34])                
+                phon_mother_entry.delete(0, END)
+                phon_mother_entry.insert(0, row[35])
+
+                name_guardian_entry.delete(0, END)
+                name_guardian_entry.insert(0, row[37])
+                rel_guardian_entry.delete(0, END)
+                rel_guardian_entry.insert(0, row[38])
+                address_guardian_entry.delete(0, END)
+                address_guardian_entry.insert(0, row[39])                                
+                phon_guardian_entry.delete(0, END)
+                phon_guardian_entry.insert(0, row[40])
+                occupation_guardian_entry.delete(0, END)
+                occupation_guardian_entry.insert(0, row[41])
+
+                schl_elem_entry.delete(0, END)
+                schl_elem_entry.insert(0, row[43])
+                address_elem_entry.delete(0, END)
+                address_elem_entry.insert(0, row[44])
+                yr_elem_entry.delete(0, END)
+                yr_elem_entry.insert(0, row[45])
+
+                schl_js_entry.delete(0, END)
+                schl_js_entry.insert(0, row[47])
+                address_js_entry.delete(0, END)
+                address_js_entry.insert(0, row[48])
+                yr_js_entry.delete(0, END)
+                yr_js_entry.insert(0, row[49])
+
+                schl_shs_entry.delete(0, END)
+                schl_shs_entry.insert(0, row[51])
+                address_shs_entry.delete(0, END)
+                address_shs_entry.insert(0, row[52])
+                strand_shs_entry.delete(0, END)
+                strand_shs_entry.insert(0, row[53])
+                yr_shs_entry.delete(0, END)
+                yr_shs_entry.insert(0, row[54])
+
+                schl_cg_entry.delete(0, END)
+                schl_cg_entry.insert(0, row[56])
+                address_cg_entry.delete(0, END)
+                address_cg_entry.insert(0, row[57])
+                yr_cg_entry.delete(0, END)
+                yr_cg_entry.insert(0, row[58])
+
+                student_status.set(row[59])
+
+
+                fields_to_disable = [
+                    Student_entry, Course_Section_entry, lrn_entry, surname_entry, firstname_entry, middle_entry,
+                    male_checkbox, female_checkbox, none_binary_checkbox, age_box, month_box, day_box, year_box,
+                    birthplace_entry, nationality_entry, religion_box, marital_status_box, language_entry, 
+                    street_entry, brgy_entry, city_entry, zip_code_entry, province_entry, country_entry, 
+                    email_entry, num_entry, name_father_entry, address_father_entry, occupation_father_entry, 
+                    phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
+                    phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
+                    occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
+                    yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
+                    strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry
+                ]
+                for field in fields_to_disable:
+                    try:
+                        field.configure(state="disabled")
+                    except AttributeError:
+                        pass
+
+                for all_buttons in student_stat_rad_button:
+                    all_buttons.configure(state="disabled")
+
+                return
+
         messagebox.showerror(title="Error", message="User not found.")
             
     except Exception as e:
@@ -561,6 +792,15 @@ sub_frame.pack(side="bottom", fill="x")
 
 submit_btn = CTkButton(sub_frame, text="Submit", font=("Arial", 15, "bold"), command=create_new_sheet)
 submit_btn.pack(side="right", padx=5, pady=5)
+
+load_btn = CTkButton(sub_frame, text="Load User Data", font=("Arial", 15, "bold"), command=loading_user_data_after_login)
+load_btn.pack(side="left", padx=5, pady=5)
+
+edit_btn = CTkButton(sub_frame, text="Edit User Data", font=("Arial", 15, "bold"))
+edit_btn.pack(side="left", padx=5, pady=5)
+
+update_btn = CTkButton(sub_frame, text="Update User Data", font=("Arial", 15, "bold"))
+update_btn.pack(side="left", padx=5, pady=5)
 
 # ==================== PERSONAL DETAILS PAGE ====================
 # Scrollable Frame
@@ -1058,17 +1298,14 @@ Checkbuttons_Info = [
     ("Returnee", "Returnee")
 ]
 
+student_stat_rad_button = []
+
 for index, (text, var) in enumerate(Checkbuttons_Info):
     row = index // 2  
     column = index % 2
-    CTkRadioButton(
-        checkbox_frame,
-        text=text,
-        variable=student_status,
-        value=var,
-        font=("Arial", 14),
-        bg_color="transparent"
-    ).grid(row=row, column=column, sticky="w", padx=5, pady=3)
+    student_stat = CTkRadioButton(checkbox_frame, text=text, variable=student_status, value=var, font=("Arial", 14), bg_color="transparent")
+    student_stat.grid(row=row, column=column, sticky="w", padx=5, pady=3)
+    student_stat_rad_button.append(student_stat) 
 
 
 
