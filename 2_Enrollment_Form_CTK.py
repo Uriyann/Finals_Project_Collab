@@ -344,11 +344,11 @@ def load_user_data():
                 rel_guardian_entry.delete(0, END)
                 rel_guardian_entry.insert(0, row[38])
                 address_guardian_entry.delete(0, END)
-                address_guardian_entry.insert(0, row[39])                                
-                phon_guardian_entry.delete(0, END)
-                phon_guardian_entry.insert(0, row[40])
+                address_guardian_entry.insert(0, row[39]) 
                 occupation_guardian_entry.delete(0, END)
-                occupation_guardian_entry.insert(0, row[41])
+                occupation_guardian_entry.insert(0, row[40])                                               
+                phon_guardian_entry.delete(0, END)
+                phon_guardian_entry.insert(0, row[41])
 
                 schl_elem_entry.delete(0, END)
                 schl_elem_entry.insert(0, row[43])
@@ -412,9 +412,11 @@ def load_user_data():
         messagebox.showerror(title="Error", message=f"An error occurred: {e}")
 
 def edit_user_data():
+    if not ask_password():
+        return
         
     fields_to_enable = [
-    Student_entry, Course_Section_entry, lrn_entry, surname_entry, firstname_entry, middle_entry,
+    surname_entry, firstname_entry, middle_entry,
     male_checkbox, female_checkbox, none_binary_checkbox, age_box, month_box, day_box, year_box,
     birthplace_entry, nationality_entry, religion_box, marital_status_box, language_entry, 
     street_entry, brgy_entry, city_entry, zip_code_entry, province_entry, country_entry, 
@@ -433,6 +435,98 @@ def edit_user_data():
 
     for all_buttons in student_stat_rad_button:
         all_buttons.configure(state="normal")
+
+def update_user_data():
+
+
+
+
+
+    try:
+        student_sections = Course_Section_entry.get().strip()
+        if student_sections not in ["1A", "1B", "1C"]:
+            messagebox.showerror(title="Error", message="Invalid section selected.")
+            return
+
+        new_sheet_name = f"{student_sections} Enrollment Information "
+        file_path_to_excel = "user_account_data.xlsx"
+
+        wb = load_workbook(file_path_to_excel)
+        if new_sheet_name not in wb.sheetnames:
+            messagebox.showerror(title="Error", message=f"Sheet '{new_sheet_name}' does not exist.")
+            return
+
+        ws = wb[new_sheet_name]
+
+        for row in ws.iter_rows(min_row=2):
+            if row[0].value == Student_entry.get().strip():
+                row[4].value = surname_entry.get().strip()
+                row[5].value = firstname_entry.get().strip()
+                row[6].value = middle_entry.get().strip()
+
+                row[8].value = "Male" if gender_var.get() == 1 else "Female" if gender_var.get() == 2 else "Prefer not to answer"
+                row[9].value = age_box.get().strip()
+                row[10].value = f"{month_box.get().strip()} {day_box.get().strip()}, {year_box.get().strip()}"
+                row[11].value = birthplace_entry.get().strip()
+                row[12].value = nationality_entry.get().strip()
+                row[13].value = religion_box.get().strip()
+                row[14].value = marital_status_box.get().strip()
+                row[15].value = language_entry.get().strip()
+
+                row[17].value = street_entry.get().strip()
+                row[18].value = brgy_entry.get().strip()
+                row[19].value = city_entry.get().strip()
+                row[20].value = zip_code_entry.get().strip()
+                row[21].value = province_entry.get().strip()
+                row[22].value = country_entry.get().strip()
+
+                row[24].value = email_entry.get().strip()
+                row[25].value = num_entry.get().strip()
+
+                row[27].value =  name_father_entry.get().strip()
+                row[28].value = address_father_entry.get().strip()
+                row[29].value = occupation_father_entry.get().strip()
+                row[30].value = phon_father_entry.get().strip()
+
+                row[32].value = name_mother_entry.get().strip()
+                row[33].value = address_mother_entry.get().strip()
+                row[34].value = occupation_mother_entry.get().strip()
+                row[35].value = phon_mother_entry.get().strip()
+
+                row[37].value = name_guardian_entry.get().strip()
+                row[38].value = rel_guardian_entry.get().strip()
+                row[39].value = address_guardian_entry.get().strip()
+                row[40].value = occupation_guardian_entry.get().strip()
+                row[41].value = phon_guardian_entry.get().strip()
+
+                row[43].value = schl_elem_entry.get().strip()
+                row[44].value = address_elem_entry.get().strip()
+                row[45].value = yr_elem_entry.get().strip()
+
+                row[47].value = schl_js_entry.get().strip()
+                row[48].value = address_js_entry.get().strip()
+                row[49].value = yr_js_entry.get().strip()
+
+                row[51].value = schl_shs_entry.get().strip()
+                row[52].value = address_shs_entry.get().strip()
+                row[53].value = strand_shs_entry.get().strip()
+                row[54].value = yr_shs_entry.get().strip()
+
+                row[56].value = schl_cg_entry.get().strip()
+                row[57].value = address_cg_entry.get().strip()
+                row[58].value = yr_cg_entry.get().strip()
+
+                row[59].value = student_status.get()
+
+                wb.save(file_path_to_excel)
+                
+                messagebox.showinfo(title="Success", message="Score Updated Successfully.")
+                return
+            
+            messagebox.showerror(title="Error", message="User not found.") 
+    
+    except Exception as e:
+        messagebox.showerror(title="Error", message=str(e))
 
 # Format Fixer Function
 def format_excel():
@@ -828,7 +922,7 @@ load_btn.pack(side="left", padx=5, pady=5)
 edit_btn = CTkButton(sub_frame, text="Edit User Data", font=("Arial", 15, "bold"), command=edit_user_data)
 edit_btn.pack(side="left", padx=5, pady=5)
 
-update_btn = CTkButton(sub_frame, text="Update User Data", font=("Arial", 15, "bold"))
+update_btn = CTkButton(sub_frame, text="Update User Data", font=("Arial", 15, "bold"), command=update_user_data)
 update_btn.pack(side="left", padx=5, pady=5)
 
 # ==================== PERSONAL DETAILS PAGE ====================
