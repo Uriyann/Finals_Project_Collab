@@ -20,6 +20,8 @@ window.resizable(False, False)
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+mode = "dark"
+
 def LOG_IN():
     # ==================== Functions ====================
     # Login Checker Function
