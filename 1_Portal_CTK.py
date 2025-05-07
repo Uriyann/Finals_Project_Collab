@@ -158,7 +158,7 @@ def LOG_IN():
 
     def GO_TO_LANDING_PAGE():
         window.destroy()
-        subprocess.call(["python", "0_Home_Page_CTK.py"])
+        subprocess.call(["python", "0_Landing_Page_TK.py"])
 
     # Signup Window Switch Function
     def SIGN_UP():

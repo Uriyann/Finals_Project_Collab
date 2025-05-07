@@ -31,7 +31,7 @@ def user_account_show_data():
 
     try:
         df = pd.read_excel(opening_file)
-        print(df)
+
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open file: {e}")
         return
@@ -62,7 +62,6 @@ def personal_details_show_data():
         rset = ws.iter_rows(min_row=2, max_row=ws.max_row, max_col=26, values_only=True)
         rset = [r for r in rset]
         wb.close()
-        print(rset)
 
         personal_student_table.delete(*personal_student_table.get_children())
         for row in rset:
@@ -93,7 +92,6 @@ def family_details_show_data():
         rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=28,max_col=42, values_only=True)
         rset = [r for r in rset]
         wb.close()
-        print(rset)
 
         family_student_table.delete(*family_student_table.get_children())
         for row in rset:
@@ -124,7 +122,6 @@ def educational_details_show_data():
         rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=44, max_col=60, values_only=True)
         rset = [r for r in rset]
         wb.close()
-        print(rset)
 
         educ_student_table.delete(*educ_student_table.get_children())
         for row in rset:
