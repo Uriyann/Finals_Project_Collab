@@ -53,11 +53,19 @@ def LOG_IN():
             messagebox.showerror(title= "Error", message= "User data file not found.")
 
     def show_forg_pass():
-        terms_window = CTkToplevel(window)
-        terms_window.title("Forgot Password")
-        terms_window.geometry("400x300")
-        terms_label = CTkLabel(terms_window, text="Forgot Password go here.")
+        forg_pass_window = CTkToplevel(window)
+        forg_pass_window.title("Forgot Password")
+        height = 300
+        width = 400
+        x = (forg_pass_window.winfo_screenwidth()//2)-(width//2) 
+        y = (forg_pass_window.winfo_screenheight()//2)-(height//2) 
+        forg_pass_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+        forg_pass_window.grab_set()
+        
+        terms_label = CTkLabel(forg_pass_window, text="Forgot Password go here.")
         terms_label.pack(pady=20, padx=20)
+
+        forg_pass_window.wait_window()
 
     # ==================== Debuggers ====================
     # Input Validation & Debugger Function
@@ -219,7 +227,13 @@ def LOG_IN():
             terms_window = CTkToplevel(window)
             terms_window.title("Terms and Conditions")
             terms_window.geometry("450x320")
+            height = 320
+            width = 450
+            x = (terms_window.winfo_screenwidth()//2)-(width//2) 
+            y = (terms_window.winfo_screenheight()//2)-(height//2) 
+            terms_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
             terms_window.resizable(False, False)
+            terms_window.grab_set()
 
             terms_main_frame = CTkFrame(terms_window)
             terms_main_frame.pack(pady=10, padx=10)
@@ -241,6 +255,43 @@ def LOG_IN():
 
             terms_accept_button = CTkButton(terms_main_frame, text="Accept", command=terms_window.destroy)
             terms_accept_button.pack(pady=5)
+
+            terms_window.wait_window()
+
+        def show_privacy_policy():
+            priv_window = CTkToplevel(window)
+            priv_window.title("Terms and Conditions")
+            priv_window.geometry("450x320")
+            height = 320
+            width = 450
+            x = (priv_window.winfo_screenwidth()//2)-(width//2) 
+            y = (priv_window.winfo_screenheight()//2)-(height//2) 
+            priv_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+            priv_window.resizable(False, False)
+            priv_window.grab_set()
+
+            terms_main_frame = CTkFrame(priv_window)
+            terms_main_frame.pack(pady=10, padx=10)
+
+            terms_text = """
+                SYSTEM PRIVACY POLICY
+
+                1. Your personal data will be collected and processed in accordance with data protection laws.
+                2. Information will not be shared with third parties without your consent.
+                3. Data is stored securely and only authorized personnel can access it.
+                4. You have the right to request access, correction, or deletion of your data.
+                5. Continued use of the system indicates your agreement with our privacy practices.
+
+                Please review carefully before proceeding.
+                """
+            
+            terms_label = CTkLabel(terms_main_frame, text=terms_text, justify="left", wraplength=380, anchor="w", font=("Arial", 13))
+            terms_label.pack(pady=3, padx=10)
+
+            terms_accept_button = CTkButton(terms_main_frame, text="Accept", command=priv_window.destroy)
+            terms_accept_button.pack(pady=5)
+
+            priv_window.wait_window()
 
         # Format Fixer Function
         def format_excel():
@@ -465,14 +516,20 @@ def LOG_IN():
         terms_button = CTkButton(sign_up_frame, text="terms & condition.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= show_terms_and_conditions, width=50, bg_color= "transparent")
         terms_button.grid(row=7, column=0, padx=119, sticky= "w")
 
+        and_label = CTkLabel(sign_up_frame, text="and", font=("Arial", 12), bg_color="transparent")
+        and_label.grid(row=8, column=0, padx=47, sticky= "w")
+
+        priv_button = CTkButton(sign_up_frame, text="privacy policy.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= show_privacy_policy, width=50, bg_color= "transparent")
+        priv_button.grid(row=8, column=0, padx=69, sticky= "w")
+
         # Button Login
         sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
-        sign_up_button.grid(row=8, column=0, pady=8, padx= 15)
+        sign_up_button.grid(row=9, column=0, pady=8, padx= 15)
         sign_up_button.configure(command=messagebox_confirmation)
 
         # Signup Text + Button
         log_frame = CTkFrame(sign_up_frame, fg_color= "transparent", bg_color= "transparent")
-        log_frame.grid(row=9, column=0, pady=20)
+        log_frame.grid(row=10, column=0, pady=20)
 
         need_account_label = CTkLabel(log_frame, text="Already a User?", font=("Arial", 12))
         need_account_label.grid(row=0, column=0, padx=10)
