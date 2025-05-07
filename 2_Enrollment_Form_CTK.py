@@ -513,7 +513,7 @@ def GO_TO_PORTAL_WINDOW():
 
 # Attendance Top Level Window Switch Function
 def GO_TO_ATTENDANCE_WINDOW():
-    subprocess.call(["python", "3_Attendance_Sheet_Test_CTK.py"])
+    subprocess.call(["python", "3_Attendance_Sheet_CTK.py"])
 
 # //////////////////////////////////////////////////////////
 
