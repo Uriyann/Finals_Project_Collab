@@ -208,7 +208,11 @@ def ask_password():
 
     ask_password_window = CTkToplevel(window)
     ask_password_window.title("Password Required")
-    ask_password_window.geometry("300x160")
+    height = 160
+    width = 300
+    x = (ask_password_window.winfo_screenwidth()//2)-(width//2) 
+    y = (ask_password_window.winfo_screenheight()//2)-(height//2) 
+    ask_password_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
     ask_password_window.resizable(False, False)
     ask_password_window.grab_set()
 
@@ -416,7 +420,6 @@ def edit_user_data():
         return
         
     fields_to_enable = [
-    surname_entry, firstname_entry, middle_entry,
     male_checkbox, female_checkbox, none_binary_checkbox, age_box, month_box, day_box, year_box,
     birthplace_entry, nationality_entry, religion_box, marital_status_box, language_entry, 
     street_entry, brgy_entry, city_entry, zip_code_entry, province_entry, country_entry, 
@@ -437,11 +440,6 @@ def edit_user_data():
         all_buttons.configure(state="normal")
 
 def update_user_data():
-
-
-
-
-
     try:
         student_sections = Course_Section_entry.get().strip()
         if student_sections not in ["1A", "1B", "1C"]:
