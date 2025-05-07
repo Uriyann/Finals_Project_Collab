@@ -171,7 +171,10 @@ def SWITCH_WINDOW():
     subprocess.Popen(["python", "1_Portal_CTK.py"])
 
 # ==================== Footer ====================
-footer = CTkLabel(window, text="Admin Panel | Logged in as: Admin | © 2025", font=("Arial", 12))
+# ==================== Footer ====================
+present = datetime.now().strftime("%B %d, %Y - %I:%M %p")
+
+footer = CTkLabel(window, text=f"Admin Panel | Logged in as: Admin | © {present}", font=("Arial", 12))
 footer.pack(side="bottom", fill="x", pady=5)
 
 # ==================== Top Frame ====================
@@ -200,7 +203,6 @@ main_top_container.pack(side="top", fill="x", padx=20, pady=20)
 
 main_top_label = CTkLabel(main_top_container, text="Admin Panel", font=("Arial", 30, "bold"))
 main_top_label.pack(pady=10, side="top")
-
 
 # ==================== Main User Data Container ====================
 user_data_container = CTkFrame(main_container)

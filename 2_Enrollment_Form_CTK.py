@@ -809,8 +809,14 @@ education_frame = CTkFrame(container)
 for frame in (personal_frame, family_frame, education_frame):
     frame.place(x=0, y=0, relwidth=1, relheight=1)
 
+# ==================== Footer ====================
+present = datetime.now().strftime("%B %d, %Y - %I:%M %p")
+
+footer = CTkLabel(window, text=f"Enrollment Form | Logged in as: Student | © {present}", font=("Arial", 12))
+footer.pack(side="bottom", fill="x", pady=5)
+
 # ==================== Buttons ====================
-sub_frame = CTkFrame(window, fg_color="transparent")
+sub_frame = CTkFrame(window, border_width=2)
 sub_frame.pack(side="bottom", fill="x")
 
 submit_btn = CTkButton(sub_frame, text="Submit", font=("Arial", 15, "bold"), command=create_new_sheet)

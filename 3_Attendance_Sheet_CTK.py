@@ -42,6 +42,12 @@ main_top_container.pack(side="top", fill="x", padx=20, pady=20)
 main_top_label = CTkLabel(main_top_container, text="Student Attendance Sheet", font=("Arial", 30, "bold"))
 main_top_label.pack(pady=10, side="top")
 
+# ==================== Footer ====================
+present = datetime.now().strftime("%B %d, %Y - %I:%M %p")
+
+footer = CTkLabel(window, text=f"Enrollment Form | Logged in as: Student | © {present}", font=("Arial", 12))
+footer.pack(side="bottom", fill="x", pady=5)
+
 # ==================== Main User Data Container ====================
 user_data_container = CTkFrame(main_container)
 user_data_container.pack(fill="both", expand=True)

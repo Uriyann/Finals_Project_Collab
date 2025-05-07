@@ -1,43 +1,24 @@
-import customtkinter as ctk
-from tkinter import messagebox
+import datetime
 
-# Set up theme
-ctk.set_appearance_mode("System")
-ctk.set_default_color_theme("blue")
+# Current date and time
+now = datetime.datetime.now()
+print("Now:", now)
 
-# Create main root (can be hidden if only top-level is needed)
-root = ctk.CTk()
-root.withdraw()  # Hide the main window
+# Just the current date
+today = datetime.date.today()
+print("Today:", today)
 
-# Correct password (you can change this or fetch from file/db)
-CORRECT_PASSWORD = "admin123"
+# Create a specific date
+my_birthday = datetime.date(2005, 8, 7)
+print("My Birthday:", my_birthday)
 
-def check_password():
-    entered_password = password_entry.get()
-    if entered_password == CORRECT_PASSWORD:
-        messagebox.showinfo("Access Granted", "Welcome!")
-        password_window.destroy()
-    else:
-        messagebox.showerror("Access Denied", "Incorrect Password.")
+# Format date
+formatted = now.strftime("%B %d, %Y - %I:%M %p")
+print("Formatted:", formatted)
 
-# Create top-level password window
-password_window = ctk.CTkToplevel()
-password_window.title("Password Required")
-password_window.geometry("300x160")
-password_window.resizable(False, False)
+# Difference between dates
+future_date = datetime.date(2025, 12, 25)
+days_left = (future_date - today).days
+print("Days until Christmas 2025:", days_left)
 
-# Label
-label = ctk.CTkLabel(password_window, text="Enter Password:", font=("Arial", 16))
-label.pack(pady=10)
-
-# Password entry field
-password_entry = ctk.CTkEntry(password_window, show="*", width=200)
-password_entry.pack(pady=5)
-password_entry.focus()
-
-# Submit button
-submit_btn = ctk.CTkButton(password_window, text="Submit", command=check_password)
-submit_btn.pack(pady=15)
-
-# Run
-root.mainloop()
+now
