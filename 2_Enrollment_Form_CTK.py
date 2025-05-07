@@ -134,8 +134,12 @@ def create_new_sheet():
             strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry
         ]
         for field in fields_to_clear:
-            field.delete(0, END)
+            try:
+                field.delete(0, END)
+            except AttributeError:
+                pass
 
+        Course_Section_entry.set("Select Section")
         gender_var.set(0)
         age_box.set("Select Age")
         month_box.set("MM")
