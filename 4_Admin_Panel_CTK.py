@@ -225,7 +225,7 @@ def family_details_search():
                 filtered_data.append(row)
 
     family_student_table.delete(*family_student_table.get_children())
-    
+
     for row in filtered_data:
         family_student_table.insert("", "end", values=row)
 
@@ -379,7 +379,7 @@ show_frame(user_account)
 
 btn_frame = ctk.CTkFrame(left_frame, fg_color="transparent")
 btn_frame.pack(pady=10, side="bottom")
-buttons = ["Add", "Delete", "Update", "Clear"]
+buttons = ["Delete", "Clear"]
 for index, btn in enumerate(buttons):
     row = index // 2
     column = index % 2
