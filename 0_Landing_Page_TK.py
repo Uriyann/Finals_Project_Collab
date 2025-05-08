@@ -5,7 +5,7 @@ from PIL import Image, ImageTk
 from itertools import count, cycle
 import customtkinter as ctk
 import pywinstyles as pyw
-import pygame
+from pygame import mixer
 import os 
 import subprocess
 
@@ -170,7 +170,7 @@ class ImageLabel(tk.Label):
         self.totalframes = i
 
         try:
-            self.delay = im.info['duration']
+            self.delay = 30
             
         except:
             self.delay = 100
@@ -224,10 +224,19 @@ navpanel1=slidepanel(navpanel, 1.0, 0.6)
 #gif
 lbl = ImageLabel(animpanel, width=900, height=600)
 lbl.pack()
-lbl.load(r'Finals_Project_Collab\assets\landpg.gif')
+lbl.load(r".\assets\landpg.gif")
+mixer.init()
+# Load the music file
+mixer.music.load(r"./assets/sound/noise.MP3")
+
+# Set the volume (optional)
+mixer.music.set_volume(0.7)
+
+# Start playing the music
+mixer.music.play()
 navimg.pack()
 #img
-background_image = Image.open(r"Finals_Project_Collab\assets\cuh.png")
+background_image = Image.open(r".\assets\cuh.png")
 bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(80, 80))
 navicon=CTkLabel(master=navpanel1, image = bg_img, text="")
 #labels
@@ -239,7 +248,7 @@ class buttongroup:
     def __init__(self):
             
         self.b=CTkButton(master=animpanel, width=25, height=15, corner_radius=999, text='Next -->', bg_color="#000001", fg_color="black", 
-                    command=lambda: [animpanel.animate(), navimg.load(r'Finals_Project_Collab\assets\log.gif'), navpanel1.animate(), showb(bgroup.loginb),showb(bgroup.b1)])
+                    command=lambda: [animpanel.animate(), navimg.load(r'.\assets\log.gif'), navpanel1.animate(), showb(bgroup.loginb),showb(bgroup.b1)])
 
         self.b1=CTkButton(master=navpanel1, width=10, height=10, corner_radius=999, text='learn more about us!',hover_color="gray18", text_color="white",font=("Inter", 14), bg_color="#000001", fg_color="gray18", 
                     command=lambda: [bgroup.disb(),hideb(bgroup.b1),navpanel.animate(), navpanel1.animate(), hideb(bgroup.loginb)])
