@@ -24,24 +24,24 @@ ctk.set_default_color_theme("blue")
 style = ttk.Style()
 style.theme_use('clam')
 
+df_rows = []
+
 # ==================== Functions ====================
 # User Account Show Data Table
 def user_account_show_data():
     global df_rows
+
     opening_file = filedialog.askopenfilename(title="Select File", filetypes=[("Excel Files", "*.xlsx")])
+    if not opening_file:
+        return
 
     try:
         df = pd.read_excel(opening_file)
-
+        df_rows = df.to_numpy().tolist()
+        show_all_user_account_data()
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open file: {e}")
         return
-    
-    user_account_student_table.delete(*user_account_student_table.get_children())
-
-    df_rows = df.to_numpy().tolist()
-    for row in df_rows:
-        user_account_student_table.insert("", "end", values=row)
 
 # Personal Details Show Data Table
 def personal_details_show_data():
@@ -160,6 +160,21 @@ def user_account_search():
 
     for row in filtered_data:
         user_account_student_table.insert("", "end", values=row)
+
+def show_all_user_account_data():
+    global df_rows
+
+    if not df_rows:
+        messagebox.showwarning("Warning", "No data found. Please upload a file first.")
+        return
+
+    try:
+        user_account_student_table.delete(*user_account_student_table.get_children())
+        for row in df_rows:
+            user_account_student_table.insert("", "end", values=row)
+    except Exception as e:
+        messagebox.showerror("Error", f"Unexpected error: {e}")
+
 
 #Search For Student
 def personal_details_search():
@@ -381,7 +396,7 @@ user_account_search_entry.grid(row=0, column=1, padx=5, pady=5)
 user_account_search_btn = CTkButton(user_account_right_top_frame, text="Search", width=100, height=30, command=user_account_search)
 user_account_search_btn.grid(row=0, column=2, padx=5, pady=5)
 
-user_account_show_all_btn = CTkButton(user_account_right_top_frame, text="Show All", width=100, height=30)
+user_account_show_all_btn = CTkButton(user_account_right_top_frame, text="Show All", width=100, height=30, command=show_all_user_account_data)
 user_account_show_all_btn.grid(row=0, column=3, padx=5, pady=5)
 
 # User Account Table
