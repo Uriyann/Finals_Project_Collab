@@ -27,11 +27,12 @@ style.theme_use('clam')
 # ==================== Functions ====================
 # User Account Show Data Table
 def user_account_show_data():
+    global df_rows
     opening_file = filedialog.askopenfilename(title="Select File", filetypes=[("Excel Files", "*.xlsx")])
 
     try:
         df = pd.read_excel(opening_file)
-        print(df)
+
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open file: {e}")
         return
@@ -44,6 +45,7 @@ def user_account_show_data():
 
 # Personal Details Show Data Table
 def personal_details_show_data():
+    global rset
     try:
         sections = personal_section_option.get().strip()
         if sections not in ["1A", "1B", "1C"]:
@@ -62,7 +64,6 @@ def personal_details_show_data():
         rset = ws.iter_rows(min_row=2, max_row=ws.max_row, max_col=26, values_only=True)
         rset = [r for r in rset]
         wb.close()
-        print(rset)
 
         personal_student_table.delete(*personal_student_table.get_children())
         for row in rset:
@@ -75,6 +76,7 @@ def personal_details_show_data():
 
 # Family Details Show Data Table
 def family_details_show_data():
+    global rset
     try:
         sections = family_section_option.get().strip()
         if sections not in ["1A", "1B", "1C"]:
@@ -93,7 +95,6 @@ def family_details_show_data():
         rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=28,max_col=42, values_only=True)
         rset = [r for r in rset]
         wb.close()
-        print(rset)
 
         family_student_table.delete(*family_student_table.get_children())
         for row in rset:
@@ -106,6 +107,7 @@ def family_details_show_data():
 
 # Educational Details Show Data Table
 def educational_details_show_data():
+    global rset
     try:
         sections = educ_section_option.get().strip()
         if sections not in ["1A", "1B", "1C"]:
@@ -121,10 +123,9 @@ def educational_details_show_data():
             return
         
         ws = wb[new_sheet_name]
-        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=44, max_col=60, values_only=True)
+        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=44, max_col=59, values_only=True)
         rset = [r for r in rset]
         wb.close()
-        print(rset)
 
         educ_student_table.delete(*educ_student_table.get_children())
         for row in rset:
@@ -134,6 +135,102 @@ def educational_details_show_data():
         messagebox.showerror("Error", "File not found.")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open file: {e}")
+
+# Search For User
+def user_account_search():
+    search_option = user_account_search_option.get()
+    search_query = user_account_search_entry.get().lower()
+
+    if not search_query:
+        messagebox.showwarning("Input Error", "Please enter a search query.")
+        return
+    
+    filtered_data = []
+    for row in df_rows:
+        if search_option == "Username" and search_query in row[3].lower():
+            filtered_data.append(row)
+        elif search_option == "Email" and search_query in row[2].lower():
+            filtered_data.append(row)
+        elif search_option == "First Name" and search_query in row[0].lower():
+            filtered_data.append(row)
+        elif search_option == "Last Name" and search_query in row[1].lower():
+            filtered_data.append(row)
+
+    user_account_student_table.delete(*user_account_student_table.get_children())
+
+    for row in filtered_data:
+        user_account_student_table.insert("", "end", values=row)
+
+#Search For Student
+def personal_details_search():
+    search_option = personal_search_option.get()
+    search_query = personal_search_entry.get().lower()
+
+    if not search_query:
+        messagebox.showwarning("Input Error", "Please enter a search query.")
+        return
+    
+    filtered_data = []
+    for row in rset:
+        if search_option == "Student ID" and search_query in str(row[0]).lower():  # Column 0 is "Student ID"
+            filtered_data.append(row)
+        elif search_option == "Surname" and search_query in str(row[4]).lower():  # Column 4 is "Surname"
+            filtered_data.append(row)
+
+    personal_student_table.delete(*personal_student_table.get_children())
+    for row in filtered_data:
+        personal_student_table.insert("", "end", values=row)
+
+# Search For Family ================= NOT FUNCTIONING PROPERLY =================
+def family_details_search():
+    search_option = family_search_option.get()
+    search_query = family_search_entry.get().strip().lower()
+
+    if not search_query:
+        messagebox.showwarning("Input Error", "Please enter a search query.")
+        return
+
+    filtered_data = []
+    for row in rset:
+        if len(row) > 37:
+            print(f"Row data: {row}")
+            
+            if search_option == "Father's Name" and row[0] and search_query in str(row[0]).lower():
+                filtered_data.append(row)
+            elif search_option == "Mother's Name" and row[4] and search_query in str(row[4]).lower():
+                filtered_data.append(row)
+            elif search_option == "Guardian's Name" and row[8] and search_query in str(row[8]).lower():
+                filtered_data.append(row)
+
+    family_student_table.delete(*family_student_table.get_children())
+    for row in filtered_data:
+        family_student_table.insert("", "end", values=row)
+
+# Search For Education
+def educational_details_search():
+    search_option = educ_search_option.get()
+    search_query = educ_search_entry.get().lower()
+
+    if not search_query:
+        messagebox.showwarning("Input Error", "Please enter a search query.")
+        return
+    
+    filtered_data = []
+    for row in rset:
+        if search_option == "Elementary School" and search_query in str(row[0]).lower():
+            filtered_data.append(row)
+        elif search_option == "Junior High School" and search_query in str(row[4]).lower():
+            filtered_data.append(row)
+        elif search_option == "Senior High School" and search_query in str(row[8]).lower():
+            filtered_data.append(row)
+        elif search_option == "College" and search_query in str(row[12]).lower():
+            filtered_data.append(row)
+
+    educ_student_table.delete(*educ_student_table.get_children())
+
+    for row in filtered_data:
+        educ_student_table.insert("", "end", values=row)
+
 
 # Admin Logo
 def make_rounded_image(image_path, size, corner_radius):
@@ -171,7 +268,10 @@ def SWITCH_WINDOW():
     subprocess.Popen(["python", "1_Portal_CTK.py"])
 
 # ==================== Footer ====================
-footer = CTkLabel(window, text="Admin Panel | Logged in as: Admin | © 2025", font=("Arial", 12))
+# ==================== Footer ====================
+present = datetime.now().strftime("%B %d, %Y - %I:%M %p")
+
+footer = CTkLabel(window, text=f"Admin Panel | Logged in as: Admin | © {present}", font=("Arial", 12))
 footer.pack(side="bottom", fill="x", pady=5)
 
 # ==================== Top Frame ====================
@@ -200,7 +300,6 @@ main_top_container.pack(side="top", fill="x", padx=20, pady=20)
 
 main_top_label = CTkLabel(main_top_container, text="Admin Panel", font=("Arial", 30, "bold"))
 main_top_label.pack(pady=10, side="top")
-
 
 # ==================== Main User Data Container ====================
 user_data_container = CTkFrame(main_container)
@@ -279,7 +378,7 @@ user_account_search_option.grid(row=0, column=0, padx=5, pady=5)
 user_account_search_entry = CTkEntry(user_account_right_top_frame, width=400, height=30, placeholder_text="Search Here", font=("Arial", 14))
 user_account_search_entry.grid(row=0, column=1, padx=5, pady=5)
 
-user_account_search_btn = CTkButton(user_account_right_top_frame, text="Search", width=100, height=30)
+user_account_search_btn = CTkButton(user_account_right_top_frame, text="Search", width=100, height=30, command=user_account_search)
 user_account_search_btn.grid(row=0, column=2, padx=5, pady=5)
 
 user_account_show_all_btn = CTkButton(user_account_right_top_frame, text="Show All", width=100, height=30)
@@ -327,7 +426,7 @@ personal_search_option.grid(row=0, column=1, padx=5, pady=5)
 personal_search_entry = CTkEntry(personal_right_top_frame, width=340, height=30, placeholder_text="Search Here", font=("Arial", 14))
 personal_search_entry.grid(row=0, column=2, padx=5, pady=5)
 
-personal_search_btn = CTkButton(personal_right_top_frame, text="Search", width=100, height=30)
+personal_search_btn = CTkButton(personal_right_top_frame, text="Search", width=100, height=30,command=personal_details_search)
 personal_search_btn.grid(row=0, column=3, padx=5, pady=5)
 
 personal_show_all_btn = CTkButton(personal_right_top_frame, text="Show All", width=100, height=30)
@@ -384,7 +483,7 @@ family_search_option.grid(row=0, column=1, padx=5, pady=5)
 family_search_entry = CTkEntry(family_right_top_frame, width=340, height=30, placeholder_text="Search Here", font=("Arial", 14))
 family_search_entry.grid(row=0, column=2, padx=5, pady=5)
 
-family_search_btn = CTkButton(family_right_top_frame, text="Search", width=100, height=30)
+family_search_btn = CTkButton(family_right_top_frame, text="Search", width=100, height=30, command=family_details_search)   #NOT FUNCTIONING PROPERLY
 family_search_btn.grid(row=0, column=3, padx=5, pady=5)
 
 family_show_all_btn = CTkButton(family_right_top_frame, text="Show All", width=100, height=30)
@@ -437,7 +536,7 @@ educ_search_option.grid(row=0, column=1, padx=5, pady=5)
 educ_search_entry = CTkEntry(educ_right_top_frame, width=340, height=30, placeholder_text="Search Here", font=("Arial", 14))
 educ_search_entry.grid(row=0, column=2, padx=5, pady=5)
 
-educ_search_btn = CTkButton(educ_right_top_frame, text="Search", width=100, height=30)
+educ_search_btn = CTkButton(educ_right_top_frame, text="Search", width=100, height=30, command=educational_details_search)
 educ_search_btn.grid(row=0, column=3, padx=5, pady=5)
 
 educ_show_all_btn = CTkButton(educ_right_top_frame, text="Show All", width=100, height=30)
@@ -454,8 +553,7 @@ cols = (
         "",
         "Senior High School", "Senior High Address", "Senior High Strand", "Senior High Year Graduated",
         "",
-        "College", "College Address", "College Year Graduated",
-        "Student Status"
+        "College", "College Address", "College Year Graduated"
         )
 
 educ_student_table = ttk.Treeview(educ_table_frame, columns=cols, show="headings")
