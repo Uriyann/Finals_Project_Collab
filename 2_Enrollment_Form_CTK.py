@@ -72,8 +72,7 @@ def create_new_sheet():
                     "",
                     "Senior High School", "Senior High Address", "Senior High Strand", "Senior High Year Graduated",
                     "",
-                    "College", "College Address", "College Year Graduated",
-                    "Student Status"
+                    "College", "College Address", "College Year Graduated"
                         ]
             new_sheet.append(new_headers)
 
@@ -114,8 +113,7 @@ def create_new_sheet():
                 "",
                 schl_shs_entry.get().strip(), address_shs_entry.get().strip(), strand_shs_entry.get().strip(), yr_shs_entry.get().strip(),
                 "",
-                schl_cg_entry.get().strip(), address_cg_entry.get().strip(), yr_cg_entry.get().strip(),
-                student_status.get()
+                schl_cg_entry.get().strip(), address_cg_entry.get().strip(), yr_cg_entry.get().strip()
                 ]
         
         new_sheet.append(student_info_data + student_name_data + student_personal_detail_data + student_family_detail_data + student_educational_detail_data)
@@ -149,7 +147,6 @@ def create_new_sheet():
         year_box.set("YYYY")
         religion_box.set("Select Religion")
         marital_status_box.set("Select Marital Status")
-        student_status.set("")
 
     except Exception as e:
         messagebox.showerror(title= "Error", message= f"An error occurred: {e}")
@@ -194,7 +191,6 @@ def ask_password():
 
             for row in account_ask_password.iter_rows(min_row=2, values_only=True):
                 if row[4] == password_entry.get().strip():
-                    messagebox.showinfo(title= "Access Granted", message= "Welcome!")
                     result["success"] = True
                     ask_password_window.destroy()
                     return
@@ -328,7 +324,12 @@ def load_user_data():
                 name_father_entry.delete(0, END)
                 name_father_entry.insert(0, row[27])
                 address_father_entry.delete(0, END)
-                address_father_entry.insert(0, row[28])
+                if row[28] is not None and isinstance(row[28], str):
+                    address_father_entry.insert(0, row[28])
+                elif row[28] is not None:
+                    address_father_entry.insert(0, str(row[28]))
+                else:
+                    address_father_entry.insert(0, "")
                 occupation_father_entry.delete(0, END)
                 occupation_father_entry.insert(0, row[29])                
                 phon_father_entry.delete(0, END)
@@ -344,15 +345,40 @@ def load_user_data():
                 phon_mother_entry.insert(0, row[35])
 
                 name_guardian_entry.delete(0, END)
-                name_guardian_entry.insert(0, row[37])
+                if row[37] is not None and isinstance(row[37], str):
+                    name_guardian_entry.insert(0, row[37])
+                elif row[37] is not None:
+                    name_guardian_entry.insert(0, str(row[37]))
+                else:
+                    name_guardian_entry.insert(0, "")
                 rel_guardian_entry.delete(0, END)
-                rel_guardian_entry.insert(0, row[38])
+                if row[38] is not None and isinstance(row[38], str):
+                    rel_guardian_entry.insert(0, row[38])
+                elif row[38] is not None:
+                    rel_guardian_entry.insert(0, str(row[38]))
+                else:
+                    rel_guardian_entry.insert(0, "")
                 address_guardian_entry.delete(0, END)
-                address_guardian_entry.insert(0, row[39]) 
+                if row[39] is not None and isinstance(row[39], str):
+                    address_guardian_entry.insert(0, row[39])
+                elif row[39] is not None:
+                    address_guardian_entry.insert(0, str(row[39]))
+                else:
+                    address_guardian_entry.insert(0, "")
                 occupation_guardian_entry.delete(0, END)
-                occupation_guardian_entry.insert(0, row[40])                                               
+                if row[40] is not None and isinstance(row[40], str):
+                    occupation_guardian_entry.insert(0, row[40])
+                elif row[40] is not None:
+                    occupation_guardian_entry.insert(0, str(row[40]))
+                else:
+                    occupation_guardian_entry.insert(0, "")                                           
                 phon_guardian_entry.delete(0, END)
-                phon_guardian_entry.insert(0, row[41])
+                if row[41] is not None and isinstance(row[41], str):
+                    phon_guardian_entry.insert(0, row[41])
+                elif row[41] is not None:
+                    phon_guardian_entry.insert(0, str(row[41]))
+                else:
+                    phon_guardian_entry.insert(0, "")
 
                 schl_elem_entry.delete(0, END)
                 schl_elem_entry.insert(0, row[43])
@@ -378,14 +404,26 @@ def load_user_data():
                 yr_shs_entry.insert(0, row[54])
 
                 schl_cg_entry.delete(0, END)
-                schl_cg_entry.insert(0, row[56])
+                if row[56] is not None and isinstance(row[56], str):
+                    schl_cg_entry.insert(0, row[56])
+                elif row[56] is not None:
+                    schl_cg_entry.insert(0, str(row[56]))
+                else:
+                    schl_cg_entry.insert(0, "")
                 address_cg_entry.delete(0, END)
-                address_cg_entry.insert(0, row[57])
+                if row[57] is not None and isinstance(row[57], str):
+                    address_cg_entry.insert(0, row[57])
+                elif row[57] is not None:
+                    address_cg_entry.insert(0, str(row[57]))
+                else:
+                    address_cg_entry.insert(0, "")
                 yr_cg_entry.delete(0, END)
-                yr_cg_entry.insert(0, row[58])
-
-                student_status.set(row[59])
-
+                if row[58] is not None and isinstance(row[58], str):
+                    yr_cg_entry.insert(0, row[58])
+                elif row[58] is not None:
+                    yr_cg_entry.insert(0, str(row[58]))
+                else:
+                    yr_cg_entry.insert(0, "")
 
                 fields_to_disable = [
                     Student_entry, Course_Section_entry, lrn_entry, surname_entry, firstname_entry, middle_entry,
@@ -404,9 +442,6 @@ def load_user_data():
                         field.configure(state="disabled")
                     except AttributeError:
                         pass
-
-                for all_buttons in student_stat_rad_button:
-                    all_buttons.configure(state="disabled")
 
                 return
 
@@ -436,14 +471,22 @@ def edit_user_data():
         except AttributeError:
             pass
 
-    for all_buttons in student_stat_rad_button:
-        all_buttons.configure(state="normal")
-
 def update_user_data():
     try:
+        student_user_account = Student_entry.get().strip()
         student_sections = Course_Section_entry.get().strip()
+        student_lrn = lrn_entry.get().strip()
+
+        if not student_user_account:
+            messagebox.showerror(title="Error", message="Please enter your Student ID.")
+            return
+        
         if student_sections not in ["1A", "1B", "1C"]:
-            messagebox.showerror(title="Error", message="Invalid section selected.")
+            messagebox.showerror(title="Error", message="Please select a valid section.")
+            return
+        
+        if not student_lrn:
+            messagebox.showerror(title="Error", message="Please enter your LRN.")
             return
 
         new_sheet_name = f"{student_sections} Enrollment Information "
@@ -457,7 +500,11 @@ def update_user_data():
         ws = wb[new_sheet_name]
 
         for row in ws.iter_rows(min_row=2):
-            if row[0].value == Student_entry.get().strip():
+            if row[0].value == Student_entry.get().strip() and row[1].value == Course_Section_entry.get().strip() and row[2].value == lrn_entry.get().strip():
+
+                if not ask_password():
+                    return
+
                 row[4].value = surname_entry.get().strip()
                 row[5].value = firstname_entry.get().strip()
                 row[6].value = middle_entry.get().strip()
@@ -514,11 +561,9 @@ def update_user_data():
                 row[57].value = address_cg_entry.get().strip()
                 row[58].value = yr_cg_entry.get().strip()
 
-                row[59].value = student_status.get()
-
                 wb.save(file_path_to_excel)
                 
-                messagebox.showinfo(title="Success", message="Score Updated Successfully.")
+                messagebox.showinfo(title="Success", message="User Data Updated Successfully.")
                 return
             
             messagebox.showerror(title="Error", message="User not found.") 
@@ -617,6 +662,11 @@ def FinalCheck():
             messagebox.showerror(title="Invalid Input", message=f"Error: {Fieldnames} should contain only letters.")
             return False
 
+    # Check Gender Section
+    if gender_var.get() == 0:
+        messagebox.showerror(title="Missing Requirement", message="Error: Please select a gender.")
+        return False
+
     # Validate Age field
     if age_box.get() == "Select Age":
         messagebox.showerror(title="Missing Requirement", message="Error: Please select your age.")
@@ -670,18 +720,13 @@ def FinalCheck():
         messagebox.showerror(title="Invalid Input", message="Error: Language Spoken should contain only letters.")
         return False
 
-    # Check Gender Section
-    if gender_var.get() == 0:
-        messagebox.showerror(title="Missing Requirement", message="Error: Please select a gender.")
-        return False
-
     # Validate Address Section (Street, Barangay, City/Municipality, Province, Zip Code, Country)
     Address = [
         ("Street", street_entry),
         ("Barangay", brgy_entry),
         ("City/Municipality", city_entry),
-        ("Province", province_entry),
         ("Zip Code", zip_code_entry),
+        ("Province", province_entry),
         ("Country", country_entry),
     ]
     for Fieldnames, entry in Address:
@@ -817,14 +862,56 @@ def FinalCheck():
         messagebox.showerror("Invalid Input", "Error: College Year Graduated must be an integer or 'N/A'.")
         return False
     
-    if not student_status.get():
-        messagebox.showerror("Missing Requirement", "Error: Please select a student status.")
-        return False
-
-    
     return True
 
 # Guardian Checkbox Toggler
+def toggle_guardian_fields():
+    state = "disabled" if same_chk_var.get() == 1 else "normal"
+    if same_chk_var.get() == 1:
+        name_guardian_entry.delete(0, END)
+        address_guardian_entry.delete(0, END)
+        phon_guardian_entry.delete(0, END)
+        occupation_guardian_entry.delete(0, END)
+        rel_guardian_entry.delete(0, END)
+
+    else:
+        name_guardian_entry.configure(state="normal")
+        address_guardian_entry.configure(state="normal")
+        phon_guardian_entry.configure(state="normal")
+        occupation_guardian_entry.configure(state="normal")
+        rel_guardian_entry.configure(state="normal")
+
+        name_guardian_entry.insert(0, "Enter Name")
+        address_guardian_entry.insert(0, "Enter Address")
+        phon_guardian_entry.insert(0, "Enter Contact Number")
+        occupation_guardian_entry.insert(0, "Enter Occupation")
+        rel_guardian_entry.insert(0, "Relationship")
+
+    name_guardian_entry.configure(state=state)
+    address_guardian_entry.configure(state=state)
+    phon_guardian_entry.configure(state=state)
+    occupation_guardian_entry.configure(state=state)
+    rel_guardian_entry.configure(state=state)
+
+# Guardian Checkbox Toggler
+def toggle_transferee_fields():
+    state = "disabled" if if_transferee_var.get() == 1 else "normal"
+    if if_transferee_var.get() == 1:
+        schl_cg_entry.delete(0, END)
+        address_cg_entry.delete(0, END)
+        yr_cg_entry.delete(0, END)
+
+    else:
+
+        schl_cg_entry.configure(state="normal")
+        address_cg_entry.configure(state="normal")
+        yr_cg_entry.configure(state="normal")
+
+    schl_cg_entry.configure(state=state)
+    address_cg_entry.configure(state=state)
+    yr_cg_entry.configure(state=state)
+
+# Transferee Checkbox Toggler
 def toggle_guardian_fields():
     state = "disabled" if same_chk_var.get() == 1 else "normal"
     if same_chk_var.get() == 1:
@@ -1389,7 +1476,12 @@ empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial",
 empty_label.grid(row=4, column=2)
 
 cg_label = CTkLabel(row_column_parents_details_frame, text="COLLEGE", font=("Arial", 14, "bold"), bg_color="transparent")
-cg_label.grid(row=4, column=3, padx=10, pady=7)
+cg_label.grid(row=4, column=3, padx=10, pady=7, sticky="w")
+
+if_transferee_var = IntVar(value=0)
+if_transferee_chk_box = CTkCheckBox(educ_details, text="Check if you are not a transferee", variable=if_transferee_var)
+if_transferee_chk_box.place(x=834, y=230)
+if_transferee_chk_box.configure(command=toggle_transferee_fields)
 
 schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
 schl_label.grid(row=5, column=2, padx=10, pady=7, sticky="w")
@@ -1405,30 +1497,6 @@ yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", fo
 yr_label.grid(row=7, column=2, padx=10, pady=7, sticky="w")
 yr_cg_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
 yr_cg_entry.grid(row=7, column=3, padx=10, pady=7)
-
-student_status = StringVar(value="")
-
-checkbox_frame = CTkFrame(row_column_parents_details_frame, bg_color="transparent", fg_color="transparent")
-checkbox_frame.grid(row=8, column=3, columnspan=2, padx=10, pady=10, sticky="w")
-
-Checkbuttons_Info = [
-    ("Transferee", "Transferee"),
-    ("New Student", "New Student"),
-    ("Old Student", "Old Student"),
-    ("Cross Enrollee", "Cross Enrollee"),
-    ("Returnee", "Returnee")
-]
-
-student_stat_rad_button = []
-
-for index, (text, var) in enumerate(Checkbuttons_Info):
-    row = index // 2  
-    column = index % 2
-    student_stat = CTkRadioButton(checkbox_frame, text=text, variable=student_status, value=var, font=("Arial", 14), bg_color="transparent")
-    student_stat.grid(row=row, column=column, sticky="w", padx=5, pady=3)
-    student_stat_rad_button.append(student_stat) 
-
-
 
 # ==================== Window Starter ====================
 window.mainloop()

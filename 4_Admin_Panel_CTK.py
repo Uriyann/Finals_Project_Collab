@@ -119,7 +119,7 @@ def educational_details_show_data():
             return
         
         ws = wb[new_sheet_name]
-        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=44, max_col=60, values_only=True)
+        rset = ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=44, max_col=59, values_only=True)
         rset = [r for r in rset]
         wb.close()
 
@@ -178,7 +178,7 @@ footer.pack(side="bottom", fill="x", pady=5)
 nav_top_frame = CTkFrame(window, fg_color="transparent")
 nav_top_frame.pack(side="top", fill="x")
 
-image_path = r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\UniPass Admin.png"
+image_path = r"C:\Users\Mark Vincent\desktop\Finals_Project_Collab\assets\UniPass Admin.png"
 rounded_img = make_rounded_image(image_path, size=(30, 30), corner_radius=30)
 ctk_image = CTkImage(light_image=rounded_img, dark_image=rounded_img, size=(30, 30))
 label = CTkLabel(nav_top_frame, image=ctk_image, text="")
@@ -453,8 +453,7 @@ cols = (
         "",
         "Senior High School", "Senior High Address", "Senior High Strand", "Senior High Year Graduated",
         "",
-        "College", "College Address", "College Year Graduated",
-        "Student Status"
+        "College", "College Address", "College Year Graduated"
         )
 
 educ_student_table = ttk.Treeview(educ_table_frame, columns=cols, show="headings")
