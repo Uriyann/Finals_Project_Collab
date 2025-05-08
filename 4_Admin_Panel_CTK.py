@@ -199,6 +199,7 @@ def personal_details_search():
             filtered_data.append(row)
 
     personal_student_table.delete(*personal_student_table.get_children())
+
     for row in filtered_data:
         personal_student_table.insert("", "end", values=row)
 
@@ -224,6 +225,7 @@ def family_details_search():
                 filtered_data.append(row)
 
     family_student_table.delete(*family_student_table.get_children())
+    
     for row in filtered_data:
         family_student_table.insert("", "end", values=row)
 
@@ -238,13 +240,13 @@ def educational_details_search():
     
     filtered_data = []
     for row in rset:
-        if search_option == "Elementary School" and search_query in str(row[0]).lower():
+        if search_option == "ELEM" and search_query in str(row[0]).lower():
             filtered_data.append(row)
-        elif search_option == "Junior High School" and search_query in str(row[4]).lower():
+        elif search_option == "JHS" and search_query in str(row[4]).lower():
             filtered_data.append(row)
-        elif search_option == "Senior High School" and search_query in str(row[8]).lower():
+        elif search_option == "SHS" and search_query in str(row[8]).lower():
             filtered_data.append(row)
-        elif search_option == "College" and search_query in str(row[12]).lower():
+        elif search_option == "COL" and search_query in str(row[12]).lower():
             filtered_data.append(row)
 
     educ_student_table.delete(*educ_student_table.get_children())
@@ -507,7 +509,7 @@ family_search_entry.grid(row=0, column=2, padx=5, pady=5)
 family_search_btn = CTkButton(family_right_top_frame, text="Search", width=100, height=30, command=family_details_search)   #NOT FUNCTIONING PROPERLY
 family_search_btn.grid(row=0, column=3, padx=5, pady=5)
 
-family_show_all_btn = CTkButton(family_right_top_frame, text="Show All", width=100, height=30)
+family_show_all_btn = CTkButton(family_right_top_frame, text="Show All", width=100, height=30, command=family_details_show_data)
 family_show_all_btn.grid(row=0, column=4, padx=5, pady=5)
 
 # User Account Table
@@ -550,7 +552,7 @@ educ_section_option = CTkOptionMenu(educ_right_top_frame, values=["1A", "1B", "1
 educ_section_option.set("1A")
 educ_section_option.grid(row=0, column=0, padx=5, pady=5)
 
-educ_search_option = CTkOptionMenu(educ_right_top_frame, values=["Elementary School", "Junior High School", "Senior High School", "College"], width=125, height=30)
+educ_search_option = CTkOptionMenu(educ_right_top_frame, values=["ELEM", "JHS", "SHS", "COL"], width=125, height=30)
 educ_search_option.set("Search By")
 educ_search_option.grid(row=0, column=1, padx=5, pady=5)
 
@@ -560,7 +562,7 @@ educ_search_entry.grid(row=0, column=2, padx=5, pady=5)
 educ_search_btn = CTkButton(educ_right_top_frame, text="Search", width=100, height=30, command=educational_details_search)
 educ_search_btn.grid(row=0, column=3, padx=5, pady=5)
 
-educ_show_all_btn = CTkButton(educ_right_top_frame, text="Show All", width=100, height=30)
+educ_show_all_btn = CTkButton(educ_right_top_frame, text="Show All", width=100, height=30, command=educational_details_show_data)
 educ_show_all_btn.grid(row=0, column=4, padx=5, pady=5)
 
 # User Account Table
