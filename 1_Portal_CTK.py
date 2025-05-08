@@ -296,16 +296,26 @@ def LOG_IN():
         # Format Fixer Function
         def format_excel():
             wb = load_workbook("user_account_data.xlsx")
+
+            if "Userdata" not in wb.sheetnames:
+                messagebox.showerror(title="Error", message=f"Sheet 'Userdata' does not exist.")
+                return
+        
             ws = wb["Userdata"]
 
-            # Bold Headers
             for cells in ws[1]:
-                cells.font = Font(bold=True)
+                if cells.value:
+                    cells.font = Font(bold=True)
 
-            # Auto Column Width
             for cols in ws.columns:
-                max_length = max(len(str(cells.value)) for cell in cols)
+                max_length = 0
                 col_letter = get_column_letter(cols[0].column)
+                for cell in cols:
+                    try:
+                        if cell.value:
+                            max_length = max(max_length, len(str(cell.value)))
+                    except Exception:
+                        pass
                 ws.column_dimensions[col_letter].width = max_length + 2
 
             wb.save("user_account_data.xlsx")
