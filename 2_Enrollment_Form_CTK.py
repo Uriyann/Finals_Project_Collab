@@ -208,6 +208,7 @@ def generate_user_id(yr: int = 2025, existing_ids=None):
     except Exception as e:
         messagebox.showerror(title="Error", message=f"An error occurred: {e}")
 
+# Generating a Formatted User LRN with Random Numbers
 def generate_user_lrn(special_num: int = 20011213, existing_lrns=None):
     try:
 
