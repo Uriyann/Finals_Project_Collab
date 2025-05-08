@@ -203,6 +203,7 @@ def generate_user_id(yr: int = 2025, existing_ids=None):
                 Student_entry.delete(0, END)
                 Student_entry.insert(0, user_id)
                 Student_entry.configure(state="readonly")
+                Course_Section_entry.configure(state="readonly")
                 return user_id
 
     except Exception as e:
