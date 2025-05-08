@@ -224,10 +224,10 @@ navpanel1=slidepanel(navpanel, 1.0, 0.6)
 #gif
 lbl = ImageLabel(animpanel, width=900, height=600)
 lbl.pack()
-lbl.load(r'.\Finals_Project_Collab\assets\landpg.gif')
+lbl.load(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\landpg.gif")
 navimg.pack()
 #img
-background_image = Image.open(r".\Finals_Project_Collab\assets\cuh.png")
+background_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\cuh.png")
 bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(80, 80))
 navicon=CTkLabel(master=navpanel1, image = bg_img, text="")
 #labels
@@ -239,7 +239,7 @@ class buttongroup:
     def __init__(self):
             
         self.b=CTkButton(master=animpanel, width=25, height=15, corner_radius=999, text='Next -->', bg_color="#000001", fg_color="black", 
-                    command=lambda: [animpanel.animate(), navimg.load(r'.\Finals_Project_Collab\assets\log.gif'), navpanel1.animate(), showb(bgroup.loginb),showb(bgroup.b1)])
+                    command=lambda: [animpanel.animate(), navimg.load(r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\log.gif'), navpanel1.animate(), showb(bgroup.loginb),showb(bgroup.b1)])
 
         self.b1=CTkButton(master=navpanel1, width=10, height=10, corner_radius=999, text='learn more about us!',hover_color="gray18", text_color="white",font=("Inter", 14), bg_color="#000001", fg_color="gray18", 
                     command=lambda: [bgroup.disb(),hideb(bgroup.b1),navpanel.animate(), navpanel1.animate(), hideb(bgroup.loginb)])
