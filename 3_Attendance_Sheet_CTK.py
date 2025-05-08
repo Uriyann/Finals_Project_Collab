@@ -77,6 +77,9 @@ student_last_name_label.grid(row=0, column=2, padx=10, pady=5, sticky="w")
 student_last_name_entry = CTkEntry(right_first_row, width=220, font=("Arial", 14), placeholder_text="Enter Last Name", height= 35, fg_color= "transparent", bg_color= "transparent")
 student_last_name_entry.grid(row=1, column=2, padx=10, pady=5, sticky="w")
 
+submit_attendance_btn = CTkButton(right_first_row, text="Submit Attendance", font=("Arial", 15, "bold"))
+submit_attendance_btn.grid(row=1, column=3, padx=10, pady=5, sticky="w")    
+
 course_section_label = CTkLabel(right_second_row, text="Course/Section:", font=("Arial", 14))
 course_section_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
 sec_var = ["Select Section", "1A", "1B", "1C"]
