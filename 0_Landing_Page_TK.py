@@ -195,7 +195,7 @@ lbl = ImageLabel(animpanel, width=900, height=600)
 # button widget
 b=CTkButton(master=animpanel, width=10, height=10, corner_radius=999, text='Next -->', bg_color="#000001", fg_color="gray18", command=lambda: [animpanel.animate(), hideb(b)]) 
 lbl.pack()
-lbl.load(r'C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\landpg.gif')
+lbl.load(r'C:\Users\Mark Vincent\desktop\Finals_Project_Collab\assets\landpg.gif')
 by=0.5
 
 ##hey man, here's the buttons for login in and sign up. if i have time ill clean my code
