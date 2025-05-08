@@ -430,7 +430,7 @@ def LOG_IN():
 
         # ==================== UI ====================
         # Background & Banner Img
-        background_image = Image.open(r"C:\Users\Mark Vincent\desktop\Finals_Project_Collab\assets\wallhaven-85gxp2.png")
+        background_image = Image.open(r".\assets\wallhaven-85gxp2.png")
         bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
         bg_label = CTkLabel(window, image=bg_img, text="")
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -553,12 +553,12 @@ def LOG_IN():
 
     # ==================== UI ====================
     # Background & Banner Img
-    background_image = Image.open(r"C:\Users\Mark Vincent\desktop\Finals_Project_Collab\assets\wallhaven-85gxp2.png")
+    background_image = Image.open(r".\assets\wallhaven-85gxp2.png")
     bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
     bg_label = CTkLabel(window, image=bg_img, text="")
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-    side_image = Image.open(r"C:\Users\Mark Vincent\desktop\Finals_Project_Collab\assets\wallhaven-73616y.png")
+    side_image = Image.open(r".\assets\wallhaven-73616y.png")
     side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
     side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
     side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -275)
@@ -576,7 +576,7 @@ def LOG_IN():
 
     # ==================== Labels & Inputs ====================
     # Logo
-    image_path = r"C:\Users\Mark Vincent\desktop\Finals_Project_Collab\assets\UniPass Logo.png"
+    image_path = r".\assets\UniPass Logo.png"
     rounded_img = make_rounded_image(image_path, size=(70, 70), corner_radius=25)
     ctk_image = CTkImage(light_image=rounded_img, dark_image=rounded_img, size=(70, 70))
     label = CTkLabel(log_in_frame, image=ctk_image, text="")

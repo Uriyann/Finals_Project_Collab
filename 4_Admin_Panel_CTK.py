@@ -24,29 +24,31 @@ ctk.set_default_color_theme("blue")
 style = ttk.Style()
 style.theme_use('clam')
 
+df_rows = []
+
 # ==================== Functions ====================
 # User Account Show Data Table
 def user_account_show_data():
     global df_rows
+
     opening_file = filedialog.askopenfilename(title="Select File", filetypes=[("Excel Files", "*.xlsx")])
+    if not opening_file:
+        return
 
     try:
         df = pd.read_excel(opening_file)
-
+        df_rows = df.to_numpy().tolist()
+        show_all_user_account_data()
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open file: {e}")
         return
-    
-    user_account_student_table.delete(*user_account_student_table.get_children())
-
-    df_rows = df.to_numpy().tolist()
-    for row in df_rows:
-        user_account_student_table.insert("", "end", values=row)
 
 # Personal Details Show Data Table
 def personal_details_show_data():
     global rset
     try:
+        personal_search_entry.delete(0, "end")
+
         sections = personal_section_option.get().strip()
         if sections not in ["1A", "1B", "1C"]:
             messagebox.showerror("Error", "Please select a valid section.")
@@ -78,6 +80,8 @@ def personal_details_show_data():
 def family_details_show_data():
     global rset
     try:
+        family_search_entry.delete(0, "end")
+
         sections = family_section_option.get().strip()
         if sections not in ["1A", "1B", "1C"]:
             messagebox.showerror("Error", "Please select a valid section.")
@@ -109,6 +113,8 @@ def family_details_show_data():
 def educational_details_show_data():
     global rset
     try:
+        educ_search_entry.delete(0, "end")
+
         sections = educ_section_option.get().strip()
         if sections not in ["1A", "1B", "1C"]:
             messagebox.showerror("Error", "Please select a valid section.")
@@ -160,6 +166,21 @@ def user_account_search():
 
     for row in filtered_data:
         user_account_student_table.insert("", "end", values=row)
+
+def show_all_user_account_data():
+    global df_rows
+
+    if not df_rows:
+        messagebox.showwarning("Warning", "No data found. Please upload a file first.")
+        return
+
+    try:
+        user_account_student_table.delete(*user_account_student_table.get_children())
+        for row in df_rows:
+            user_account_student_table.insert("", "end", values=row)
+    except Exception as e:
+        messagebox.showerror("Error", f"Unexpected error: {e}")
+
 
 #Search For Student
 def personal_details_search():
@@ -278,7 +299,7 @@ footer.pack(side="bottom", fill="x", pady=5)
 nav_top_frame = CTkFrame(window, fg_color="transparent")
 nav_top_frame.pack(side="top", fill="x")
 
-image_path = r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\UniPass Admin.png"
+image_path = r".\assets\UniPass Admin.png"
 rounded_img = make_rounded_image(image_path, size=(30, 30), corner_radius=30)
 ctk_image = CTkImage(light_image=rounded_img, dark_image=rounded_img, size=(30, 30))
 label = CTkLabel(nav_top_frame, image=ctk_image, text="")
@@ -381,7 +402,7 @@ user_account_search_entry.grid(row=0, column=1, padx=5, pady=5)
 user_account_search_btn = CTkButton(user_account_right_top_frame, text="Search", width=100, height=30, command=user_account_search)
 user_account_search_btn.grid(row=0, column=2, padx=5, pady=5)
 
-user_account_show_all_btn = CTkButton(user_account_right_top_frame, text="Show All", width=100, height=30)
+user_account_show_all_btn = CTkButton(user_account_right_top_frame, text="Show All", width=100, height=30, command=show_all_user_account_data)
 user_account_show_all_btn.grid(row=0, column=3, padx=5, pady=5)
 
 # User Account Table
@@ -429,7 +450,7 @@ personal_search_entry.grid(row=0, column=2, padx=5, pady=5)
 personal_search_btn = CTkButton(personal_right_top_frame, text="Search", width=100, height=30,command=personal_details_search)
 personal_search_btn.grid(row=0, column=3, padx=5, pady=5)
 
-personal_show_all_btn = CTkButton(personal_right_top_frame, text="Show All", width=100, height=30)
+personal_show_all_btn = CTkButton(personal_right_top_frame, text="Show All", width=100, height=30, command=personal_details_show_data)
 personal_show_all_btn.grid(row=0, column=4, padx=5, pady=5)
 
 # Personal Account Table
