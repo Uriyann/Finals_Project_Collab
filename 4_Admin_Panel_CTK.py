@@ -272,7 +272,7 @@ def educational_details_search():
         messagebox.showinfo("No Results", "No matching records found.")
         educational_details_show_data()
 
-# Delete Button ================ Doesn't delete things in the worksheet ================
+# Delete Button
 def delete_selected_row():
     tables = [
         user_account_student_table,
@@ -280,7 +280,7 @@ def delete_selected_row():
         family_student_table,
         educ_student_table
     ]
-    # Check if selection exists
+    
     selected_found = False
     for table in tables:
         selected_item = table.selection()
@@ -308,11 +308,14 @@ def delete_selected_row():
 
                     ws = wb[data_sheet]
 
-
-                    print(f"Selected row(s) in {table}: {selected_item}")
                     for item in selected_item:
-                        table.delete(item)
+                        values = table.item(item, "values")
+                        for row in ws.iter_rows(min_row=2, max_row=ws.max_row, values_only=True):
+                            if tuple(row) == values:
+                                ws.delete_rows(row[0])  
+                                break
 
+                        table.delete(item)
 
 
                     wb.save(file_path_to_excel)
