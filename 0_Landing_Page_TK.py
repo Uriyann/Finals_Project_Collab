@@ -31,27 +31,59 @@ def showb(self):
         addnum()
     if c==1:
         pyw.set_opacity(self, 0, color="#000001")
+        pyw.set_opacity(abhead, 0, color="#000001")
+        pyw.set_opacity(absubhead, 0, color="#000001")
+        pyw.set_opacity(abdesc, 0, color="#000001")
+        pyw.set_opacity(abdesc1, 0, color="#000001")
+        pyw.set_opacity(absubhead1, 0, color="#000001")
         self.after(200, lambda: [showb(self), addnum()])
     elif c==2:
         pyw.set_opacity(self, 0.2, color="#000001")
+        pyw.set_opacity(abhead, 0.2, color="#000001")
+        pyw.set_opacity(absubhead, 0.2, color="#000001")
+        pyw.set_opacity(abdesc, 0.2, color="#000001")
+        pyw.set_opacity(abdesc1, 0.2, color="#000001")
+        pyw.set_opacity(absubhead1, 0.2, color="#000001")
         self.after(30, lambda: [showb(self), addnum()])
     elif c==3:
         pyw.set_opacity(self, 0.3, color="#000001")
+        pyw.set_opacity(abhead, 0.3, color="#000001")
+        pyw.set_opacity(absubhead, 0.3, color="#000001")
+        pyw.set_opacity(abdesc, 0.3, color="#000001")
+        pyw.set_opacity(abdesc1, 0.3, color="#000001")
+        pyw.set_opacity(absubhead1, 0.3, color="#000001")
         self.after(30, lambda: [showb(self), addnum()])
     elif c==4:
         pyw.set_opacity(self, 0.4, color="#000001")
+        pyw.set_opacity(abhead, 0.4, color="#000001")
+        pyw.set_opacity(absubhead, 0.4, color="#000001")
+        pyw.set_opacity(abdesc, 0.4, color="#000001")
+        pyw.set_opacity(abdesc1, 0.4, color="#000001")
+        pyw.set_opacity(absubhead1, 0.4, color="#000001")
         self.after(30, lambda: [showb(self), addnum()])
     elif c==5:
         pyw.set_opacity(self, 0.7, color="#000001")
+        pyw.set_opacity(abhead, 0.7, color="#000001")
+        pyw.set_opacity(absubhead, 0.7, color="#000001")
+        pyw.set_opacity(abdesc, 0.7, color="#000001")
+        pyw.set_opacity(abdesc1, 0.7, color="#000001")
+        pyw.set_opacity(absubhead1, 0.7, color="#000001")
         self.after(30, lambda: [showb(self), addnum()])
     elif c==6:
         pyw.set_opacity(self, 0.9, color="#000001")
+        pyw.set_opacity(abhead, 0.9, color="#000001")
+        pyw.set_opacity(absubhead, 0.9, color="#000001")
+        pyw.set_opacity(abdesc, 0.9, color="#000001")
+        pyw.set_opacity(abdesc1, 0.9, color="#000001")
+        pyw.set_opacity(absubhead1, 0.9, color="#000001")
         self.after(30, lambda: [showb(self), addnum()])
     elif c==7:
         pyw.set_opacity(self, 1, color="#000001")
-
-        
-    
+        pyw.set_opacity(abhead, 1, color="#000001")
+        pyw.set_opacity(absubhead, 1, color="#000001")
+        pyw.set_opacity(abdesc, 1, color="#000001")
+        pyw.set_opacity(abdesc1, 1, color="#000001")
+        pyw.set_opacity(absubhead1, 1, color="#000001")
 
 def hideb(self):
     
@@ -60,27 +92,63 @@ def hideb(self):
 
     if c==1:
         pyw.set_opacity(self, 1, color="#000001")
+        pyw.set_opacity(abhead, 1, color="#000001")
+        pyw.set_opacity(absubhead, 1, color="#000001")
+        pyw.set_opacity(abdesc, 1, color="#000001")
+        pyw.set_opacity(abdesc1, 1, color="#000001")
+        pyw.set_opacity(absubhead1, 1, color="#000001")
         self.after(1, lambda: [hideb(self), addnum()])
     elif c==2:
-        pyw.set_opacity(self, 0.7, color="#000001")
+        pyw.set_opacity(self, 0.7 , color="#000001")
+        pyw.set_opacity(abhead,0.7,color="#000001")
+        pyw.set_opacity(absubhead, 0.7,color="#000001")
+        pyw.set_opacity(abdesc, 0.7 ,color="#000001")
+        pyw.set_opacity(abdesc1, 0.7 , color="#000001")
+        pyw.set_opacity(absubhead1, 0.7 , color="#000001")
         self.after(30, lambda: [hideb(self), addnum()])
     elif c==3:
         pyw.set_opacity(self, 0.5, color="#000001")
+        pyw.set_opacity(abhead, 0.5,color="#000001")
+        pyw.set_opacity(absubhead, 0.5,color="#000001")
+        pyw.set_opacity(abdesc, 0.5,color="#000001")
+        pyw.set_opacity(abdesc1, 0.5,color="#000001")
+        pyw.set_opacity(absubhead1, 0.5,color="#000001")
         self.after(30, lambda: [hideb(self), addnum()])
     elif c==4:
         pyw.set_opacity(self, 0.3, color="#000001")
+        pyw.set_opacity(abhead, 0.3, color="#000001")
+        pyw.set_opacity(absubhead, 0.3, color="#000001")
+        pyw.set_opacity(abdesc, 0.3,color="#000001")
+        pyw.set_opacity(abdesc1, 0.3,color="#000001")
+        pyw.set_opacity(absubhead1, 0.3,color="#000001")
         self.after(30, lambda: [hideb(self), addnum()])
     elif c==5:
         pyw.set_opacity(self, 0.2, color="#000001")
+        pyw.set_opacity(abhead, 0.2, color="#000001")
+        pyw.set_opacity(absubhead, 0.2, color="#000001")
+        pyw.set_opacity(abdesc, 0.2, color="#000001")
+        pyw.set_opacity(abdesc1, 0.2, color="#000001")
+        pyw.set_opacity(absubhead1, 0.2, color="#000001")
         self.after(30, lambda: [hideb(self), addnum()])
     elif c==6:
         pyw.set_opacity(self, 0.1, color="#000001")
+        pyw.set_opacity(abhead, 0.1, color="#000001")
+        pyw.set_opacity(absubhead, 0.1, color="#000001")
+        pyw.set_opacity(abdesc, 0.1, color="#000001")
+        pyw.set_opacity(abdesc1, 0.1, color="#000001")
+        pyw.set_opacity(absubhead1, 0.1, color="#000001")
         self.after(30, lambda: [hideb(self), addnum()])
     elif c==7:
         pyw.set_opacity(self, 0, color="#000001")
+        pyw.set_opacity(abhead, 0, color="#000001")
+        pyw.set_opacity(absubhead, 0, color="#000001")
+        pyw.set_opacity(abdesc, 0, color="#000001")
+        pyw.set_opacity(abdesc1, 0, color="#000001")
+        pyw.set_opacity(absubhead1, 0, color="#000001")
         
-        
-        
+        #note: i've been trying to avoid this wall of text but there was a really ugly visual bug that i had to resort to this.
+        #one may be asking: why not just use loop and continuously add upon a variable and have pyw set the opacity into *this* variable?
+        #it seems to me that you cant. i'll experiment with it a little bit more and see what i can do though.
 
 class slidepanel(ctk.CTkFrame):
     def __init__(self, parent, startpos, endpos):
@@ -212,27 +280,6 @@ def GO_TO_LOGIN():
     window.destroy()
     subprocess.call(["python", "1_Portal_CTK.py"])
 
-#button functions
-def bfunc():
-    bgroup.disb()
-    animpanel.animate()
-    navimg.load(r'Finals_Project_Collab\assets\log.gif')
-    navpanel1.animate()
-    showb(bgroup.loginb)
-
-def b1func():
-    bgroup.disb()
-    showb(bgroup.aboutext)
-    navpanel.animate()
-    navpanel1.animate()
-    hideb(bgroup.loginb)
-
-def aboutextfunc():
-    bgroup.disb()
-    showb(bgroup.loginb)
-    hideb(bgroup.aboutext)
-    navpanel.animate()
-    navpanel1.animate()
 
 #stuff
 note=Label(window, text="about us section here", font="Inter, 10")
@@ -262,7 +309,7 @@ navicon=CTkLabel(master=navpanel1, image = bg_img, text="")
 
 desc=("Welcome to UniPass,\nan integrated digital platform \ndeveloped to help teachers and students\ntrack and manage their class attendance\nefficiently.\n\nWith a straightforward sign-up and login \nprocess, students can create and manage \ntheir accounts with ease.\n\nTo keep students informed, UniPass \nencourages responsibility and supports\nto improve academic performance.\n\nBegin your journey toward better\nacademic management with\nUniPass today!"
     )
-contributors=("jo mama\njoe\nligma"
+contributors=("Barotea, Joshua P.\nDe Guzman, Mark Vincent M.\nAguilera, John Kevin F.\nAlonzo, Sean Andrei T.\nBautista, Alma M.\nBermudez, Rommelgio Gio C.\nChua, Carl Angelo D.\nDalumpienes, Geoffrey Beene P.\nDe Leon, Kier Cynon R.\nDe Villa, John Marc A.\nDiaz, Gabriel, Clinton E.\nHardinian, Christian A.\nMamac, John Michael L.\nMelecia, Christian Lenard P.\nPerlada, Christian A.\nSepillo, Clark Kennevic R."
     )
 navheader=CTkLabel(master=navpanel1, font=("Inter", 30, "bold"), fg_color="gray18", text="Dive into", text_color="lightyellow")
 navsubheader=CTkLabel(master=navpanel1, font=("Inter", 17), fg_color="gray18", text="Unipass!")
@@ -272,7 +319,24 @@ abhead=CTkLabel(master=aboutpanel, font=("Inter", 30, "bold"), fg_color="gray18"
 absubhead=CTkLabel(master=aboutpanel, font=("Inter", 17), fg_color="gray18", text="Introduction!")
 abdesc=CTkLabel(master=aboutpanel, font=("Inter", 11), fg_color="gray18", text=desc)
 absubhead1=CTkLabel(master=aboutpanel, font=("Inter", 17), fg_color="gray18", text="Contributors!")
-abdesc1=CTkLabel(master=aboutpanel, font=("Inter", 13), fg_color="gray18", text=contributors)
+abdesc1=CTkLabel(master=aboutpanel, font=("Inter", 11), fg_color="gray18", text=contributors)
+
+#button functions
+def bfunc():
+    bgroup.disb()
+    bgroup.b.after(30, lambda:[animpanel.animate(), navimg.load(r'Finals_Project_Collab\assets\log.gif'), navpanel1.animate()])
+    showb(bgroup.loginb)
+    
+def b1func():
+    bgroup.disb()
+    bgroup.b1.after(30, lambda:[navpanel.animate(),navpanel1.animate()])
+    showb(bgroup.aboutext)
+    hideb(bgroup.loginb)
+def aboutextfunc():
+    bgroup.disb()
+    bgroup.b1.after(30, lambda:[navpanel.animate(),navpanel1.animate()])
+    showb(bgroup.loginb)
+    hideb(bgroup.aboutext)
 
 #buttons
 class buttongroup:
@@ -302,6 +366,7 @@ class buttongroup:
 
 bgroup=buttongroup()
 
+
 #config
 navpanel1.configure( fg_color='gray18')
 aboutpanel.configure( fg_color='gray18', border_width=15, border_color="lightgray")
@@ -326,6 +391,6 @@ abhead.place(rely=0.1,relx=0.5, anchor = CENTER)
 absubhead.place(rely=0.18,relx=0.14, anchor = W)
 abdesc.place(rely=0.5,relx=0.05, anchor = W)
 absubhead1.place(rely=0.18,relx=0.84, anchor = E)
-abdesc1.place(rely=0.5,relx=0.8, anchor = E)
+abdesc1.place(rely=0.5,relx=0.89, anchor = E)
 #end
 window.mainloop()
