@@ -20,6 +20,8 @@ window.resizable(False, False)
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+mode = "dark"
+
 def LOG_IN():
     # ==================== Functions ====================
     # Login Checker Function
@@ -51,11 +53,19 @@ def LOG_IN():
             messagebox.showerror(title= "Error", message= "User data file not found.")
 
     def show_forg_pass():
-        terms_window = CTkToplevel(window)
-        terms_window.title("Forgot Password")
-        terms_window.geometry("400x300")
-        terms_label = CTkLabel(terms_window, text="Forgot Password go here.")
+        forg_pass_window = CTkToplevel(window)
+        forg_pass_window.title("Forgot Password")
+        height = 300
+        width = 400
+        x = (forg_pass_window.winfo_screenwidth()//2)-(width//2) 
+        y = (forg_pass_window.winfo_screenheight()//2)-(height//2) 
+        forg_pass_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+        forg_pass_window.grab_set()
+        
+        terms_label = CTkLabel(forg_pass_window, text="Forgot Password go here.")
         terms_label.pack(pady=20, padx=20)
+
+        forg_pass_window.wait_window()
 
     # ==================== Debuggers ====================
     # Input Validation & Debugger Function
@@ -148,7 +158,7 @@ def LOG_IN():
 
     def GO_TO_LANDING_PAGE():
         window.destroy()
-        subprocess.call(["python", "0_Home_Page_CTK.py"])
+        subprocess.call(["python", "0_Landing_Page_TK.py"])
 
     # Signup Window Switch Function
     def SIGN_UP():
@@ -200,7 +210,6 @@ def LOG_IN():
                 wb.save("user_account_data.xlsx")
 
                 format_excel()
-                show_data()
 
                 messagebox.showinfo(title= "Success", message= "Account Saved")
                 sign_up_first_name_entry.delete(0, END)
@@ -217,7 +226,13 @@ def LOG_IN():
             terms_window = CTkToplevel(window)
             terms_window.title("Terms and Conditions")
             terms_window.geometry("450x320")
+            height = 320
+            width = 450
+            x = (terms_window.winfo_screenwidth()//2)-(width//2) 
+            y = (terms_window.winfo_screenheight()//2)-(height//2) 
+            terms_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
             terms_window.resizable(False, False)
+            terms_window.grab_set()
 
             terms_main_frame = CTkFrame(terms_window)
             terms_main_frame.pack(pady=10, padx=10)
@@ -240,35 +255,69 @@ def LOG_IN():
             terms_accept_button = CTkButton(terms_main_frame, text="Accept", command=terms_window.destroy)
             terms_accept_button.pack(pady=5)
 
+            terms_window.wait_window()
+
+        def show_privacy_policy():
+            priv_window = CTkToplevel(window)
+            priv_window.title("Terms and Conditions")
+            priv_window.geometry("450x320")
+            height = 320
+            width = 450
+            x = (priv_window.winfo_screenwidth()//2)-(width//2) 
+            y = (priv_window.winfo_screenheight()//2)-(height//2) 
+            priv_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+            priv_window.resizable(False, False)
+            priv_window.grab_set()
+
+            terms_main_frame = CTkFrame(priv_window)
+            terms_main_frame.pack(pady=10, padx=10)
+
+            terms_text = """
+                SYSTEM PRIVACY POLICY
+
+                1. Your personal data will be collected and processed in accordance with data protection laws.
+                2. Information will not be shared with third parties without your consent.
+                3. Data is stored securely and only authorized personnel can access it.
+                4. You have the right to request access, correction, or deletion of your data.
+                5. Continued use of the system indicates your agreement with our privacy practices.
+
+                Please review carefully before proceeding.
+                """
+            
+            terms_label = CTkLabel(terms_main_frame, text=terms_text, justify="left", wraplength=380, anchor="w", font=("Arial", 13))
+            terms_label.pack(pady=3, padx=10)
+
+            terms_accept_button = CTkButton(terms_main_frame, text="Accept", command=priv_window.destroy)
+            terms_accept_button.pack(pady=5)
+
+            priv_window.wait_window()
+
         # Format Fixer Function
         def format_excel():
             wb = load_workbook("user_account_data.xlsx")
+
+            if "Userdata" not in wb.sheetnames:
+                messagebox.showerror(title="Error", message=f"Sheet 'Userdata' does not exist.")
+                return
+        
             ws = wb["Userdata"]
 
-            # Bold Headers
             for cells in ws[1]:
-                cells.font = Font(bold=True)
+                if cells.value:
+                    cells.font = Font(bold=True)
 
-            # Auto Column Width
             for cols in ws.columns:
-                max_length = max(len(str(cells.value)) for cell in cols)
+                max_length = 0
                 col_letter = get_column_letter(cols[0].column)
+                for cell in cols:
+                    try:
+                        if cell.value:
+                            max_length = max(max_length, len(str(cell.value)))
+                    except Exception:
+                        pass
                 ws.column_dimensions[col_letter].width = max_length + 2
 
             wb.save("user_account_data.xlsx")
-
-        # New Window Data Shower Function
-        def show_data():
-            wb = load_workbook("user_account_data.xlsx")
-            ws = wb["Userdata"]
-
-            data_window = CTkToplevel(window)
-            data_window.title("Stored User Data")
-
-            for i, row in enumerate(ws.iter_rows(values_only=True)):
-                for j, value in enumerate(row):
-                    label = CTkLabel(data_window, text=value, width=1)
-                    label.grid(row=i, column=j)
 
         # Input Validation & Debugger Function
         def sign_up_data_validation_debugger():
@@ -367,7 +416,7 @@ def LOG_IN():
 
         # ==================== UI ====================
         # Background & Banner Img
-        background_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-85gxp2.png")
+        background_image = Image.open(r".\assets\Artboard bg.png")
         bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
         bg_label = CTkLabel(window, image=bg_img, text="")
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -452,7 +501,7 @@ def LOG_IN():
         # ==================== Buttons ====================
 
         # Light Switch
-        toggle_button = CTkButton(window, text="Swtich to Light Mode", command= toggle_mode, border_width= 3, corner_radius= 13, height=25)
+        toggle_button = CTkButton(window, text="Switch to Light Mode", command= toggle_mode, border_width= 3, corner_radius= 13, height=25)
         toggle_button.place(relx = 0.5, rely = 0.5, x= 495, y= -400)
 
         # Terms & Condition
@@ -463,14 +512,20 @@ def LOG_IN():
         terms_button = CTkButton(sign_up_frame, text="terms & condition.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= show_terms_and_conditions, width=50, bg_color= "transparent")
         terms_button.grid(row=7, column=0, padx=119, sticky= "w")
 
+        and_label = CTkLabel(sign_up_frame, text="and", font=("Arial", 12), bg_color="transparent")
+        and_label.grid(row=8, column=0, padx=47, sticky= "w")
+
+        priv_button = CTkButton(sign_up_frame, text="privacy policy.", font=("Arial", 12), fg_color="transparent", hover_color="lightblue", text_color="dodgerblue2", command= show_privacy_policy, width=50, bg_color= "transparent")
+        priv_button.grid(row=8, column=0, padx=69, sticky= "w")
+
         # Button Login
         sign_up_button = CTkButton(sign_up_frame, text= "Sign Up", width=325, font= ("Arial bold", 15), command= save_to_excel, height= 35)
-        sign_up_button.grid(row=8, column=0, pady=8, padx= 15)
+        sign_up_button.grid(row=9, column=0, pady=8, padx= 15)
         sign_up_button.configure(command=messagebox_confirmation)
 
         # Signup Text + Button
         log_frame = CTkFrame(sign_up_frame, fg_color= "transparent", bg_color= "transparent")
-        log_frame.grid(row=9, column=0, pady=20)
+        log_frame.grid(row=10, column=0, pady=20)
 
         need_account_label = CTkLabel(log_frame, text="Already a User?", font=("Arial", 12))
         need_account_label.grid(row=0, column=0, padx=10)
@@ -484,12 +539,12 @@ def LOG_IN():
 
     # ==================== UI ====================
     # Background & Banner Img
-    background_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-85gxp2.png")
+    background_image = Image.open(r".\assets\Artboard bg.png")
     bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
     bg_label = CTkLabel(window, image=bg_img, text="")
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-    side_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\wallhaven-73616y.png")
+    side_image = Image.open(r".\assets\banner.png")
     side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
     side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
     side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -275)
@@ -507,7 +562,7 @@ def LOG_IN():
 
     # ==================== Labels & Inputs ====================
     # Logo
-    image_path = r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\UniPass Logo.png"
+    image_path = r".\assets\UniPass Logo.png"
     rounded_img = make_rounded_image(image_path, size=(70, 70), corner_radius=25)
     ctk_image = CTkImage(light_image=rounded_img, dark_image=rounded_img, size=(70, 70))
     label = CTkLabel(log_in_frame, image=ctk_image, text="")

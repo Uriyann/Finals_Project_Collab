@@ -42,6 +42,12 @@ main_top_container.pack(side="top", fill="x", padx=20, pady=20)
 main_top_label = CTkLabel(main_top_container, text="Student Attendance Sheet", font=("Arial", 30, "bold"))
 main_top_label.pack(pady=10, side="top")
 
+# ==================== Footer ====================
+present = datetime.now().strftime("%B %d, %Y - %I:%M %p")
+
+footer = CTkLabel(window, text=f"Enrollment Form | Logged in as: Student | © {present}", font=("Arial", 12))
+footer.pack(side="bottom", fill="x", pady=5)
+
 # ==================== Main User Data Container ====================
 user_data_container = CTkFrame(main_container)
 user_data_container.pack(fill="both", expand=True)
@@ -70,6 +76,9 @@ student_last_name_label = CTkLabel(right_first_row, text="Last Name:", font=("Ar
 student_last_name_label.grid(row=0, column=2, padx=10, pady=5, sticky="w")
 student_last_name_entry = CTkEntry(right_first_row, width=220, font=("Arial", 14), placeholder_text="Enter Last Name", height= 35, fg_color= "transparent", bg_color= "transparent")
 student_last_name_entry.grid(row=1, column=2, padx=10, pady=5, sticky="w")
+
+submit_attendance_btn = CTkButton(right_first_row, text="Submit Attendance", font=("Arial", 15, "bold"))
+submit_attendance_btn.grid(row=1, column=3, padx=10, pady=5, sticky="w")    
 
 course_section_label = CTkLabel(right_second_row, text="Course/Section:", font=("Arial", 14))
 course_section_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
@@ -181,5 +190,5 @@ for index, (subject_code, title) in enumerate(subject_data):
     present_text = CTkLabel(present_box, text="Present", font=("Arial", 12))
     present_text.pack(pady=5)
 
-
+# ==================== Window Starter ====================
 window.mainloop() 
