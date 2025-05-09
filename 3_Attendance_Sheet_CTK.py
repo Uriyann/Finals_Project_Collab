@@ -9,8 +9,8 @@ from datetime import datetime
 from tkinter import *
 from tkinter import filedialog
 import pandas as pd
-
-
+from tkinter import messagebox, Toplevel, OptionMenu, StringVar
+from collections import defaultdict
 # ==================== Window Setup ====================
 window = CTk()
 window.title("Student Enrollment Form")
@@ -192,41 +192,183 @@ for index, (subject_code, title) in enumerate(subject_data):
     present_text.pack(pady=5)
 
 
-def open_attendance_subjects():
-    attendance_window = CTkToplevel(window)  # Create a new window
-    attendance_window.title("Attendance")
-    attendance_window.geometry("400x300")  # Adjust the size as needed
+# ==================== Function to Update Attendance Counts ====================
+def update_attendance_counts():
+    # Initialize counters for subjects
+    subject_attendance_counts = defaultdict(lambda: {"Present": 0, "Absent": 0})
 
-    # Label for subject selection
-    CTkLabel(attendance_window, text="Select Subject:").pack(pady=10)
+    try:
+        # Read the Attendance Information sheet
+        df = pd.read_excel('user_account_data.xlsx', sheet_name='Attendance Information')
+
+        # Count Present and Absent for each subject code
+        for _, row in df.iterrows():
+            subject_code = row['Subject Code']
+            attendance_status = row['Attendance Status']
+
+            if attendance_status in subject_attendance_counts[subject_code]:
+                subject_attendance_counts[subject_code][attendance_status] += 1
+
+        # Update GUI with attendance counts
+        for index, (subject_code, title) in enumerate(subject_data):
+            present_count = subject_attendance_counts[subject_code]['Present']
+            absent_count = subject_attendance_counts[subject_code]['Absent']
+
+            present_label = present_box.grid_slaves(row=0, column=1)[0]
+            absent_label = absent_box.grid_slaves(row=0, column=0)[0]
+
+            present_label.configure(text=str(present_count))
+            absent_label.configure(text=str(absent_count))
+
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred while updating attendance counts: {e}")
+
+# # Call the update_attendance_counts function when the application starts or at any other event based on requirement
+# update_attendance_counts()
+
+# ==================== Function Container For Saving and Gui  ====================
+def save_entry_data(entries):
+    # Collect data from entry fields
+    student_id = student_entry.get()
+    first_name = student_first_name_entry.get()
+    last_name = student_last_name_entry.get()
+    course_section = course_section_entry.get()
+    lrn = lrn_entry.get()
+    gender = student_gender_entry.get()
+    age = student_age_entry.get()
+
+    # Create a DataFrame from the collected data
+    df = pd.DataFrame([entries], columns=[
+        "Student ID",
+        "First Name",
+        "Last Name",
+        "Course/Section",
+        "LRN",
+        "Gender",
+        "Age",
+        "Subject Code",
+        "Attendance Status",
+        "Date and Time"
+    ])
+
+    try:
+        # Load existing workbook or create a new one
+        with pd.ExcelWriter('user_account_data.xlsx', engine='openpyxl', mode='a') as writer:
+            # Check if the sheet already exists and set header accordingly
+            if 'Attendance Information' in writer.sheets:
+                df.to_excel(writer, sheet_name='Attendance Information', index=False, header=False)
+            else:
+                df.to_excel(writer, sheet_name='Attendance Information', index=False)
+
+        messagebox.showinfo("Success", "Data saved successfully to Attendance Information.")
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred while saving data: {e}")
+        # At the end of the save_entry_data function
+    save_entry_data(entries)
+def open_attendance_subjects():
+    attendance_window = Toplevel(window)  # Create a new window
+    attendance_window.title("Attendance")
+    attendance_window.geometry("400x300")
+    
+    # Change the background color of the attendance window
+    attendance_window.configure(bg="#f0f0f0")  # Light gray
+    
+    # Label for subject selection with increased font size
+    subject_label = CTkLabel(attendance_window, text="Select Subject:", font=("Arial", 16, "bold"), text_color="black")
+    subject_label.pack(pady=10)
 
     # Subject options
     subj_menu = ["ITCS103", "ITPS102", "ITPS103", "ETS", "US"]
-    subj_options = CTkOptionMenu(attendance_window, values=subj_menu)
+    selected_subject = StringVar()
+    subj_options = OptionMenu(attendance_window, selected_subject, *subj_menu)
+    subj_options.config(font=("Arial", 14))  # Change font size for OptionMenu
     subj_options.pack(pady=10)
 
-    # Status selection buttons
-    CTkLabel(attendance_window, text="Status:").pack(pady=10)
+    # Status selection label and buttons with increased font size
+    status_label = CTkLabel(attendance_window, text="Status:", font=("Arial", 16, "bold"), text_color="black")
+    status_label.pack(pady=10)
 
     def mark_attendance(status):
-        selected_subject = subj_options.get()
-        if selected_subject:
-            messagebox.showinfo("Attendance Recorded", f"{status} for {selected_subject}")
+        subject_code = selected_subject.get()
+        if subject_code:
+            # Capture the current date and time
+            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            entries = [
+                student_entry.get(),
+                student_first_name_entry.get(),
+                student_last_name_entry.get(),
+                course_section_entry.get(),
+                lrn_entry.get(),
+                student_gender_entry.get(),
+                student_age_entry.get(),
+                subject_code,
+                status,
+                current_time
+            ]
+            # Save the entry data
+            save_entry_data(entries)
         else:
             messagebox.showwarning("Warning", "Please select a subject")
 
     # Present Button
-    present_btn = CTkButton(attendance_window, text="Present", command=lambda: mark_attendance("Present"))
+    present_btn = CTkButton(attendance_window, text="Present", command=lambda: mark_attendance("Present"), font=("Arial", 14, "bold"))
     present_btn.pack(side="left", padx=20, pady=20)
 
     # Absent Button
-    absent_btn = CTkButton(attendance_window, text="Absent", command=lambda: mark_attendance("Absent"))
+    absent_btn = CTkButton(attendance_window, text="Absent", command=lambda: mark_attendance("Absent"), font=("Arial", 14, "bold"))
     absent_btn.pack(side="right", padx=20, pady=20)
 
-# Make sure this function is called from the 'submit_attendance_btn' button in the main window
+# The button that opens the attendance window
 submit_attendance_btn = CTkButton(right_first_row, text="Submit Attendance", font=("Arial", 15, "bold"), command=open_attendance_subjects)
 submit_attendance_btn.grid(row=1, column=3, padx=10, pady=5, sticky="w")
 
+# ==================== Function to Update Attendance Counts ====================
+def update_attendance_counts():
+    # Initialize counters for subjects
+    subject_attendance_counts = defaultdict(lambda: {"Present": 0, "Absent": 0})
+
+    try:
+        # Read the Attendance Information sheet
+        df = pd.read_excel('user_account_data.xlsx', sheet_name='Attendance Information')
+
+        # Count Present and Absent for each subject code
+        for _, row in df.iterrows():
+            subject_code = row['Subject Code']
+            attendance_status = row['Attendance Status']
+
+            if attendance_status in subject_attendance_counts[subject_code]:
+                subject_attendance_counts[subject_code][attendance_status] += 1
+
+        # Update GUI with attendance counts
+        for index, (subject_code, title) in enumerate(subject_data):
+            # Retrieve counts
+            present_count = subject_attendance_counts[subject_code]['Present']
+            absent_count = subject_attendance_counts[subject_code]['Absent']
+
+            # Find the subject frame
+            subject_frame = scrollable_subject_container.grid_slaves(row=index // 2, column=index % 2)
+
+            # Check if the subject frame exists before accessing
+            if subject_frame:
+                subject_frame = subject_frame[0]  # Get the first subject frame in the list
+
+                # Update present label
+                present_box = subject_frame.grid_slaves(row=1, column=1)  # Adjust as needed
+                absent_box = subject_frame.grid_slaves(row=1, column=0)  # Adjust as needed
+
+                # Only update if present and absent boxes exist
+                if present_box:
+                    present_label = present_box[0]
+                    present_label.configure(text=str(present_count))
+
+                if absent_box:
+                    absent_label = absent_box[0]
+                    absent_label.configure(text=str(absent_count))
+
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred while updating attendance counts: {e}")
 
 # ==================== Window Starter ====================
-window.mainloop() 
+
+# update_attendance_counts()  # Refresh attendance counts after saving
+window.mainloop()            # Start the main loop
