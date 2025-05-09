@@ -228,13 +228,10 @@ def family_details_search():
             print(f"Row data: {row}")
             
             if search_option == "Father's Name" and row[0] and search_query in str(row[0]).lower():
-                print(row)
                 filtered_data.append(row)
             elif search_option == "Mother's Name" and row[5] and search_query in str(row[5]).lower():
-                print(row)
                 filtered_data.append(row)
             elif search_option == "Guardian's Name" and row[10] and search_query in str(row[10]).lower():
-                print(row)
                 filtered_data.append(row)
 
     family_student_table.delete(*family_student_table.get_children())
@@ -242,9 +239,9 @@ def family_details_search():
     for row in filtered_data:
         family_student_table.insert("", "end", values=row)
 
-    # if not filtered_data:
-    #     messagebox.showinfo("No Results", "No matching records found.")
-    #     family_details_show_data()
+    if not filtered_data:
+        messagebox.showinfo("No Results", "No matching records found.")
+        family_details_show_data()
 
 # Search For Education
 def educational_details_search():
@@ -292,10 +289,41 @@ def delete_selected_row():
 
             confirm = messagebox.askyesno("Confirm Deletion", "Are you sure you want to delete the selected row(s)?")
             if confirm:
-                print(f"Selected row(s) in {table}: {selected_item}")
-                for item in selected_item:
-                    table.delete(item)
-                
+
+                if user_account_student_table:
+                    data_sheet = "Userdata"
+                elif personal_student_table:
+                    data_sheet = f"{personal_section_option.get()} Enrollment Information"
+                elif family_student_table:
+                    data_sheet = f"{family_section_option.get()} Enrollment Information"
+                elif educ_student_table:
+                    data_sheet = f"{educ_section_option.get()} Enrollment Information"
+
+                try:
+                    file_path_to_excel = "user_account_data.xlsx"
+                    wb = load_workbook(file_path_to_excel)
+                    if data_sheet not in wb.sheetnames:
+                        messagebox.showerror("Error", f"Sheet '{data_sheet}' not found in the workbook.")
+                        return
+
+                    ws = wb[data_sheet]
+
+
+                    print(f"Selected row(s) in {table}: {selected_item}")
+                    for item in selected_item:
+                        table.delete(item)
+
+
+
+                    wb.save(file_path_to_excel)
+                    wb.close()
+                    messagebox.showinfo("Deleted", "Selected row(s) have been deleted.")
+
+                except FileNotFoundError:
+                    messagebox.showerror("Error", "File not found.")
+                except Exception as e:
+                    messagebox.showerror("Error", f"An error occurred: {str(e)}")
+   
             else:
                 messagebox.showinfo("Canceled", "Deletion has been canceled.")
             break
@@ -313,11 +341,40 @@ def clear_all_rows():
             family_student_table,
             educ_student_table
         ]
-        
-        for table in tables:
-            table.delete(*table.get_children())
-        
-        messagebox.showinfo("Cleared", "All rows have been cleared.")
+
+        try:
+            file_path_to_excel = "user_account_data.xlsx"
+            wb = load_workbook(file_path_to_excel)
+
+            for table in tables:
+
+                if user_account_student_table:
+                    data_sheet = "Userdata"
+                elif personal_student_table:
+                    data_sheet = f"{personal_section_option.get()} Enrollment Information"
+                elif family_student_table:
+                    data_sheet = f"{family_section_option.get()} Enrollment Information"
+                elif educ_student_table:
+                    data_sheet = f"{educ_section_option.get()} Enrollment Information"
+                else:
+                    continue
+
+                if data_sheet not in wb.sheetnames:
+                    messagebox.showerror("Error", f"Sheet '{data_sheet}' not found in the workbook.")
+                    return
+                
+                wb[data_sheet].delete_rows(2, wb[data_sheet].max_row)
+                table.delete(*table.get_children())
+                
+            wb.save(file_path_to_excel)
+            wb.close()
+            messagebox.showinfo("Cleared", "All rows have been cleared.")    
+
+        except FileNotFoundError:
+            messagebox.showerror("Error", "File not found.")
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {str(e)}")
+
     else:
         messagebox.showinfo("Canceled", "Clear All has been canceled.")
 
