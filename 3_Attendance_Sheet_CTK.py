@@ -6,6 +6,9 @@ from PIL import Image
 from tkinter import messagebox
 import subprocess
 from datetime import datetime
+from tkinter import *
+from tkinter import filedialog
+import pandas as pd
 
 
 # ==================== Window Setup ====================
@@ -77,8 +80,8 @@ student_last_name_label.grid(row=0, column=2, padx=10, pady=5, sticky="w")
 student_last_name_entry = CTkEntry(right_first_row, width=220, font=("Arial", 14), placeholder_text="Enter Last Name", height= 35, fg_color= "transparent", bg_color= "transparent")
 student_last_name_entry.grid(row=1, column=2, padx=10, pady=5, sticky="w")
 
-submit_attendance_btn = CTkButton(right_first_row, text="Submit Attendance", font=("Arial", 15, "bold"))
-submit_attendance_btn.grid(row=1, column=3, padx=10, pady=5, sticky="w")    
+submit_attendance_btn = CTkButton(right_first_row,text="Submit Attendance", font=("Arial",15,"bold"),command=open_attendance_subjects)
+submit_attendance_btn.grid(row=1,column=3,padx=10,pady=5,sticky="w")
 
 course_section_label = CTkLabel(right_second_row, text="Course/Section:", font=("Arial", 14))
 course_section_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
@@ -189,6 +192,35 @@ for index, (subject_code, title) in enumerate(subject_data):
     present_label.pack(pady=3)
     present_text = CTkLabel(present_box, text="Present", font=("Arial", 12))
     present_text.pack(pady=5)
+    
+def open_attendance_subjects():
+    attendance_window = CTkToplevel(window)  # Create a new window
+    attendance_window.title("Attendance")
+    attendance_window.geometry("250x150")  
+    
+    CTkLabel(attendance_window, text="").pack(pady=20)
+
+
+# Add entry widgets for subjects
+    subject1 = tk.Entry(attendance_window)
+    subject1.pack()
+    subject2 = tk.Entry(attendance_window)
+    subject2.pack()
+
+# Function to display the subjects
+    def display_subjects():
+        subjects = [subject1.get(), subject2.get()]
+        tk.Label(attendance_window, text=f"You are present on: {', '.join(subjects)}").pack()
+
+# Add a button to submit and display the subjects
+    CTkButton(attendance_window, text="Submit", command=display_subjects).pack()
+    
+    def save_entry_data():
+        entries = [student_entry.get(), student_first_name_entry.get(), student_last_name_entry.get(), course_section_entry.get(), course_section_entry.get(), lrn_entry,get(), student_gender_entry.get(), student_age_entry.get(), subject_code.get()]  # Replace with your entry fields
+        df = pd.DataFrame([entries])
+        savefile = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=(("Excel files", "*.xlsx"), ("All files", "*.*")))
+        if savefile:
+            df.to_excel(savefile, index=False, sheet_name="Sheet3")
 
 # ==================== Window Starter ====================
 window.mainloop() 
