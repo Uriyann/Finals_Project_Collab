@@ -159,6 +159,7 @@ def LOG_IN():
         passlbl.pack(pady=(20, 5))
         new_password_entry = CTkEntry(forg_pass_window, width=250)
         new_password_entry.pack()
+        new_password_entry.configure(state="disabled")
 
         load_btn = CTkButton(forg_pass_window, text="Load Password", command=show_pass)
         load_btn.pack(pady=5)
