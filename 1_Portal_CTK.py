@@ -416,7 +416,7 @@ def LOG_IN():
 
         # ==================== UI ====================
         # Background & Banner Img
-        background_image = Image.open(r".\assets\wallhaven-85gxp2.png")
+        background_image = Image.open(r".\assets\Artboard bg.png")
         bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
         bg_label = CTkLabel(window, image=bg_img, text="")
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -501,7 +501,7 @@ def LOG_IN():
         # ==================== Buttons ====================
 
         # Light Switch
-        toggle_button = CTkButton(window, text="Swtich to Light Mode", command= toggle_mode, border_width= 3, corner_radius= 13, height=25)
+        toggle_button = CTkButton(window, text="Switch to Light Mode", command= toggle_mode, border_width= 3, corner_radius= 13, height=25)
         toggle_button.place(relx = 0.5, rely = 0.5, x= 495, y= -400)
 
         # Terms & Condition
@@ -539,7 +539,7 @@ def LOG_IN():
 
     # ==================== UI ====================
     # Background & Banner Img
-    background_image = Image.open(r".\assets\wallhaven-85gxp2.png")
+    background_image = Image.open(r".\assets\Artboard bg.png")
     bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
     bg_label = CTkLabel(window, image=bg_img, text="")
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
