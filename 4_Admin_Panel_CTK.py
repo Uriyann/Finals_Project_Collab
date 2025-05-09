@@ -169,6 +169,7 @@ def user_account_search():
 
     if not filtered_data:
         messagebox.showinfo("No Results", "No matching records found.")
+        user_account_show_data()
 
 def show_all_user_account_data():
     global df_rows
@@ -210,6 +211,7 @@ def personal_details_search():
 
     if not filtered_data:
         messagebox.showinfo("No Results", "No matching records found.")
+        personal_details_show_data()
 
 # Search For Family ================= NOT FUNCTIONING PROPERLY =================
 def family_details_search():
@@ -226,10 +228,13 @@ def family_details_search():
             print(f"Row data: {row}")
             
             if search_option == "Father's Name" and row[0] and search_query in str(row[0]).lower():
+                print(row)
                 filtered_data.append(row)
-            elif search_option == "Mother's Name" and row[4] and search_query in str(row[4]).lower():
+            elif search_option == "Mother's Name" and row[5] and search_query in str(row[5]).lower():
+                print(row)
                 filtered_data.append(row)
-            elif search_option == "Guardian's Name" and row[8] and search_query in str(row[8]).lower():
+            elif search_option == "Guardian's Name" and row[10] and search_query in str(row[10]).lower():
+                print(row)
                 filtered_data.append(row)
 
     family_student_table.delete(*family_student_table.get_children())
@@ -237,8 +242,9 @@ def family_details_search():
     for row in filtered_data:
         family_student_table.insert("", "end", values=row)
 
-    if not filtered_data:
-        messagebox.showinfo("No Results", "No matching records found.")
+    # if not filtered_data:
+    #     messagebox.showinfo("No Results", "No matching records found.")
+    #     family_details_show_data()
 
 # Search For Education
 def educational_details_search():
@@ -267,6 +273,7 @@ def educational_details_search():
 
     if not filtered_data:
         messagebox.showinfo("No Results", "No matching records found.")
+        educational_details_show_data()
 
 # Delete Button ================ Doesn't delete things in the worksheet ================
 def delete_selected_row():
@@ -313,10 +320,6 @@ def clear_all_rows():
         messagebox.showinfo("Cleared", "All rows have been cleared.")
     else:
         messagebox.showinfo("Canceled", "Clear All has been canceled.")
-
-
-
-
 
 # Admin Logo
 def make_rounded_image(image_path, size, corner_radius):

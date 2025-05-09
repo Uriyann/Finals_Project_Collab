@@ -124,7 +124,7 @@ def create_new_sheet():
         messagebox.showinfo(title= "Success", message= "Data saved successfully!")
         format_excel()
 
-        fields_to_readonly = [
+        fields_to_disable = [
                 Student_Entry, generate_student_id, Course_Section_Entry, LRN_Entry, generate_student_lrn,
                 Surname_Entry, FirstName_Entry, Middle_Entry, male_checkbox, female_checkbox, none_binary_checkbox, 
                 age_box, month_box, day_box, year_box, Birthplace_Entry, Nationality_Entry, religion_box, 
@@ -136,9 +136,9 @@ def create_new_sheet():
                 YR_Elem_Entry, Schl_Junior_Entry, Address_Junior_Entry, YR_Junior_Entry, Schl_Senior_Entry, Address_Senior_Entry,
                 strand_Senior_Entry, YR_Senior_Entry, Schl_College_Entry, Address_College_Entry, YR_College_Entry, if_transferee_chk_box
         ]
-        for field in fields_to_readonly:
+        for field in fields_to_disable:
             try:
-                field.configure(state="readonly")
+                field.configure(state="disable")
             except AttributeError:
                 pass
 
@@ -253,6 +253,9 @@ def ask_password():
             messagebox.showerror(title="Error", message="The file 'user_account_data.xlsx' was not found.")
         except Exception as e:
             messagebox.showerror(title="Error", message=f"An error occurred: {e}")
+        
+    def enter_toggle_pass(event):
+        pass_submit_btn.invoke()
 
     ask_password_window = CTkToplevel(window)
     ask_password_window.title("Password Required")
@@ -269,6 +272,7 @@ def ask_password():
 
     Password_Entry = CTkEntry(ask_password_window, show="*", width=200)
     Password_Entry.pack(pady=5)
+    Password_Entry.bind("<Return>", enter_toggle_pass)
     Password_Entry.focus()
 
     pass_submit_btn = ctk.CTkButton(ask_password_window, text="Submit", command=check_password)

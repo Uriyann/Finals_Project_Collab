@@ -210,7 +210,6 @@ def LOG_IN():
                 wb.save("user_account_data.xlsx")
 
                 format_excel()
-                show_data()
 
                 messagebox.showinfo(title= "Success", message= "Account Saved")
                 sign_up_first_name_entry.delete(0, END)
@@ -319,19 +318,6 @@ def LOG_IN():
                 ws.column_dimensions[col_letter].width = max_length + 2
 
             wb.save("user_account_data.xlsx")
-
-        # New Window Data Shower Function
-        def show_data():
-            wb = load_workbook("user_account_data.xlsx")
-            ws = wb["Userdata"]
-
-            data_window = CTkToplevel(window)
-            data_window.title("Stored User Data")
-
-            for i, row in enumerate(ws.iter_rows(values_only=True)):
-                for j, value in enumerate(row):
-                    label = CTkLabel(data_window, text=value, width=1)
-                    label.grid(row=i, column=j)
 
         # Input Validation & Debugger Function
         def sign_up_data_validation_debugger():
@@ -558,7 +544,7 @@ def LOG_IN():
     bg_label = CTkLabel(window, image=bg_img, text="")
     bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-    side_image = Image.open(r".\assets\wallhaven-73616y.png")
+    side_image = Image.open(r".\assets\banner.png")
     side_img = CTkImage(light_image=side_image, dark_image=side_image, size=(550, 550))
     side_label = CTkLabel(window, image=side_img, text="", corner_radius=10)
     side_label.place(relx = 0.5, rely = 0.5, x= -547, y= -275)
