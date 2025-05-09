@@ -167,8 +167,13 @@ def user_account_search():
     for row in filtered_data:
         user_account_student_table.insert("", "end", values=row)
 
+    if not filtered_data:
+        messagebox.showinfo("No Results", "No matching records found.")
+
 def show_all_user_account_data():
     global df_rows
+
+    user_account_search_entry.delete(0, "end")
 
     if not df_rows:
         messagebox.showwarning("Warning", "No data found. Please upload a file first.")
@@ -203,6 +208,9 @@ def personal_details_search():
     for row in filtered_data:
         personal_student_table.insert("", "end", values=row)
 
+    if not filtered_data:
+        messagebox.showinfo("No Results", "No matching records found.")
+
 # Search For Family ================= NOT FUNCTIONING PROPERLY =================
 def family_details_search():
     search_option = family_search_option.get()
@@ -229,6 +237,9 @@ def family_details_search():
     for row in filtered_data:
         family_student_table.insert("", "end", values=row)
 
+    if not filtered_data:
+        messagebox.showinfo("No Results", "No matching records found.")
+
 # Search For Education
 def educational_details_search():
     search_option = educ_search_option.get()
@@ -253,6 +264,9 @@ def educational_details_search():
 
     for row in filtered_data:
         educ_student_table.insert("", "end", values=row)
+
+    if not filtered_data:
+        messagebox.showinfo("No Results", "No matching records found.")
 
 # Delete Button ================ Doesn't delete things in the worksheet ================
 def delete_selected_row():
