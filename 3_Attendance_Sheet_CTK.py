@@ -7,6 +7,7 @@ from tkinter import messagebox
 import subprocess
 from datetime import datetime
 from tkinter import *
+import tkinter as tk
 from tkinter import filedialog
 import pandas as pd
 
@@ -79,9 +80,6 @@ student_last_name_label = CTkLabel(right_first_row, text="Last Name:", font=("Ar
 student_last_name_label.grid(row=0, column=2, padx=10, pady=5, sticky="w")
 student_last_name_entry = CTkEntry(right_first_row, width=220, font=("Arial", 14), placeholder_text="Enter Last Name", height= 35, fg_color= "transparent", bg_color= "transparent")
 student_last_name_entry.grid(row=1, column=2, padx=10, pady=5, sticky="w")
-
-submit_attendance_btn = CTkButton(right_first_row,text="Submit Attendance", font=("Arial",15,"bold"),command=open_attendance_subjects)
-submit_attendance_btn.grid(row=1,column=3,padx=10,pady=5,sticky="w")
 
 course_section_label = CTkLabel(right_second_row, text="Course/Section:", font=("Arial", 14))
 course_section_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
@@ -221,6 +219,10 @@ def open_attendance_subjects():
         savefile = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=(("Excel files", "*.xlsx"), ("All files", "*.*")))
         if savefile:
             df.to_excel(savefile, index=False, sheet_name="Sheet3")
+
+
+submit_attendance_btn = CTkButton(right_first_row,text="Submit Attendance", font=("Arial",15,"bold"),command=open_attendance_subjects)
+submit_attendance_btn.grid(row=1,column=3,padx=10,pady=5,sticky="w")
 
 # ==================== Window Starter ====================
 window.mainloop() 

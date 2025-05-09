@@ -521,7 +521,7 @@ def LOG_IN():
 
         # ==================== UI ====================
         # Background & Banner Img
-        background_image = Image.open(r".assets\Artboard bg.png")
+        background_image = Image.open(r"C:\Users\M S I\Desktop\BSIT_Finals_Project_Collab\assets\Artboard bg.png")
         bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(1300, 825))
         bg_label = CTkLabel(window, image=bg_img, text="")
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
