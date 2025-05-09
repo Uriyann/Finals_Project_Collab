@@ -62,8 +62,112 @@ def LOG_IN():
         forg_pass_window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
         forg_pass_window.grab_set()
         
-        terms_label = CTkLabel(forg_pass_window, text="Forgot Password go here.")
-        terms_label.pack(pady=20, padx=20)
+        def show_pass():
+            try:
+
+                username = username_entry.get().strip()
+
+                if not username:
+                    messagebox.showerror("Input Error", "Both fields are required.")
+                    return
+
+                file_path = "user_account_data.xlsx"
+                try:
+                    wb = load_workbook(file_path)
+                except FileNotFoundError:
+                    messagebox.showerror("Error", "User data file not found.")
+                    return
+
+                ws = wb["Userdata"]
+
+                user_found = False
+                for row in ws.iter_rows(min_row=2):
+                    if row[3].value == username:  
+                        new_password_entry.delete(0, "end")
+                        new_password_entry.insert(0, row[4].value)  
+                        user_found = True
+                        break
+                        
+                if user_found:
+                    fields_to_disable = [username_entry, new_password_entry]
+
+                    for field in fields_to_disable:
+                        try:
+                            field.configure(state="disable")
+                        except AttributeError:
+                            pass
+
+                else:
+                    messagebox.showerror("User Not Found", "No user found with that username.")
+
+            except Exception as e:
+                messagebox.showerror("Error", f"An unexpected error occurred: {str(e)}")
+
+        def reset_password():
+            try:
+                confirm = messagebox.askyesno("Reset Password", "Are you sure you want to reset your password?")
+                if confirm:
+                    fields_to_enable = [new_password_entry]
+                    for field in fields_to_enable:
+                        try:
+                            field.configure(state="normal")
+                        except AttributeError:
+                            pass
+
+            except Exception as e:
+                messagebox.showerror("Error", f"An unexpected error occurred: {str(e)}")
+
+        def save_password():
+            try:
+                username = username_entry.get().strip()
+                new_password = new_password_entry.get().strip()
+
+                if not username or not new_password:
+                    messagebox.showerror("Input Error", "Both fields are required.")
+                    return
+
+                if len(new_password) < 6:
+                    messagebox.showerror("Input Error", "Password must be at least 6 characters long.")
+                    return
+
+                wb = load_workbook("user_account_data.xlsx")
+                ws = wb["Userdata"]
+
+                user_found = False
+                for row in ws.iter_rows(min_row=2):
+                    if row[3].value == username:
+                        row[4].value = new_password
+                        user_found = True
+                        break
+
+                if user_found:
+                    wb.save("user_account_data.xlsx")
+                    messagebox.showinfo("Success", "Password updated successfully.")
+                    forg_pass_window.destroy()
+                else:
+                    messagebox.showerror("User Not Found", "No user found with that username.")
+
+            except Exception as e:
+                messagebox.showerror("Error", f"An unexpected error occurred: {str(e)}")
+
+        userlbl = CTkLabel(forg_pass_window, text="Enter your username:")
+        userlbl.pack(pady=(20, 5))
+        username_entry = CTkEntry(forg_pass_window, width=250)
+        username_entry.pack()
+
+        passlbl = CTkLabel(forg_pass_window, text="Your password:")
+        passlbl.pack(pady=(20, 5))
+        new_password_entry = CTkEntry(forg_pass_window, width=250)
+        new_password_entry.pack()
+
+        load_btn = CTkButton(forg_pass_window, text="Load Password", command=show_pass)
+        load_btn.pack(pady=5)
+
+        reset_btn = CTkButton(forg_pass_window, text="Reset Password", command=reset_password)
+        reset_btn.pack(pady=5)
+
+        save_btn = CTkButton(forg_pass_window, text="Save Password", command=save_password)
+        save_btn.pack(pady=5)
 
         forg_pass_window.wait_window()
 
