@@ -9,6 +9,7 @@ from openpyxl import load_workbook, Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 import re
+import random
     
 # ==================== Window Setup ====================
 window = CTk()
@@ -123,23 +124,24 @@ def create_new_sheet():
         messagebox.showinfo(title= "Success", message= "Data saved successfully!")
         format_excel()
 
-        fields_to_clear = [
-            Student_entry, Course_Section_entry, lrn_entry, surname_entry, firstname_entry, middle_entry,
-            birthplace_entry, nationality_entry, language_entry, street_entry, brgy_entry, city_entry,
-            zip_code_entry, province_entry, country_entry, email_entry, num_entry, name_father_entry,
-            address_father_entry, occupation_father_entry, phon_father_entry, name_mother_entry, address_mother_entry,
-            occupation_mother_entry, phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
-            occupation_guardian_entry, phon_guardian_entry, schl_elem_entry, address_elem_entry,
-            yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
-            strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry
+        fields_to_readonly = [
+                Student_entry, generate_student_id, Course_Section_entry, lrn_entry, generate_student_lrn,
+                surname_entry, firstname_entry, middle_entry, male_checkbox, female_checkbox, none_binary_checkbox, 
+                age_box, month_box, day_box, year_box, birthplace_entry, nationality_entry, religion_box, 
+                marital_status_box, language_entry, street_entry, brgy_entry, city_entry, zip_code_entry, 
+                province_entry, country_entry, email_entry, num_entry, name_father_entry, address_father_entry, 
+                occupation_father_entry, phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
+                phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
+                occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
+                yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
+                strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry, if_transferee_chk_box
         ]
-        for field in fields_to_clear:
+        for field in fields_to_readonly:
             try:
-                field.delete(0, END)
+                field.configure(state="readonly")
             except AttributeError:
                 pass
 
-        Course_Section_entry.set("Select Section")
         gender_var.set(0)
         age_box.set("Select Age")
         month_box.set("MM")
@@ -176,6 +178,56 @@ def validating_user_email():
         
         messagebox.showerror(title="Error", message="User not found.")
             
+    except Exception as e:
+        messagebox.showerror(title="Error", message=f"An error occurred: {e}")
+
+# Generating a Formatted User ID with Random Numbers
+def generate_user_id(yr: int = 2025, existing_ids=None):
+    try:
+
+        section = Course_Section_entry.get().strip()
+
+        if section not in ["1A", "1B", "1C"]:
+            raise ValueError("Section must be '1A', '1B', or '1C'.")
+
+        year_part = str(yr)[1:]
+
+        if existing_ids is None:
+            existing_ids = set()
+
+        while True:
+            number_part = f"{random.randint(0, 9999):04}"
+            user_id = f"{year_part}{section}-{number_part}"
+
+            if user_id not in existing_ids:
+                Student_entry.delete(0, END)
+                Student_entry.insert(0, user_id)
+                Student_entry.configure(state="readonly")
+                Course_Section_entry.configure(state="readonly")
+                return user_id
+
+    except Exception as e:
+        messagebox.showerror(title="Error", message=f"An error occurred: {e}")
+
+# Generating a Formatted User LRN with Random Numbers
+def generate_user_lrn(special_num: int = 20011213, existing_lrns=None):
+    try:
+
+        format_lrn = str(special_num)
+
+        if existing_lrns is None:
+            existing_lrns = set()
+
+        while True:
+            number_part = f"{random.randint(0, 9999):04}"
+            user_lrn = f"{format_lrn}{number_part}"
+
+            if user_lrn not in existing_lrns:
+                lrn_entry.delete(0, END)
+                lrn_entry.insert(0, user_lrn)
+                lrn_entry.configure(state="readonly")
+                return user_lrn
+
     except Exception as e:
         messagebox.showerror(title="Error", message=f"An error occurred: {e}")
 
@@ -426,20 +478,20 @@ def load_user_data():
                     yr_cg_entry.insert(0, "")
 
                 fields_to_disable = [
-                    Student_entry, Course_Section_entry, lrn_entry, surname_entry, firstname_entry, middle_entry,
-                    male_checkbox, female_checkbox, none_binary_checkbox, age_box, month_box, day_box, year_box,
-                    birthplace_entry, nationality_entry, religion_box, marital_status_box, language_entry, 
-                    street_entry, brgy_entry, city_entry, zip_code_entry, province_entry, country_entry, 
-                    email_entry, num_entry, name_father_entry, address_father_entry, occupation_father_entry, 
-                    phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
-                    phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
-                    occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
-                    yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
-                    strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry
+                        Student_entry, generate_student_id, Course_Section_entry, lrn_entry, generate_student_lrn,
+                        surname_entry, firstname_entry, middle_entry, male_checkbox, female_checkbox, none_binary_checkbox, 
+                        age_box, month_box, day_box, year_box, birthplace_entry, nationality_entry, religion_box, 
+                        marital_status_box, language_entry, street_entry, brgy_entry, city_entry, zip_code_entry, 
+                        province_entry, country_entry, email_entry, num_entry, name_father_entry, address_father_entry, 
+                        occupation_father_entry, phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
+                        phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
+                        occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
+                        yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
+                        strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry, if_transferee_chk_box
                 ]
                 for field in fields_to_disable:
                     try:
-                        field.configure(state="disabled")
+                        field.configure(state="disable")
                     except AttributeError:
                         pass
 
@@ -455,15 +507,16 @@ def edit_user_data():
         return
         
     fields_to_enable = [
-    male_checkbox, female_checkbox, none_binary_checkbox, age_box, month_box, day_box, year_box,
-    birthplace_entry, nationality_entry, religion_box, marital_status_box, language_entry, 
-    street_entry, brgy_entry, city_entry, zip_code_entry, province_entry, country_entry, 
-    email_entry, num_entry, name_father_entry, address_father_entry, occupation_father_entry, 
-    phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
-    phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
-    occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
-    yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
-    strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry
+            Student_entry, generate_student_id, Course_Section_entry, lrn_entry, generate_student_lrn,
+            surname_entry, firstname_entry, middle_entry, male_checkbox, female_checkbox, none_binary_checkbox, 
+            age_box, month_box, day_box, year_box, birthplace_entry, nationality_entry, religion_box, 
+            marital_status_box, language_entry, street_entry, brgy_entry, city_entry, zip_code_entry, 
+            province_entry, country_entry, email_entry, num_entry, name_father_entry, address_father_entry, 
+            occupation_father_entry, phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
+            phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
+            occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
+            yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
+            strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry, if_transferee_chk_box
     ]
     for field in fields_to_enable:
         try:
@@ -852,15 +905,17 @@ def FinalCheck():
         return False
 
     # College
-    col_school_name = schl_cg_entry.get().strip()
-    col_address = address_cg_entry.get().strip()
-    col_year_grad = yr_cg_entry.get().strip()
-    if col_school_name == "" or col_address == "" or col_year_grad == "":
-        messagebox.showerror("Missing Requirement", "Error: College information is incomplete.")
-        return False
-    if col_year_grad != "N/A" and not col_year_grad.isdigit():
-        messagebox.showerror("Invalid Input", "Error: College Year Graduated must be an integer or 'N/A'.")
-        return False
+    if if_transferee_var.get() == 0:
+        col_school_name = schl_cg_entry.get().strip()
+        col_address = address_cg_entry.get().strip()
+        col_year_grad = yr_cg_entry.get().strip()
+
+        if col_school_name == "" or col_address == "" or col_year_grad == "":
+            messagebox.showerror("Missing Requirement", "Error: College information is incomplete.")
+            return False
+        if col_year_grad != "N/A" and not col_year_grad.isdigit():
+            messagebox.showerror("Invalid Input", "Error: College Year Graduated must be an integer or 'N/A'.")
+            return False
     
     return True
 
@@ -1034,6 +1089,9 @@ Student_ID.grid(row=0, column=0, padx=40, pady=5, sticky="w")
 Student_entry = CTkEntry(left_top, width=250, font=("Arial", 14), placeholder_text="Enter Student ID", height= 35, fg_color= "transparent", bg_color= "transparent")
 Student_entry.grid(row=0, column=1, pady=5)
 
+generate_student_id = CTkButton(left_top, text="Generate Student ID", font=("Arial", 14), command=generate_user_id)
+generate_student_id.grid(row=0, column=2, padx=10, pady=5)
+
 Course_Section = CTkLabel(left_top, text="Course/Section:", font=("Arial", 14))
 Course_Section.grid(row=1, column=0, padx=40, pady=5, sticky="w")
 sec_var = ["Select Section", "1A", "1B", "1C"]
@@ -1045,6 +1103,9 @@ lrn = CTkLabel(left_top, text="LRN:", font=("Arial", 14))
 lrn.grid(row=2, column=0, padx=40, pady=5, sticky="w")
 lrn_entry= CTkEntry(left_top, width=250, font=("Arial", 14), placeholder_text="Enter LRN", height= 35, fg_color= "transparent", bg_color= "transparent")
 lrn_entry.grid(row=2, column=1, pady=5)
+
+generate_student_lrn = CTkButton(left_top, text="Generate LRN", font=("Arial", 14), command=generate_user_lrn)
+generate_student_lrn.grid(row=2, column=2, padx=10, pady=5)
 
 right_top = CTkFrame(top_section, bg_color="transparent", fg_color= "transparent", border_width=6, corner_radius=10)
 right_top.pack(side="right", padx=10)
@@ -1478,7 +1539,7 @@ empty_label.grid(row=4, column=2)
 cg_label = CTkLabel(row_column_parents_details_frame, text="COLLEGE", font=("Arial", 14, "bold"), bg_color="transparent")
 cg_label.grid(row=4, column=3, padx=10, pady=7, sticky="w")
 
-if_transferee_var = IntVar(value=0)
+if_transferee_var = IntVar()
 if_transferee_chk_box = CTkCheckBox(educ_details, text="Check if you are not a transferee", variable=if_transferee_var)
 if_transferee_chk_box.place(x=834, y=230)
 if_transferee_chk_box.configure(command=toggle_transferee_fields)
