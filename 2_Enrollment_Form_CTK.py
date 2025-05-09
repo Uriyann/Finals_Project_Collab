@@ -711,8 +711,13 @@ def FinalCheck():
             messagebox.showerror(title="Missing Requirement", message=f"Error: {Fieldnames} is required.")
             return False
         
-        if not field_value.isalpha() and field_value != "":
-            messagebox.showerror(title="Invalid Input", message=f"Error: {Fieldnames} should contain only letters.")
+    if Fieldnames == "Middle Initial":
+        if not re.match(r"^[A-Za-z]\.?$", field_value):
+            messagebox.showerror(title="Invalid Input", message="Error: Middle Initial must be a single letter, optionally followed by a '.'")
+            return False
+    else:
+        if not re.match(r"^[A-Za-z ]+$", field_value):
+            messagebox.showerror(title="Invalid Input", message=f"Error: {Fieldnames} should contain only letters and spaces.")
             return False
 
     # Check Gender Section
@@ -741,7 +746,7 @@ def FinalCheck():
     if birthplace_value == "":
         messagebox.showerror(title="Missing Requirement", message="Error: Birthplace is required.")
         return False
-    if not birthplace_value.isalpha():
+    if not re.match(r"^[A-Za-z ]+$", birthplace_value):
         messagebox.showerror(title="Invalid Input", message="Error: Birthplace should contain only letters.")
         return False
 
@@ -793,7 +798,7 @@ def FinalCheck():
                 return False
 
         if Fieldnames in ["Street", "Barangay", "City/Municipality", "Province", "Country"]:
-            if not field_value.replace(" ", "").isalpha():
+            if not re.match(r"^[A-Za-z0-9 ,.()-]+$", field_value):
                 messagebox.showerror(title="Invalid Input", message=f"Error: {Fieldnames} should contain only letters.")
                 return False
     
@@ -822,29 +827,31 @@ def FinalCheck():
     father_occupation = Occupation_Father_Entry.get().strip()
     father_contact = Phone_Father_Entry.get().strip()
 
-    if father_name == "" or father_occupation == "" or father_contact == "":
+    if not father_name or not father_occupation or not father_contact:
         messagebox.showerror("Missing Requirement", "Error: Father's information is incomplete.")
         return False
-    if not father_name.isalpha() or not father_occupation.isalpha():
-        messagebox.showerror("Invalid Input", "Error: Father's Name and Occupation should be strings.")
+    if not re.match(r"^[A-Za-z .]+$", father_name) or not re.match(r"^[A-Za-z .]+$", father_occupation):
+        messagebox.showerror("Invalid Input", "Error: Father's Name and Occupation should contain only letters, spaces, and periods.")
         return False
     if father_contact != "N/A" and not father_contact.isdigit():
         messagebox.showerror("Invalid Input", "Error: Father's Contact No should be an integer or 'N/A'.")
         return False
 
-    mother_name = Name_Mother_Entry.get().strip()  # Name Entry
-    mother_occupation = Occupation_Mother_Entry.get().strip()  # Occupation Entry
-    mother_contact = Phone_Mother_Entry.get().strip()  # Contact Entry
 
-    if mother_name == "" or mother_occupation == "" or mother_contact == "":
+    mother_name = Name_Mother_Entry.get().strip()
+    mother_occupation = Occupation_Mother_Entry.get().strip()
+    mother_contact = Phone_Mother_Entry.get().strip()
+
+    if not mother_name or not mother_occupation or not mother_contact:
         messagebox.showerror("Missing Requirement", "Error: Mother's information is incomplete.")
         return False
-    if not mother_name.isalpha() or not mother_occupation.isalpha():
-        messagebox.showerror("Invalid Input", "Error: Mother's Name and Occupation should be strings.")
+    if not re.match(r"^[A-Za-z .]+$", mother_name) or not re.match(r"^[A-Za-z .]+$", mother_occupation):
+        messagebox.showerror("Invalid Input", "Error: Mother's Name and Occupation should contain only letters, spaces, and periods.")
         return False
     if mother_contact != "N/A" and not mother_contact.isdigit():
         messagebox.showerror("Invalid Input", "Error: Mother's Contact No should be an integer or 'N/A'.")
         return False
+
 
     # Validate Guardian's Information
     if same_chk_var.get() == 0:
@@ -855,17 +862,19 @@ def FinalCheck():
         guardian_contact = Phone_Guardian_Entry.get().strip()
 
         
-        if guardian_name == "" or guardian_relationship == "" or guardian_Address == "" or guardian_occupation == "" or guardian_contact == "":
+    if same_chk_var.get() == 0:
+        if not guardian_name or not guardian_relationship or not guardian_Address or not guardian_occupation or not guardian_contact:
             messagebox.showerror("Missing Requirement", "Error: Guardian's information is incomplete.")
             return False
-        if not guardian_name.replace(" ", "").isalpha():
-            messagebox.showerror("Invalid Input", "Error: Guardian's Name should contain only letters.")
+        if not re.match(r"^[A-Za-z .]+$", guardian_name):
+            messagebox.showerror("Invalid Input", "Error: Guardian's Name should contain only letters, spaces, and periods.")
             return False
-        if not guardian_relationship.replace(" ", "").isalpha():
-            messagebox.showerror("Invalid Input", "Error: Guardian's Relationship should contain only letters.")
+        if not re.match(r"^[A-Za-z .]+$", guardian_occupation):
+            messagebox.showerror("Invalid Input", "Error: Guardian's Occupation should contain only letters, spaces, and periods.")
             return False
-
-        # Validate that Contact Number is a valid integer or "N/A"
+        if not re.match(r"^[A-Za-z ]+$", guardian_relationship):
+            messagebox.showerror("Invalid Input", "Error: Guardian's Relationship should contain only letters and spaces.")
+            return False
         if guardian_contact != "N/A" and not guardian_contact.isdigit():
             messagebox.showerror("Invalid Input", "Error: Guardian's Contact Number should be a valid integer or 'N/A'.")
             return False
@@ -903,6 +912,9 @@ def FinalCheck():
         messagebox.showerror("Missing Requirement", "Error: Senior High school information is incomplete.")
         return False
     if not sen_year_grad.isdigit():
+        if not re.match(r"^[A-Za-z0-9 \-]+$", sen_strand):
+            messagebox.showerror("Invalid Input", "Error: Strand should contain only letters, spaces, and hyphens.")
+            return False
         messagebox.showerror("Invalid Input", "Error: Senior High Year Graduated must be an integer.")
         return False
 
@@ -1470,7 +1482,7 @@ row_column_parents_details_frame.pack(anchor = CENTER, pady=30)
 empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
 empty_label.grid(row=0, column=0)
 
-Elem_label = CTkLabel(row_column_parents_details_frame, text="ElemENTARY", font=("Arial", 14, "bold"), bg_color="transparent")
+Elem_label = CTkLabel(row_column_parents_details_frame, text="Elementary", font=("Arial", 14, "bold"), bg_color="transparent")
 Elem_label.grid(row=0, column=1, padx=10, pady=7)
 
 Schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
