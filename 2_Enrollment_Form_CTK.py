@@ -624,6 +624,25 @@ def update_user_data():
     except Exception as e:
         messagebox.showerror(title="Error", message=str(e))
 
+def toggle_enter_for_all_event():
+    fields_to_toggle = [
+            Student_Entry, Course_Section_Entry, LRN_Entry,
+            Surname_Entry, FirstName_Entry, Middle_Entry, male_checkbox, female_checkbox, none_binary_checkbox, 
+            age_box, month_box, day_box, year_box, Birthplace_Entry, Nationality_Entry, religion_box, 
+            marital_status_box, Language_Entry, Street_Entry, BRGY_Entry, City_Entry, ZipCode_Entry, 
+            Province_Entry, Country_Entry, Email_Entry, Num_Entry, Name_Father_Entry, Address_Father_Entry, 
+            Occupation_Father_Entry, Phone_Father_Entry, Name_Mother_Entry, Address_Mother_Entry, Occupation_Mother_Entry, 
+            Phone_Mother_Entry, Name_Guardian_Entry, Rel_Guardian_Entry, Address_Guardian_Entry,
+            Occupation_Guardian_Entry, Phone_Guardian_Entry, same_chk_box, Schl_Elem_Entry, Address_Elem_Entry,
+            YR_Elem_Entry, Schl_Junior_Entry, Address_Junior_Entry, YR_Junior_Entry, Schl_Senior_Entry, Address_Senior_Entry,
+            strand_Senior_Entry, YR_Senior_Entry, Schl_College_Entry, Address_College_Entry, YR_College_Entry, if_transferee_chk_box
+    ]
+    for field in fields_to_toggle:
+        try:
+            field.bind('<Return>', toggle_enter_submit_btn)
+        except AttributeError:
+            pass
+
 # Format Fixer Function
 def format_excel():
     try:
@@ -994,6 +1013,9 @@ def toggle_guardian_fields():
 # ==================== Events ====================
 def change_light_dark_mode_event(new_appearance_mode: str):
     ctk.set_appearance_mode(new_appearance_mode)
+
+def toggle_enter_submit_btn(event):
+    submit_btn.invoke()
 
 # ==================== Switch Window ====================
 # Main Portal Window Switch Function
@@ -1561,5 +1583,6 @@ YR_label.grid(row=7, column=2, padx=10, pady=7, sticky="w")
 YR_College_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
 YR_College_Entry.grid(row=7, column=3, padx=10, pady=7)
 
+toggle_enter_for_all_event()
 # ==================== Window Starter ====================
 window.mainloop()
