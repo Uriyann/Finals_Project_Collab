@@ -121,6 +121,7 @@ class slidepanel(ctk.CTkFrame):
             else:
                 self.instartpos=False
                 
+                
         elif self.startpos==1 and self.endpos==0.6:
             if self.pos>self.endpos:
                 self.pos -= 0.008
@@ -129,7 +130,7 @@ class slidepanel(ctk.CTkFrame):
 
             else:
                 self.instartpos=False
-                
+                bgroup.enb()
                 
             
             
@@ -148,11 +149,10 @@ class slidepanel(ctk.CTkFrame):
             self.instartpos=True
             bgroup.enb()
            
-            
+
 class ImageLabel(tk.Label):
     def load(self, im):
         if isinstance(im, str):
-            sizechange=(1200, 1200)
             im = Image.open(im)
             
         frames = []
@@ -205,7 +205,7 @@ class ImageLabel(tk.Label):
             if self.counter==self.totalframes:
                 os.system('cls')
                 showb(bgroup.b)
-            elif self.counter<=self.totalframes:
+            elif self.counter<self.totalframes:
                 self.after(self.delay, self.next_frame)
 
 def GO_TO_LOGIN():
@@ -214,6 +214,7 @@ def GO_TO_LOGIN():
 
 #button functions
 def bfunc():
+    bgroup.disb()
     animpanel.animate()
     navimg.load(r'Finals_Project_Collab\assets\log.gif')
     navpanel1.animate()
