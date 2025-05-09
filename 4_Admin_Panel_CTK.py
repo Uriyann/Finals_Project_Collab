@@ -254,6 +254,55 @@ def educational_details_search():
     for row in filtered_data:
         educ_student_table.insert("", "end", values=row)
 
+# Delete Button ================ Doesn't delete things in the worksheet ================
+def delete_selected_row():
+    tables = [
+        user_account_student_table,
+        personal_student_table,
+        family_student_table,
+        educ_student_table
+    ]
+    # Check if selection exists
+    selected_found = False
+    for table in tables:
+        selected_item = table.selection()
+        if selected_item:
+            selected_found = True
+
+            confirm = messagebox.askyesno("Confirm Deletion", "Are you sure you want to delete the selected row(s)?")
+            if confirm:
+                print(f"Selected row(s) in {table}: {selected_item}")
+                for item in selected_item:
+                    table.delete(item)
+                
+            else:
+                messagebox.showinfo("Canceled", "Deletion has been canceled.")
+            break
+    
+    if not selected_found:
+        messagebox.showwarning("No Selection", "Please select a row to delete.")
+
+# Clear Button
+def clear_all_rows():
+    confirm = messagebox.askyesno("Confirm Clear All", "Are you sure you want to clear all rows?")
+    if confirm:
+        tables = [
+            user_account_student_table,
+            personal_student_table,
+            family_student_table,
+            educ_student_table
+        ]
+        
+        for table in tables:
+            table.delete(*table.get_children())
+        
+        messagebox.showinfo("Cleared", "All rows have been cleared.")
+    else:
+        messagebox.showinfo("Canceled", "Clear All has been canceled.")
+
+
+
+
 
 # Admin Logo
 def make_rounded_image(image_path, size, corner_radius):
@@ -269,7 +318,6 @@ def make_rounded_image(image_path, size, corner_radius):
     rounded_image.putalpha(mask)
 
     return rounded_image
-
 
 
 # ==================== Events ====================
@@ -383,7 +431,13 @@ buttons = ["Delete", "Clear"]
 for index, btn in enumerate(buttons):
     row = index // 2
     column = index % 2
-    ctk.CTkButton(btn_frame, text=btn, width=150).grid(row=row, column=column, padx=10, pady=5)
+
+    if btn == "Delete":
+        command = delete_selected_row
+    else:
+        command = clear_all_rows
+    ctk.CTkButton(btn_frame, text=btn, width=150, command=command).grid(row=row, column=column, padx=10, pady=5)
+
 
 
 
