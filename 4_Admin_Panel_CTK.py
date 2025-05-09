@@ -362,8 +362,10 @@ def clear_all_rows():
                 if data_sheet not in wb.sheetnames:
                     messagebox.showerror("Error", f"Sheet '{data_sheet}' not found in the workbook.")
                     return
-                
-                wb[data_sheet].delete_rows(2, wb[data_sheet].max_row)
+
+                ws = wb[data_sheet]
+                ws.delete_rows(2, ws.max_row)
+
                 table.delete(*table.get_children())
                 
             wb.save(file_path_to_excel)
