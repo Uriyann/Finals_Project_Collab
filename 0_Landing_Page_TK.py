@@ -307,7 +307,7 @@ bg_img = CTkImage(light_image=background_image, dark_image=background_image, siz
 navicon=CTkLabel(master=navpanel1, image = bg_img, text="")
 #labels
 
-desc=("Welcome to UniPass,\nan integrated digital platform \ndeveloped to help teachers and students\ntrack and manage their class attendance\nefficiently.\n\nWith a straightforward sign-up and login \nprocess, students can create and manage \ntheir accounts with ease.\n\nTo keep students informed, UniPass \nencourages responsibility and supports\nto improve academic performance.\n\nBegin your journey toward better\nacademic management with\nUniPass today!"
+desc=("Welcome to UniPass,\nAn integrated digital platform \ndeveloped to help teachers and students\ntrack and manage their class attendance\nefficiently.\n\nWith a straightforward sign-up and login \nprocess, students can create and manage \ntheir accounts with ease.\n\nTo keep students informed, UniPass \nencourages responsibility and supports\nto improve academic performance.\n\nBegin your journey toward better\nacademic management with\nUniPass today!"
     )
 contributors=("Barotea, Joshua P.\nDe Guzman, Mark Vincent M.\nAguilera, John Kevin F.\nAlonzo, Sean Andrei T.\nBautista, Alma M.\nBermudez, Rommelgio Gio C.\nChua, Carl Angelo D.\nDalumpienes, Geoffrey Beene P.\nDe Leon, Kier Cynon R.\nDe Villa, John Marc A.\nDiaz, Gabriel, Clinton E.\nHardinian, Christian A.\nMamac, John Michael L.\nMelecia, Christian Lenard P.\nPerlada, Christian A.\nSepillo, Clark Kennevic R."
     )
