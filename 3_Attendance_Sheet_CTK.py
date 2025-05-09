@@ -7,7 +7,6 @@ from tkinter import messagebox
 import subprocess
 from datetime import datetime
 from tkinter import *
-import tkinter as tk
 from tkinter import filedialog
 import pandas as pd
 
@@ -80,6 +79,7 @@ student_last_name_label = CTkLabel(right_first_row, text="Last Name:", font=("Ar
 student_last_name_label.grid(row=0, column=2, padx=10, pady=5, sticky="w")
 student_last_name_entry = CTkEntry(right_first_row, width=220, font=("Arial", 14), placeholder_text="Enter Last Name", height= 35, fg_color= "transparent", bg_color= "transparent")
 student_last_name_entry.grid(row=1, column=2, padx=10, pady=5, sticky="w")
+
 
 course_section_label = CTkLabel(right_second_row, text="Course/Section:", font=("Arial", 14))
 course_section_label.grid(row=0, column=0, padx=10, pady=5, sticky="w")
@@ -190,39 +190,43 @@ for index, (subject_code, title) in enumerate(subject_data):
     present_label.pack(pady=3)
     present_text = CTkLabel(present_box, text="Present", font=("Arial", 12))
     present_text.pack(pady=5)
-    
+
+
 def open_attendance_subjects():
     attendance_window = CTkToplevel(window)  # Create a new window
     attendance_window.title("Attendance")
-    attendance_window.geometry("250x150")  
-    
-    CTkLabel(attendance_window, text="").pack(pady=20)
+    attendance_window.geometry("400x300")  # Adjust the size as needed
 
+    # Label for subject selection
+    CTkLabel(attendance_window, text="Select Subject:").pack(pady=10)
 
-# Add entry widgets for subjects
-    subject1 = tk.Entry(attendance_window)
-    subject1.pack()
-    subject2 = tk.Entry(attendance_window)
-    subject2.pack()
+    # Subject options
+    subj_menu = ["ITCS103", "ITPS102", "ITPS103", "ETS", "US"]
+    subj_options = CTkOptionMenu(attendance_window, values=subj_menu)
+    subj_options.pack(pady=10)
 
-# Function to display the subjects
-    def display_subjects():
-        subjects = [subject1.get(), subject2.get()]
-        tk.Label(attendance_window, text=f"You are present on: {', '.join(subjects)}").pack()
+    # Status selection buttons
+    CTkLabel(attendance_window, text="Status:").pack(pady=10)
 
-# Add a button to submit and display the subjects
-    CTkButton(attendance_window, text="Submit", command=display_subjects).pack()
-    
-    def save_entry_data():
-        entries = [student_entry.get(), student_first_name_entry.get(), student_last_name_entry.get(), course_section_entry.get(), course_section_entry.get(), lrn_entry,get(), student_gender_entry.get(), student_age_entry.get(), subject_code.get()]  # Replace with your entry fields
-        df = pd.DataFrame([entries])
-        savefile = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=(("Excel files", "*.xlsx"), ("All files", "*.*")))
-        if savefile:
-            df.to_excel(savefile, index=False, sheet_name="Sheet3")
+    def mark_attendance(status):
+        selected_subject = subj_options.get()
+        if selected_subject:
+            messagebox.showinfo("Attendance Recorded", f"{status} for {selected_subject}")
+        else:
+            messagebox.showwarning("Warning", "Please select a subject")
 
+    # Present Button
+    present_btn = CTkButton(attendance_window, text="Present", command=lambda: mark_attendance("Present"))
+    present_btn.pack(side="left", padx=20, pady=20)
 
-submit_attendance_btn = CTkButton(right_first_row,text="Submit Attendance", font=("Arial",15,"bold"),command=open_attendance_subjects)
-submit_attendance_btn.grid(row=1,column=3,padx=10,pady=5,sticky="w")
+    # Absent Button
+    absent_btn = CTkButton(attendance_window, text="Absent", command=lambda: mark_attendance("Absent"))
+    absent_btn.pack(side="right", padx=20, pady=20)
+
+# Make sure this function is called from the 'submit_attendance_btn' button in the main window
+submit_attendance_btn = CTkButton(right_first_row, text="Submit Attendance", font=("Arial", 15, "bold"), command=open_attendance_subjects)
+submit_attendance_btn.grid(row=1, column=3, padx=10, pady=5, sticky="w")
+
 
 # ==================== Window Starter ====================
 window.mainloop() 
