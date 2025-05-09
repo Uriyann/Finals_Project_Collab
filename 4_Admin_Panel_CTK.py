@@ -170,6 +170,8 @@ def user_account_search():
 def show_all_user_account_data():
     global df_rows
 
+    user_account_search_entry.delete(0, "end")
+
     if not df_rows:
         messagebox.showwarning("Warning", "No data found. Please upload a file first.")
         return
