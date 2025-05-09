@@ -31,7 +31,7 @@ def create_new_sheet():
     
     try:
 
-        sections = Course_Section_entry.get().strip()
+        sections = Course_Section_Entry.get().strip()
         if sections not in ["1A", "1B", "1C"]:
             messagebox.showerror(title="Error", message="Please select a valid section.")
             return
@@ -78,43 +78,43 @@ def create_new_sheet():
             new_sheet.append(new_headers)
 
         student_info_data = [
-                Student_entry.get().strip(), Course_Section_entry.get().strip(), lrn_entry.get().strip(), 
+                Student_Entry.get().strip(), Course_Section_Entry.get().strip(), LRN_Entry.get().strip(), 
                 ""
                 ]
         student_name_data = [
-            surname_entry.get().strip().strip(), firstname_entry.get().strip(), middle_entry.get().strip(), 
+            Surname_Entry.get().strip().strip(), FirstName_Entry.get().strip(), Middle_Entry.get().strip(), 
             ""
                 ]
         
         student_personal_detail_data = [
                 "Male" if gender_var.get() == 1 else "Female" if gender_var.get() == 2 else "Prefer not to answer", 
                 age_box.get().strip(), f"{month_box.get().strip()} {day_box.get().strip()}, {year_box.get().strip()}",
-                birthplace_entry.get().strip(), nationality_entry.get().strip(), religion_box.get().strip(), marital_status_box.get().strip(), 
-                language_entry.get().strip(), 
+                Birthplace_Entry.get().strip(), Nationality_Entry.get().strip(), religion_box.get().strip(), marital_status_box.get().strip(), 
+                Language_Entry.get().strip(), 
                 "", 
-                street_entry.get().strip(), brgy_entry.get().strip(), city_entry.get().strip(),
-                zip_code_entry.get().strip(), province_entry.get().strip(), country_entry.get().strip(), 
+                Street_Entry.get().strip(), BRGY_Entry.get().strip(), City_Entry.get().strip(),
+                ZipCode_Entry.get().strip(), Province_Entry.get().strip(), Country_Entry.get().strip(), 
                 "",
-                email_entry.get().strip(), num_entry.get().strip(),
+                Email_Entry.get().strip(), Num_Entry.get().strip(),
                 ""
                 ]
         student_family_detail_data = [
-                name_father_entry.get().strip(), address_father_entry.get().strip(), occupation_father_entry.get().strip(), phon_father_entry.get().strip(),
+                Name_Father_Entry.get().strip(), Address_Father_Entry.get().strip(), Occupation_Father_Entry.get().strip(), Phone_Father_Entry.get().strip(),
                 "",
-                name_mother_entry.get().strip(), address_mother_entry.get().strip(), occupation_mother_entry.get().strip(), phon_mother_entry.get().strip(),
+                Name_Mother_Entry.get().strip(), Address_Mother_Entry.get().strip(), Occupation_Mother_Entry.get().strip(), Phone_Mother_Entry.get().strip(),
                 "",
-                name_guardian_entry.get().strip(), rel_guardian_entry.get().strip(), address_guardian_entry.get().strip(),
-                occupation_guardian_entry.get().strip(), phon_guardian_entry.get().strip(),
+                Name_Guardian_Entry.get().strip(), Rel_Guardian_Entry.get().strip(), Address_Guardian_Entry.get().strip(),
+                Occupation_Guardian_Entry.get().strip(), Phone_Guardian_Entry.get().strip(),
                 ""
                 ]
         student_educational_detail_data = [
-                schl_elem_entry.get().strip(), address_elem_entry.get().strip(), yr_elem_entry.get().strip(),
+                Schl_Elem_Entry.get().strip(), Address_Elem_Entry.get().strip(), YR_Elem_Entry.get().strip(),
                 "",
-                schl_js_entry.get().strip(), address_js_entry.get().strip(), yr_js_entry.get().strip(),
+                Schl_Junior_Entry.get().strip(), Address_Junior_Entry.get().strip(), YR_Junior_Entry.get().strip(),
                 "",
-                schl_shs_entry.get().strip(), address_shs_entry.get().strip(), strand_shs_entry.get().strip(), yr_shs_entry.get().strip(),
+                Schl_Senior_Entry.get().strip(), Address_Senior_Entry.get().strip(), strand_Senior_Entry.get().strip(), YR_Senior_Entry.get().strip(),
                 "",
-                schl_cg_entry.get().strip(), address_cg_entry.get().strip(), yr_cg_entry.get().strip()
+                Schl_College_Entry.get().strip(), Address_College_Entry.get().strip(), YR_College_Entry.get().strip()
                 ]
         
         new_sheet.append(student_info_data + student_name_data + student_personal_detail_data + student_family_detail_data + student_educational_detail_data)
@@ -125,16 +125,16 @@ def create_new_sheet():
         format_excel()
 
         fields_to_readonly = [
-                Student_entry, generate_student_id, Course_Section_entry, lrn_entry, generate_student_lrn,
-                surname_entry, firstname_entry, middle_entry, male_checkbox, female_checkbox, none_binary_checkbox, 
-                age_box, month_box, day_box, year_box, birthplace_entry, nationality_entry, religion_box, 
-                marital_status_box, language_entry, street_entry, brgy_entry, city_entry, zip_code_entry, 
-                province_entry, country_entry, email_entry, num_entry, name_father_entry, address_father_entry, 
-                occupation_father_entry, phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
-                phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
-                occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
-                yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
-                strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry, if_transferee_chk_box
+                Student_Entry, generate_student_id, Course_Section_Entry, LRN_Entry, generate_student_lrn,
+                Surname_Entry, FirstName_Entry, Middle_Entry, male_checkbox, female_checkbox, none_binary_checkbox, 
+                age_box, month_box, day_box, year_box, Birthplace_Entry, Nationality_Entry, religion_box, 
+                marital_status_box, Language_Entry, Street_Entry, BRGY_Entry, City_Entry, ZipCode_Entry, 
+                Province_Entry, Country_Entry, Email_Entry, Num_Entry, Name_Father_Entry, Address_Father_Entry, 
+                Occupation_Father_Entry, Phone_Father_Entry, Name_Mother_Entry, Address_Mother_Entry, Occupation_Mother_Entry, 
+                Phone_Mother_Entry, Name_Guardian_Entry, Rel_Guardian_Entry, Address_Guardian_Entry,
+                Occupation_Guardian_Entry, Phone_Guardian_Entry, same_chk_box, Schl_Elem_Entry, Address_Elem_Entry,
+                YR_Elem_Entry, Schl_Junior_Entry, Address_Junior_Entry, YR_Junior_Entry, Schl_Senior_Entry, Address_Senior_Entry,
+                strand_Senior_Entry, YR_Senior_Entry, Schl_College_Entry, Address_College_Entry, YR_College_Entry, if_transferee_chk_box
         ]
         for field in fields_to_readonly:
             try:
@@ -157,23 +157,23 @@ def create_new_sheet():
 def validating_user_email():
     try:
 
-        email = email_entry.get().strip()
+        email = Email_Entry.get().strip()
         if not email:
-            messagebox.showerror(title="Error", message="Please enter an email address.")
+            messagebox.showerror(title="Error", message="Please enter an email Address.")
             return
 
         wb = load_workbook("user_account_data.xlsx")
         account_data_sheet = wb["Userdata"]
         for row in account_data_sheet.iter_rows(min_row=2, values_only=True):
             if row[2] == email:
-                surname_entry.delete(0, END)
-                surname_entry.insert(0, row[1])
+                Surname_Entry.delete(0, END)
+                Surname_Entry.insert(0, row[1])
 
-                firstname_entry.delete(0, END)
-                firstname_entry.insert(0, row[0])
+                FirstName_Entry.delete(0, END)
+                FirstName_Entry.insert(0, row[0])
 
-                email_entry.delete(0, END)
-                email_entry.insert(0, row[2])
+                Email_Entry.delete(0, END)
+                Email_Entry.insert(0, row[2])
                 return 
         
         messagebox.showerror(title="Error", message="User not found.")
@@ -182,15 +182,15 @@ def validating_user_email():
         messagebox.showerror(title="Error", message=f"An error occurred: {e}")
 
 # Generating a Formatted User ID with Random Numbers
-def generate_user_id(yr: int = 2025, existing_ids=None):
+def generate_user_id(YR: int = 2025, existing_ids=None):
     try:
 
-        section = Course_Section_entry.get().strip()
+        section = Course_Section_Entry.get().strip()
 
         if section not in ["1A", "1B", "1C"]:
             raise ValueError("Section must be '1A', '1B', or '1C'.")
 
-        year_part = str(yr)[1:]
+        year_part = str(YR)[1:]
 
         if existing_ids is None:
             existing_ids = set()
@@ -200,10 +200,10 @@ def generate_user_id(yr: int = 2025, existing_ids=None):
             user_id = f"{year_part}{section}-{number_part}"
 
             if user_id not in existing_ids:
-                Student_entry.delete(0, END)
-                Student_entry.insert(0, user_id)
-                Student_entry.configure(state="readonly")
-                Course_Section_entry.configure(state="readonly")
+                Student_Entry.delete(0, END)
+                Student_Entry.insert(0, user_id)
+                Student_Entry.configure(state="readonly")
+                Course_Section_Entry.configure(state="readonly")
                 return user_id
 
     except Exception as e:
@@ -223,9 +223,9 @@ def generate_user_lrn(special_num: int = 20011213, existing_lrns=None):
             user_lrn = f"{format_lrn}{number_part}"
 
             if user_lrn not in existing_lrns:
-                lrn_entry.delete(0, END)
-                lrn_entry.insert(0, user_lrn)
-                lrn_entry.configure(state="readonly")
+                LRN_Entry.delete(0, END)
+                LRN_Entry.insert(0, user_lrn)
+                LRN_Entry.configure(state="readonly")
                 return user_lrn
 
     except Exception as e:
@@ -242,7 +242,7 @@ def ask_password():
             account_ask_password = wb["Userdata"]
 
             for row in account_ask_password.iter_rows(min_row=2, values_only=True):
-                if row[4] == password_entry.get().strip():
+                if row[4] == Password_Entry.get().strip():
                     result["success"] = True
                     ask_password_window.destroy()
                     return
@@ -267,9 +267,9 @@ def ask_password():
     pass_label = CTkLabel(ask_password_window, text="Enter Password:", font=("Arial", 16))
     pass_label.pack(pady=10)
 
-    password_entry = CTkEntry(ask_password_window, show="*", width=200)
-    password_entry.pack(pady=5)
-    password_entry.focus()
+    Password_Entry = CTkEntry(ask_password_window, show="*", width=200)
+    Password_Entry.pack(pady=5)
+    Password_Entry.focus()
 
     pass_submit_btn = ctk.CTkButton(ask_password_window, text="Submit", command=check_password)
     pass_submit_btn.pack(pady=15)
@@ -281,9 +281,9 @@ def ask_password():
 def load_user_data():
     try:
 
-        student_user_account = Student_entry.get().strip()
-        student_sections = Course_Section_entry.get().strip()
-        student_lrn = lrn_entry.get().strip()
+        student_user_account = Student_Entry.get().strip()
+        student_sections = Course_Section_Entry.get().strip()
+        student_lrn = LRN_Entry.get().strip()
 
         if not student_user_account:
             messagebox.showerror(title="Error", message="Please enter your Student ID.")
@@ -313,12 +313,12 @@ def load_user_data():
                 if not ask_password():
                     return
 
-                surname_entry.delete(0, END)
-                surname_entry.insert(0, row[4])
-                firstname_entry.delete(0, END)
-                firstname_entry.insert(0, row[5])
-                middle_entry.delete(0, END)
-                middle_entry.insert(0, row[6])
+                Surname_Entry.delete(0, END)
+                Surname_Entry.insert(0, row[4])
+                FirstName_Entry.delete(0, END)
+                FirstName_Entry.insert(0, row[5])
+                Middle_Entry.delete(0, END)
+                Middle_Entry.insert(0, row[6])
 
                 gender = row[8]
                 if gender == "Male":
@@ -346,148 +346,148 @@ def load_user_data():
                     month_box.set("MM")
                     day_box.set("DD")
                     year_box.set("YYYY")
-                birthplace_entry.delete(0, END)
-                birthplace_entry.insert(0, row[11])
-                nationality_entry.delete(0, END)
-                nationality_entry.insert(0, row[12])
+                Birthplace_Entry.delete(0, END)
+                Birthplace_Entry.insert(0, row[11])
+                Nationality_Entry.delete(0, END)
+                Nationality_Entry.insert(0, row[12])
                 religion_box.set(row[13])
                 marital_status_box.set(row[14])
-                language_entry.delete(0, END)
-                language_entry.insert(0, row[15])
+                Language_Entry.delete(0, END)
+                Language_Entry.insert(0, row[15])
 
-                street_entry.delete(0, END)
-                street_entry.insert(0, row[17])
-                brgy_entry.delete(0, END)
-                brgy_entry.insert(0, row[18])
-                city_entry.delete(0, END)
-                city_entry.insert(0, row[19])
-                zip_code_entry.delete(0, END)
-                zip_code_entry.insert(0, row[20])
-                province_entry.delete(0, END)
-                province_entry.insert(0, row[21])
-                country_entry.delete(0, END)
-                country_entry.insert(0, row[22])
+                Street_Entry.delete(0, END)
+                Street_Entry.insert(0, row[17])
+                BRGY_Entry.delete(0, END)
+                BRGY_Entry.insert(0, row[18])
+                City_Entry.delete(0, END)
+                City_Entry.insert(0, row[19])
+                ZipCode_Entry.delete(0, END)
+                ZipCode_Entry.insert(0, row[20])
+                Province_Entry.delete(0, END)
+                Province_Entry.insert(0, row[21])
+                Country_Entry.delete(0, END)
+                Country_Entry.insert(0, row[22])
 
-                email_entry.delete(0, END)
-                email_entry.insert(0, row[24])
-                num_entry.delete(0, END)
-                num_entry.insert(0, row[25])
+                Email_Entry.delete(0, END)
+                Email_Entry.insert(0, row[24])
+                Num_Entry.delete(0, END)
+                Num_Entry.insert(0, row[25])
 
-                name_father_entry.delete(0, END)
-                name_father_entry.insert(0, row[27])
-                address_father_entry.delete(0, END)
+                Name_Father_Entry.delete(0, END)
+                Name_Father_Entry.insert(0, row[27])
+                Address_Father_Entry.delete(0, END)
                 if row[28] is not None and isinstance(row[28], str):
-                    address_father_entry.insert(0, row[28])
+                    Address_Father_Entry.insert(0, row[28])
                 elif row[28] is not None:
-                    address_father_entry.insert(0, str(row[28]))
+                    Address_Father_Entry.insert(0, str(row[28]))
                 else:
-                    address_father_entry.insert(0, "")
-                occupation_father_entry.delete(0, END)
-                occupation_father_entry.insert(0, row[29])                
-                phon_father_entry.delete(0, END)
-                phon_father_entry.insert(0, row[30])
+                    Address_Father_Entry.insert(0, "")
+                Occupation_Father_Entry.delete(0, END)
+                Occupation_Father_Entry.insert(0, row[29])                
+                Phone_Father_Entry.delete(0, END)
+                Phone_Father_Entry.insert(0, row[30])
 
-                name_mother_entry.delete(0, END)
-                name_mother_entry.insert(0, row[32])
-                address_mother_entry.delete(0, END)
-                address_mother_entry.insert(0, row[33])
-                occupation_mother_entry.delete(0, END)
-                occupation_mother_entry.insert(0, row[34])                
-                phon_mother_entry.delete(0, END)
-                phon_mother_entry.insert(0, row[35])
+                Name_Mother_Entry.delete(0, END)
+                Name_Mother_Entry.insert(0, row[32])
+                Address_Mother_Entry.delete(0, END)
+                Address_Mother_Entry.insert(0, row[33])
+                Occupation_Mother_Entry.delete(0, END)
+                Occupation_Mother_Entry.insert(0, row[34])                
+                Phone_Mother_Entry.delete(0, END)
+                Phone_Mother_Entry.insert(0, row[35])
 
-                name_guardian_entry.delete(0, END)
+                Name_Guardian_Entry.delete(0, END)
                 if row[37] is not None and isinstance(row[37], str):
-                    name_guardian_entry.insert(0, row[37])
+                    Name_Guardian_Entry.insert(0, row[37])
                 elif row[37] is not None:
-                    name_guardian_entry.insert(0, str(row[37]))
+                    Name_Guardian_Entry.insert(0, str(row[37]))
                 else:
-                    name_guardian_entry.insert(0, "")
-                rel_guardian_entry.delete(0, END)
+                    Name_Guardian_Entry.insert(0, "")
+                Rel_Guardian_Entry.delete(0, END)
                 if row[38] is not None and isinstance(row[38], str):
-                    rel_guardian_entry.insert(0, row[38])
+                    Rel_Guardian_Entry.insert(0, row[38])
                 elif row[38] is not None:
-                    rel_guardian_entry.insert(0, str(row[38]))
+                    Rel_Guardian_Entry.insert(0, str(row[38]))
                 else:
-                    rel_guardian_entry.insert(0, "")
-                address_guardian_entry.delete(0, END)
+                    Rel_Guardian_Entry.insert(0, "")
+                Address_Guardian_Entry.delete(0, END)
                 if row[39] is not None and isinstance(row[39], str):
-                    address_guardian_entry.insert(0, row[39])
+                    Address_Guardian_Entry.insert(0, row[39])
                 elif row[39] is not None:
-                    address_guardian_entry.insert(0, str(row[39]))
+                    Address_Guardian_Entry.insert(0, str(row[39]))
                 else:
-                    address_guardian_entry.insert(0, "")
-                occupation_guardian_entry.delete(0, END)
+                    Address_Guardian_Entry.insert(0, "")
+                Occupation_Guardian_Entry.delete(0, END)
                 if row[40] is not None and isinstance(row[40], str):
-                    occupation_guardian_entry.insert(0, row[40])
+                    Occupation_Guardian_Entry.insert(0, row[40])
                 elif row[40] is not None:
-                    occupation_guardian_entry.insert(0, str(row[40]))
+                    Occupation_Guardian_Entry.insert(0, str(row[40]))
                 else:
-                    occupation_guardian_entry.insert(0, "")                                           
-                phon_guardian_entry.delete(0, END)
+                    Occupation_Guardian_Entry.insert(0, "")                                           
+                Phone_Guardian_Entry.delete(0, END)
                 if row[41] is not None and isinstance(row[41], str):
-                    phon_guardian_entry.insert(0, row[41])
+                    Phone_Guardian_Entry.insert(0, row[41])
                 elif row[41] is not None:
-                    phon_guardian_entry.insert(0, str(row[41]))
+                    Phone_Guardian_Entry.insert(0, str(row[41]))
                 else:
-                    phon_guardian_entry.insert(0, "")
+                    Phone_Guardian_Entry.insert(0, "")
 
-                schl_elem_entry.delete(0, END)
-                schl_elem_entry.insert(0, row[43])
-                address_elem_entry.delete(0, END)
-                address_elem_entry.insert(0, row[44])
-                yr_elem_entry.delete(0, END)
-                yr_elem_entry.insert(0, row[45])
+                Schl_Elem_Entry.delete(0, END)
+                Schl_Elem_Entry.insert(0, row[43])
+                Address_Elem_Entry.delete(0, END)
+                Address_Elem_Entry.insert(0, row[44])
+                YR_Elem_Entry.delete(0, END)
+                YR_Elem_Entry.insert(0, row[45])
 
-                schl_js_entry.delete(0, END)
-                schl_js_entry.insert(0, row[47])
-                address_js_entry.delete(0, END)
-                address_js_entry.insert(0, row[48])
-                yr_js_entry.delete(0, END)
-                yr_js_entry.insert(0, row[49])
+                Schl_Junior_Entry.delete(0, END)
+                Schl_Junior_Entry.insert(0, row[47])
+                Address_Junior_Entry.delete(0, END)
+                Address_Junior_Entry.insert(0, row[48])
+                YR_Junior_Entry.delete(0, END)
+                YR_Junior_Entry.insert(0, row[49])
 
-                schl_shs_entry.delete(0, END)
-                schl_shs_entry.insert(0, row[51])
-                address_shs_entry.delete(0, END)
-                address_shs_entry.insert(0, row[52])
-                strand_shs_entry.delete(0, END)
-                strand_shs_entry.insert(0, row[53])
-                yr_shs_entry.delete(0, END)
-                yr_shs_entry.insert(0, row[54])
+                Schl_Senior_Entry.delete(0, END)
+                Schl_Senior_Entry.insert(0, row[51])
+                Address_Senior_Entry.delete(0, END)
+                Address_Senior_Entry.insert(0, row[52])
+                strand_Senior_Entry.delete(0, END)
+                strand_Senior_Entry.insert(0, row[53])
+                YR_Senior_Entry.delete(0, END)
+                YR_Senior_Entry.insert(0, row[54])
 
-                schl_cg_entry.delete(0, END)
+                Schl_College_Entry.delete(0, END)
                 if row[56] is not None and isinstance(row[56], str):
-                    schl_cg_entry.insert(0, row[56])
+                    Schl_College_Entry.insert(0, row[56])
                 elif row[56] is not None:
-                    schl_cg_entry.insert(0, str(row[56]))
+                    Schl_College_Entry.insert(0, str(row[56]))
                 else:
-                    schl_cg_entry.insert(0, "")
-                address_cg_entry.delete(0, END)
+                    Schl_College_Entry.insert(0, "")
+                Address_College_Entry.delete(0, END)
                 if row[57] is not None and isinstance(row[57], str):
-                    address_cg_entry.insert(0, row[57])
+                    Address_College_Entry.insert(0, row[57])
                 elif row[57] is not None:
-                    address_cg_entry.insert(0, str(row[57]))
+                    Address_College_Entry.insert(0, str(row[57]))
                 else:
-                    address_cg_entry.insert(0, "")
-                yr_cg_entry.delete(0, END)
+                    Address_College_Entry.insert(0, "")
+                YR_College_Entry.delete(0, END)
                 if row[58] is not None and isinstance(row[58], str):
-                    yr_cg_entry.insert(0, row[58])
+                    YR_College_Entry.insert(0, row[58])
                 elif row[58] is not None:
-                    yr_cg_entry.insert(0, str(row[58]))
+                    YR_College_Entry.insert(0, str(row[58]))
                 else:
-                    yr_cg_entry.insert(0, "")
+                    YR_College_Entry.insert(0, "")
 
                 fields_to_disable = [
-                        Student_entry, generate_student_id, Course_Section_entry, lrn_entry, generate_student_lrn,
-                        surname_entry, firstname_entry, middle_entry, male_checkbox, female_checkbox, none_binary_checkbox, 
-                        age_box, month_box, day_box, year_box, birthplace_entry, nationality_entry, religion_box, 
-                        marital_status_box, language_entry, street_entry, brgy_entry, city_entry, zip_code_entry, 
-                        province_entry, country_entry, email_entry, num_entry, name_father_entry, address_father_entry, 
-                        occupation_father_entry, phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
-                        phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
-                        occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
-                        yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
-                        strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry, if_transferee_chk_box
+                        Student_Entry, generate_student_id, Course_Section_Entry, LRN_Entry, generate_student_lrn,
+                        Surname_Entry, FirstName_Entry, Middle_Entry, male_checkbox, female_checkbox, none_binary_checkbox, 
+                        age_box, month_box, day_box, year_box, Birthplace_Entry, Nationality_Entry, religion_box, 
+                        marital_status_box, Language_Entry, Street_Entry, BRGY_Entry, City_Entry, ZipCode_Entry, 
+                        Province_Entry, Country_Entry, Email_Entry, Num_Entry, Name_Father_Entry, Address_Father_Entry, 
+                        Occupation_Father_Entry, Phone_Father_Entry, Name_Mother_Entry, Address_Mother_Entry, Occupation_Mother_Entry, 
+                        Phone_Mother_Entry, Name_Guardian_Entry, Rel_Guardian_Entry, Address_Guardian_Entry,
+                        Occupation_Guardian_Entry, Phone_Guardian_Entry, same_chk_box, Schl_Elem_Entry, Address_Elem_Entry,
+                        YR_Elem_Entry, Schl_Junior_Entry, Address_Junior_Entry, YR_Junior_Entry, Schl_Senior_Entry, Address_Senior_Entry,
+                        strand_Senior_Entry, YR_Senior_Entry, Schl_College_Entry, Address_College_Entry, YR_College_Entry, if_transferee_chk_box
                 ]
                 for field in fields_to_disable:
                     try:
@@ -507,16 +507,16 @@ def edit_user_data():
         return
         
     fields_to_enable = [
-            Student_entry, generate_student_id, Course_Section_entry, lrn_entry, generate_student_lrn,
-            surname_entry, firstname_entry, middle_entry, male_checkbox, female_checkbox, none_binary_checkbox, 
-            age_box, month_box, day_box, year_box, birthplace_entry, nationality_entry, religion_box, 
-            marital_status_box, language_entry, street_entry, brgy_entry, city_entry, zip_code_entry, 
-            province_entry, country_entry, email_entry, num_entry, name_father_entry, address_father_entry, 
-            occupation_father_entry, phon_father_entry, name_mother_entry, address_mother_entry, occupation_mother_entry, 
-            phon_mother_entry, name_guardian_entry, rel_guardian_entry, address_guardian_entry,
-            occupation_guardian_entry, phon_guardian_entry, same_chk_box, schl_elem_entry, address_elem_entry,
-            yr_elem_entry, schl_js_entry, address_js_entry, yr_js_entry, schl_shs_entry, address_shs_entry,
-            strand_shs_entry, yr_shs_entry, schl_cg_entry, address_cg_entry, yr_cg_entry, if_transferee_chk_box
+            Student_Entry, generate_student_id, Course_Section_Entry, LRN_Entry, generate_student_lrn,
+            Surname_Entry, FirstName_Entry, Middle_Entry, male_checkbox, female_checkbox, none_binary_checkbox, 
+            age_box, month_box, day_box, year_box, Birthplace_Entry, Nationality_Entry, religion_box, 
+            marital_status_box, Language_Entry, Street_Entry, BRGY_Entry, City_Entry, ZipCode_Entry, 
+            Province_Entry, Country_Entry, Email_Entry, Num_Entry, Name_Father_Entry, Address_Father_Entry, 
+            Occupation_Father_Entry, Phone_Father_Entry, Name_Mother_Entry, Address_Mother_Entry, Occupation_Mother_Entry, 
+            Phone_Mother_Entry, Name_Guardian_Entry, Rel_Guardian_Entry, Address_Guardian_Entry,
+            Occupation_Guardian_Entry, Phone_Guardian_Entry, same_chk_box, Schl_Elem_Entry, Address_Elem_Entry,
+            YR_Elem_Entry, Schl_Junior_Entry, Address_Junior_Entry, YR_Junior_Entry, Schl_Senior_Entry, Address_Senior_Entry,
+            strand_Senior_Entry, YR_Senior_Entry, Schl_College_Entry, Address_College_Entry, YR_College_Entry, if_transferee_chk_box
     ]
     for field in fields_to_enable:
         try:
@@ -526,9 +526,9 @@ def edit_user_data():
 
 def update_user_data():
     try:
-        student_user_account = Student_entry.get().strip()
-        student_sections = Course_Section_entry.get().strip()
-        student_lrn = lrn_entry.get().strip()
+        student_user_account = Student_Entry.get().strip()
+        student_sections = Course_Section_Entry.get().strip()
+        student_lrn = LRN_Entry.get().strip()
 
         if not student_user_account:
             messagebox.showerror(title="Error", message="Please enter your Student ID.")
@@ -553,66 +553,66 @@ def update_user_data():
         ws = wb[new_sheet_name]
 
         for row in ws.iter_rows(min_row=2):
-            if row[0].value == Student_entry.get().strip() and row[1].value == Course_Section_entry.get().strip() and row[2].value == lrn_entry.get().strip():
+            if row[0].value == Student_Entry.get().strip() and row[1].value == Course_Section_Entry.get().strip() and row[2].value == LRN_Entry.get().strip():
 
                 if not ask_password():
                     return
 
-                row[4].value = surname_entry.get().strip()
-                row[5].value = firstname_entry.get().strip()
-                row[6].value = middle_entry.get().strip()
+                row[4].value = Surname_Entry.get().strip()
+                row[5].value = FirstName_Entry.get().strip()
+                row[6].value = Middle_Entry.get().strip()
 
                 row[8].value = "Male" if gender_var.get() == 1 else "Female" if gender_var.get() == 2 else "Prefer not to answer"
                 row[9].value = age_box.get().strip()
                 row[10].value = f"{month_box.get().strip()} {day_box.get().strip()}, {year_box.get().strip()}"
-                row[11].value = birthplace_entry.get().strip()
-                row[12].value = nationality_entry.get().strip()
+                row[11].value = Birthplace_Entry.get().strip()
+                row[12].value = Nationality_Entry.get().strip()
                 row[13].value = religion_box.get().strip()
                 row[14].value = marital_status_box.get().strip()
-                row[15].value = language_entry.get().strip()
+                row[15].value = Language_Entry.get().strip()
 
-                row[17].value = street_entry.get().strip()
-                row[18].value = brgy_entry.get().strip()
-                row[19].value = city_entry.get().strip()
-                row[20].value = zip_code_entry.get().strip()
-                row[21].value = province_entry.get().strip()
-                row[22].value = country_entry.get().strip()
+                row[17].value = Street_Entry.get().strip()
+                row[18].value = BRGY_Entry.get().strip()
+                row[19].value = City_Entry.get().strip()
+                row[20].value = ZipCode_Entry.get().strip()
+                row[21].value = Province_Entry.get().strip()
+                row[22].value = Country_Entry.get().strip()
 
-                row[24].value = email_entry.get().strip()
-                row[25].value = num_entry.get().strip()
+                row[24].value = Email_Entry.get().strip()
+                row[25].value = Num_Entry.get().strip()
 
-                row[27].value =  name_father_entry.get().strip()
-                row[28].value = address_father_entry.get().strip()
-                row[29].value = occupation_father_entry.get().strip()
-                row[30].value = phon_father_entry.get().strip()
+                row[27].value =  Name_Father_Entry.get().strip()
+                row[28].value = Address_Father_Entry.get().strip()
+                row[29].value = Occupation_Father_Entry.get().strip()
+                row[30].value = Phone_Father_Entry.get().strip()
 
-                row[32].value = name_mother_entry.get().strip()
-                row[33].value = address_mother_entry.get().strip()
-                row[34].value = occupation_mother_entry.get().strip()
-                row[35].value = phon_mother_entry.get().strip()
+                row[32].value = Name_Mother_Entry.get().strip()
+                row[33].value = Address_Mother_Entry.get().strip()
+                row[34].value = Occupation_Mother_Entry.get().strip()
+                row[35].value = Phone_Mother_Entry.get().strip()
 
-                row[37].value = name_guardian_entry.get().strip()
-                row[38].value = rel_guardian_entry.get().strip()
-                row[39].value = address_guardian_entry.get().strip()
-                row[40].value = occupation_guardian_entry.get().strip()
-                row[41].value = phon_guardian_entry.get().strip()
+                row[37].value = Name_Guardian_Entry.get().strip()
+                row[38].value = Rel_Guardian_Entry.get().strip()
+                row[39].value = Address_Guardian_Entry.get().strip()
+                row[40].value = Occupation_Guardian_Entry.get().strip()
+                row[41].value = Phone_Guardian_Entry.get().strip()
 
-                row[43].value = schl_elem_entry.get().strip()
-                row[44].value = address_elem_entry.get().strip()
-                row[45].value = yr_elem_entry.get().strip()
+                row[43].value = Schl_Elem_Entry.get().strip()
+                row[44].value = Address_Elem_Entry.get().strip()
+                row[45].value = YR_Elem_Entry.get().strip()
 
-                row[47].value = schl_js_entry.get().strip()
-                row[48].value = address_js_entry.get().strip()
-                row[49].value = yr_js_entry.get().strip()
+                row[47].value = Schl_Junior_Entry.get().strip()
+                row[48].value = Address_Junior_Entry.get().strip()
+                row[49].value = YR_Junior_Entry.get().strip()
 
-                row[51].value = schl_shs_entry.get().strip()
-                row[52].value = address_shs_entry.get().strip()
-                row[53].value = strand_shs_entry.get().strip()
-                row[54].value = yr_shs_entry.get().strip()
+                row[51].value = Schl_Senior_Entry.get().strip()
+                row[52].value = Address_Senior_Entry.get().strip()
+                row[53].value = strand_Senior_Entry.get().strip()
+                row[54].value = YR_Senior_Entry.get().strip()
 
-                row[56].value = schl_cg_entry.get().strip()
-                row[57].value = address_cg_entry.get().strip()
-                row[58].value = yr_cg_entry.get().strip()
+                row[56].value = Schl_College_Entry.get().strip()
+                row[57].value = Address_College_Entry.get().strip()
+                row[58].value = YR_College_Entry.get().strip()
 
                 wb.save(file_path_to_excel)
                 
@@ -627,7 +627,7 @@ def update_user_data():
 # Format Fixer Function
 def format_excel():
     try:
-        sections = Course_Section_entry.get().strip()
+        sections = Course_Section_Entry.get().strip()
         if sections not in ["1A", "1B", "1C"]:
             messagebox.showerror(title="Error", message="Invalid section selected.")
             return
@@ -671,9 +671,9 @@ def FinalCheck():
     # ==================== PERSONAL DETAILS PAGE ====================
     # Validate Student ID, Course/Section, and LRN fields
     ReqFields = [
-        ("Student ID", Student_entry), 
-        ("Course/Section", Course_Section_entry), 
-        ("LRN", lrn_entry),
+        ("Student ID", Student_Entry), 
+        ("Course/Section", Course_Section_Entry), 
+        ("LRN", LRN_Entry),
     ]
     for Fieldnames, field in ReqFields:
         try:
@@ -684,21 +684,21 @@ def FinalCheck():
             messagebox.showerror(title="Internal Error", message=f"Field '{Fieldnames}' is not a valid input widget.")
             return False
         
-    selected_section = Course_Section_entry.get().strip()
+    selected_section = Course_Section_Entry.get().strip()
     if selected_section == "Select Section":
         messagebox.showerror(title="Missing Requirement", message="Error: Please select a course/section.")
         return False
     
-    lrn_value = lrn_entry.get().strip()
+    lrn_value = LRN_Entry.get().strip()
     if not lrn_value.isdigit():
         messagebox.showerror(title="Invalid Input", message="Error: LRN must be a valid integer.")
         return False
 
     # Validate Full Name fields
     FullName = [
-        ("Surname", surname_entry), 
-        ("Firstname", firstname_entry), 
-        ("Middle Initial", middle_entry),
+        ("Surname", Surname_Entry), 
+        ("Firstname", FirstName_Entry), 
+        ("Middle Initial", Middle_Entry),
     ]
     
     for Fieldnames, field in FullName:
@@ -737,7 +737,7 @@ def FinalCheck():
         return False
 
     # Validate Birthplace
-    birthplace_value = birthplace_entry.get().strip()
+    birthplace_value = Birthplace_Entry.get().strip()
     if birthplace_value == "":
         messagebox.showerror(title="Missing Requirement", message="Error: Birthplace is required.")
         return False
@@ -746,7 +746,7 @@ def FinalCheck():
         return False
 
     # Validate Nationality
-    nationality_value = nationality_entry.get().strip()
+    nationality_value = Nationality_Entry.get().strip()
     if nationality_value == "":
         messagebox.showerror(title="Missing Requirement", message="Error: Nationality is required.")
         return False
@@ -765,7 +765,7 @@ def FinalCheck():
         return False
 
     # Validate Language Spoken
-    language_value = language_entry.get().strip()
+    language_value = Language_Entry.get().strip()
     if language_value == "":
         messagebox.showerror(title="Missing Requirement", message="Error: Language Spoken is required.")
         return False
@@ -775,36 +775,38 @@ def FinalCheck():
 
     # Validate Address Section (Street, Barangay, City/Municipality, Province, Zip Code, Country)
     Address = [
-        ("Street", street_entry),
-        ("Barangay", brgy_entry),
-        ("City/Municipality", city_entry),
-        ("Zip Code", zip_code_entry),
-        ("Province", province_entry),
-        ("Country", country_entry),
+        ("Street", Street_Entry),
+        ("Barangay", BRGY_Entry),
+        ("City/Municipality", City_Entry),
+        ("Zip Code", ZipCode_Entry),
+        ("Province", Province_Entry),
+        ("Country", Country_Entry),
     ]
-    for Fieldnames, entry in Address:
-        field_value = entry.get().strip()
+    for Fieldnames, Entry in Address:
+        field_value = Entry.get().strip()
         if not field_value:
             messagebox.showerror(title="Missing Requirement", message=f"Error: {Fieldnames} is required.")
             return False
-        if Fieldnames == "Zip Code" and not field_value.isdigit():
-                messagebox.showerror(title="Invalid Input", message=f"Error: {Fieldnames} must be a valid integer.")
+        if Fieldnames == "Zip Code":
+            if not field_value.isdigit() or len(field_value) != 4:
+                messagebox.showerror(title="Invalid Input", message=f"Error: {Fieldnames} must be a 4-digit number.")
                 return False
+
         if Fieldnames in ["Street", "Barangay", "City/Municipality", "Province", "Country"]:
-            if not field_value.isalpha():
+            if not field_value.replace(" ", "").isalpha():
                 messagebox.showerror(title="Invalid Input", message=f"Error: {Fieldnames} should contain only letters.")
                 return False
     
     # Validate Contact Information
-    email_value = email_entry.get().strip()
-    phone_value = num_entry.get().strip()
+    email_value = Email_Entry.get().strip()
+    phone_value = Num_Entry.get().strip()
 
     if email_value == "":
         messagebox.showerror(title="Missing Requirement", message="Error: Email is required.")
         return False
     email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     if not re.match(email_regex, email_value):
-        messagebox.showerror(title="Invalid Input", message="Error: Please enter a valid email address.")
+        messagebox.showerror(title="Invalid Input", message="Error: Please enter a valid email Address.")
         return False
 
     if phone_value == "":
@@ -816,9 +818,9 @@ def FinalCheck():
 
     # ==================== FAMILY BACKGROUND PAGE ====================
     # Validate Parents' Information
-    father_name = name_father_entry.get().strip()
-    father_occupation = occupation_father_entry.get().strip()
-    father_contact = phon_father_entry.get().strip()
+    father_name = Name_Father_Entry.get().strip()
+    father_occupation = Occupation_Father_Entry.get().strip()
+    father_contact = Phone_Father_Entry.get().strip()
 
     if father_name == "" or father_occupation == "" or father_contact == "":
         messagebox.showerror("Missing Requirement", "Error: Father's information is incomplete.")
@@ -830,9 +832,9 @@ def FinalCheck():
         messagebox.showerror("Invalid Input", "Error: Father's Contact No should be an integer or 'N/A'.")
         return False
 
-    mother_name = name_mother_entry.get().strip()  # Name entry
-    mother_occupation = occupation_mother_entry.get().strip()  # Occupation entry
-    mother_contact = phon_mother_entry.get().strip()  # Contact entry
+    mother_name = Name_Mother_Entry.get().strip()  # Name Entry
+    mother_occupation = Occupation_Mother_Entry.get().strip()  # Occupation Entry
+    mother_contact = Phone_Mother_Entry.get().strip()  # Contact Entry
 
     if mother_name == "" or mother_occupation == "" or mother_contact == "":
         messagebox.showerror("Missing Requirement", "Error: Mother's information is incomplete.")
@@ -846,14 +848,14 @@ def FinalCheck():
 
     # Validate Guardian's Information
     if same_chk_var.get() == 0:
-        guardian_name = name_guardian_entry.get().strip()
-        guardian_relationship = rel_guardian_entry.get().strip()
-        guardian_address = address_guardian_entry.get().strip()
-        guardian_occupation = occupation_guardian_entry.get().strip()
-        guardian_contact = phon_guardian_entry.get().strip()
+        guardian_name = Name_Guardian_Entry.get().strip()
+        guardian_relationship = Rel_Guardian_Entry.get().strip()
+        guardian_Address = Address_Guardian_Entry.get().strip()
+        guardian_occupation = Occupation_Guardian_Entry.get().strip()
+        guardian_contact = Phone_Guardian_Entry.get().strip()
 
         
-        if guardian_name == "" or guardian_relationship == "" or guardian_address == "" or guardian_occupation == "" or guardian_contact == "":
+        if guardian_name == "" or guardian_relationship == "" or guardian_Address == "" or guardian_occupation == "" or guardian_contact == "":
             messagebox.showerror("Missing Requirement", "Error: Guardian's information is incomplete.")
             return False
         if not guardian_name.replace(" ", "").isalpha():
@@ -871,21 +873,21 @@ def FinalCheck():
     # ==================== EDUCATIONAL BACKGROUND PAGE ====================
     # Validate Educational Information
     # Elementary
-    elem_school_name = schl_elem_entry.get().strip()
-    elem_address = address_elem_entry.get().strip()
-    elem_year_grad = yr_elem_entry.get().strip()
-    if elem_school_name == "" or elem_address == "" or elem_year_grad == "":
+    Elem_school_name = Schl_Elem_Entry.get().strip()
+    Elem_Address = Address_Elem_Entry.get().strip()
+    Elem_year_grad = YR_Elem_Entry.get().strip()
+    if Elem_school_name == "" or Elem_Address == "" or Elem_year_grad == "":
         messagebox.showerror("Missing Requirement", "Error: Elementary school information is incomplete.")
         return False
-    if not elem_year_grad.isdigit():
+    if not Elem_year_grad.isdigit():
         messagebox.showerror("Invalid Input", "Error: Elementary Year Graduated must be an integer.")
         return False
 
     # Junior High
-    jun_school_name = schl_js_entry.get().strip()
-    jun_address = address_js_entry.get().strip()
-    jun_year_grad = yr_js_entry.get().strip()
-    if jun_school_name == "" or jun_address == "" or jun_year_grad == "":
+    jun_school_name = Schl_Junior_Entry.get().strip()
+    jun_Address = Address_Junior_Entry.get().strip()
+    jun_year_grad = YR_Junior_Entry.get().strip()
+    if jun_school_name == "" or jun_Address == "" or jun_year_grad == "":
         messagebox.showerror("Missing Requirement", "Error: Junior High school information is incomplete.")
         return False
     if not jun_year_grad.isdigit():
@@ -893,11 +895,11 @@ def FinalCheck():
         return False
 
     # Senior High
-    sen_school_name = schl_shs_entry.get().strip()
-    sen_address = address_shs_entry.get().strip()
-    sen_strand = strand_shs_entry.get().strip()
-    sen_year_grad = yr_shs_entry.get().strip()
-    if sen_school_name == "" or  sen_address == "" or sen_strand == "" or sen_year_grad == "":
+    sen_school_name = Schl_Senior_Entry.get().strip()
+    sen_Address = Address_Senior_Entry.get().strip()
+    sen_strand = strand_Senior_Entry.get().strip()
+    sen_year_grad = YR_Senior_Entry.get().strip()
+    if sen_school_name == "" or  sen_Address == "" or sen_strand == "" or sen_year_grad == "":
         messagebox.showerror("Missing Requirement", "Error: Senior High school information is incomplete.")
         return False
     if not sen_year_grad.isdigit():
@@ -906,11 +908,11 @@ def FinalCheck():
 
     # College
     if if_transferee_var.get() == 0:
-        col_school_name = schl_cg_entry.get().strip()
-        col_address = address_cg_entry.get().strip()
-        col_year_grad = yr_cg_entry.get().strip()
+        col_school_name = Schl_College_Entry.get().strip()
+        col_Address = Address_College_Entry.get().strip()
+        col_year_grad = YR_College_Entry.get().strip()
 
-        if col_school_name == "" or col_address == "" or col_year_grad == "":
+        if col_school_name == "" or col_Address == "" or col_year_grad == "":
             messagebox.showerror("Missing Requirement", "Error: College information is incomplete.")
             return False
         if col_year_grad != "N/A" and not col_year_grad.isdigit():
@@ -923,71 +925,71 @@ def FinalCheck():
 def toggle_guardian_fields():
     state = "disabled" if same_chk_var.get() == 1 else "normal"
     if same_chk_var.get() == 1:
-        name_guardian_entry.delete(0, END)
-        address_guardian_entry.delete(0, END)
-        phon_guardian_entry.delete(0, END)
-        occupation_guardian_entry.delete(0, END)
-        rel_guardian_entry.delete(0, END)
+        Name_Guardian_Entry.delete(0, END)
+        Address_Guardian_Entry.delete(0, END)
+        Phone_Guardian_Entry.delete(0, END)
+        Occupation_Guardian_Entry.delete(0, END)
+        Rel_Guardian_Entry.delete(0, END)
 
     else:
-        name_guardian_entry.configure(state="normal")
-        address_guardian_entry.configure(state="normal")
-        phon_guardian_entry.configure(state="normal")
-        occupation_guardian_entry.configure(state="normal")
-        rel_guardian_entry.configure(state="normal")
+        Name_Guardian_Entry.configure(state="normal")
+        Address_Guardian_Entry.configure(state="normal")
+        Phone_Guardian_Entry.configure(state="normal")
+        Occupation_Guardian_Entry.configure(state="normal")
+        Rel_Guardian_Entry.configure(state="normal")
 
-        name_guardian_entry.insert(0, "Enter Name")
-        address_guardian_entry.insert(0, "Enter Address")
-        phon_guardian_entry.insert(0, "Enter Contact Number")
-        occupation_guardian_entry.insert(0, "Enter Occupation")
-        rel_guardian_entry.insert(0, "Relationship")
+        Name_Guardian_Entry.insert(0, "Enter Name")
+        Address_Guardian_Entry.insert(0, "Enter Address")
+        Phone_Guardian_Entry.insert(0, "Enter Contact Number")
+        Occupation_Guardian_Entry.insert(0, "Enter Occupation")
+        Rel_Guardian_Entry.insert(0, "Relationship")
 
-    name_guardian_entry.configure(state=state)
-    address_guardian_entry.configure(state=state)
-    phon_guardian_entry.configure(state=state)
-    occupation_guardian_entry.configure(state=state)
-    rel_guardian_entry.configure(state=state)
+    Name_Guardian_Entry.configure(state=state)
+    Address_Guardian_Entry.configure(state=state)
+    Phone_Guardian_Entry.configure(state=state)
+    Occupation_Guardian_Entry.configure(state=state)
+    Rel_Guardian_Entry.configure(state=state)
 
 # Guardian Checkbox Toggler
 def toggle_transferee_fields():
     state = "disabled" if if_transferee_var.get() == 1 else "normal"
     if if_transferee_var.get() == 1:
-        schl_cg_entry.delete(0, END)
-        address_cg_entry.delete(0, END)
-        yr_cg_entry.delete(0, END)
+        Schl_College_Entry.delete(0, END)
+        Address_College_Entry.delete(0, END)
+        YR_College_Entry.delete(0, END)
 
     else:
 
-        schl_cg_entry.configure(state="normal")
-        address_cg_entry.configure(state="normal")
-        yr_cg_entry.configure(state="normal")
+        Schl_College_Entry.configure(state="normal")
+        Address_College_Entry.configure(state="normal")
+        YR_College_Entry.configure(state="normal")
 
-    schl_cg_entry.configure(state=state)
-    address_cg_entry.configure(state=state)
-    yr_cg_entry.configure(state=state)
+    Schl_College_Entry.configure(state=state)
+    Address_College_Entry.configure(state=state)
+    YR_College_Entry.configure(state=state)
 
 # Transferee Checkbox Toggler
 def toggle_guardian_fields():
     state = "disabled" if same_chk_var.get() == 1 else "normal"
     if same_chk_var.get() == 1:
-        name_guardian_entry.delete(0, END)
-        address_guardian_entry.delete(0, END)
-        phon_guardian_entry.delete(0, END)
-        occupation_guardian_entry.delete(0, END)
-        rel_guardian_entry.delete(0, END)
+        Name_Guardian_Entry.delete(0, END)
+        Address_Guardian_Entry.delete(0, END)
+        Phone_Guardian_Entry.delete(0, END)
+        Occupation_Guardian_Entry.delete(0, END)
+        Rel_Guardian_Entry.delete(0, END)
 
     else:
-        name_guardian_entry.configure(state="normal")
-        address_guardian_entry.configure(state="normal")
-        phon_guardian_entry.configure(state="normal")
-        occupation_guardian_entry.configure(state="normal")
-        rel_guardian_entry.configure(state="normal")
+        Name_Guardian_Entry.configure(state="normal")
+        Address_Guardian_Entry.configure(state="normal")
+        Phone_Guardian_Entry.configure(state="normal")
+        Occupation_Guardian_Entry.configure(state="normal")
+        Rel_Guardian_Entry.configure(state="normal")
 
-    name_guardian_entry.configure(state=state)
-    address_guardian_entry.configure(state=state)
-    phon_guardian_entry.configure(state=state)
-    occupation_guardian_entry.configure(state=state)
-    rel_guardian_entry.configure(state=state)
+    Name_Guardian_Entry.configure(state=state)
+    Address_Guardian_Entry.configure(state=state)
+    Phone_Guardian_Entry.configure(state=state)
+    Occupation_Guardian_Entry.configure(state=state)
+    Rel_Guardian_Entry.configure(state=state)
 
 # ==================== Events ====================
 def change_light_dark_mode_event(new_appearance_mode: str):
@@ -1086,8 +1088,8 @@ left_top.pack(side="left", fill="both", expand=True)
 
 Student_ID = CTkLabel(left_top, text="Student ID:", font=("Arial", 14))
 Student_ID.grid(row=0, column=0, padx=40, pady=5, sticky="w")
-Student_entry = CTkEntry(left_top, width=250, font=("Arial", 14), placeholder_text="Enter Student ID", height= 35, fg_color= "transparent", bg_color= "transparent")
-Student_entry.grid(row=0, column=1, pady=5)
+Student_Entry = CTkEntry(left_top, width=250, font=("Arial", 14), placeholder_text="Enter Student ID", height= 35, fg_color= "transparent", bg_color= "transparent")
+Student_Entry.grid(row=0, column=1, pady=5)
 
 generate_student_id = CTkButton(left_top, text="Generate Student ID", font=("Arial", 14), command=generate_user_id)
 generate_student_id.grid(row=0, column=2, padx=10, pady=5)
@@ -1095,14 +1097,14 @@ generate_student_id.grid(row=0, column=2, padx=10, pady=5)
 Course_Section = CTkLabel(left_top, text="Course/Section:", font=("Arial", 14))
 Course_Section.grid(row=1, column=0, padx=40, pady=5, sticky="w")
 sec_var = ["Select Section", "1A", "1B", "1C"]
-Course_Section_entry= CTkComboBox(left_top, width=250, font=("Arial", 14), height= 35, bg_color= "transparent", values=sec_var, state="readonly")
-Course_Section_entry.set("Select Section")
-Course_Section_entry.grid(row=1, column=1, pady=5)
+Course_Section_Entry= CTkComboBox(left_top, width=250, font=("Arial", 14), height= 35, bg_color= "transparent", values=sec_var, state="readonly")
+Course_Section_Entry.set("Select Section")
+Course_Section_Entry.grid(row=1, column=1, pady=5)
 
 lrn = CTkLabel(left_top, text="LRN:", font=("Arial", 14))
 lrn.grid(row=2, column=0, padx=40, pady=5, sticky="w")
-lrn_entry= CTkEntry(left_top, width=250, font=("Arial", 14), placeholder_text="Enter LRN", height= 35, fg_color= "transparent", bg_color= "transparent")
-lrn_entry.grid(row=2, column=1, pady=5)
+LRN_Entry= CTkEntry(left_top, width=250, font=("Arial", 14), placeholder_text="Enter LRN", height= 35, fg_color= "transparent", bg_color= "transparent")
+LRN_Entry.grid(row=2, column=1, pady=5)
 
 generate_student_lrn = CTkButton(left_top, text="Generate LRN", font=("Arial", 14), command=generate_user_lrn)
 generate_student_lrn.grid(row=2, column=2, padx=10, pady=5)
@@ -1154,18 +1156,18 @@ first_row_personal_details_frame.grid(row=0, column=0, columnspan=3, sticky="w",
 
 surname_label = CTkLabel(first_row_personal_details_frame, text="Surname:", font=("Arial", 14), bg_color="transparent")
 surname_label.grid(row=0, column=0, padx=20, pady=7, sticky="w")
-surname_entry = CTkEntry(first_row_personal_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Surname", height= 35, fg_color= "transparent", bg_color= "transparent")
-surname_entry.grid(row=1, column=0, padx=20, sticky="wn")
+Surname_Entry = CTkEntry(first_row_personal_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Surname", height= 35, fg_color= "transparent", bg_color= "transparent")
+Surname_Entry.grid(row=1, column=0, padx=20, sticky="wn")
 
 firstname_label = CTkLabel(first_row_personal_details_frame, text="Firstname:", font=("Arial", 14), bg_color="transparent")
 firstname_label.grid(row=0, column=1, padx=20, pady=7, sticky="w")
-firstname_entry = CTkEntry(first_row_personal_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Firstname", height= 35, fg_color= "transparent", bg_color= "transparent")
-firstname_entry.grid(row=1, column=1, padx=20, sticky="wn")
+FirstName_Entry = CTkEntry(first_row_personal_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Firstname", height= 35, fg_color= "transparent", bg_color= "transparent")
+FirstName_Entry.grid(row=1, column=1, padx=20, sticky="wn")
 
 middle_label = CTkLabel(first_row_personal_details_frame, text="Middle Initial:", font=("Arial", 14), bg_color="transparent")
 middle_label.grid(row=0, column=2, padx=20, pady=7, sticky="w")
-middle_entry = CTkEntry(first_row_personal_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Middle Initial", height= 35, fg_color= "transparent", bg_color= "transparent")
-middle_entry.grid(row=1, column=2, padx=20, sticky="wn")
+Middle_Entry = CTkEntry(first_row_personal_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Middle Initial", height= 35, fg_color= "transparent", bg_color= "transparent")
+Middle_Entry.grid(row=1, column=2, padx=20, sticky="wn")
 
 # Second Row
 second_row_personal_details_frame = CTkFrame(personal_details, bg_color="transparent", fg_color= "transparent")
@@ -1222,13 +1224,13 @@ third_row_personal_details_frame.grid(row=3, column=0, columnspan=3, sticky="we"
 
 birthplace_label = CTkLabel(third_row_personal_details_frame, text="Birthplace City:", font=("Arial", 14), bg_color="transparent")
 birthplace_label.grid(row=0, column=0, sticky="w", padx=20, pady=7)
-birthplace_entry = CTkEntry(third_row_personal_details_frame, width=200, font=("Arial", 14), placeholder_text="Birthplace", height= 35, fg_color= "transparent", bg_color= "transparent")
-birthplace_entry.grid(row=1, column=0, padx=20, sticky="wn")
+Birthplace_Entry = CTkEntry(third_row_personal_details_frame, width=200, font=("Arial", 14), placeholder_text="Birthplace", height= 35, fg_color= "transparent", bg_color= "transparent")
+Birthplace_Entry.grid(row=1, column=0, padx=20, sticky="wn")
 
 nationality_label = CTkLabel(third_row_personal_details_frame, text="Nationality:", font=("Arial", 14), bg_color="transparent")
 nationality_label.grid(row=0, column=1, sticky="w", padx=20, pady=7)
-nationality_entry = CTkEntry(third_row_personal_details_frame, width=200, font=("Arial", 14), placeholder_text="Nationality", height= 35, fg_color= "transparent", bg_color= "transparent")
-nationality_entry.grid(row=1, column=1, padx=20, sticky="wn")
+Nationality_Entry = CTkEntry(third_row_personal_details_frame, width=200, font=("Arial", 14), placeholder_text="Nationality", height= 35, fg_color= "transparent", bg_color= "transparent")
+Nationality_Entry.grid(row=1, column=1, padx=20, sticky="wn")
 
 religion_label = CTkLabel(third_row_personal_details_frame, text="Religion:", font=("Arial", 14), bg_color="transparent")
 religion_label.grid(row=0, column=2, sticky="w", padx=20, pady=7)
@@ -1253,8 +1255,8 @@ marital_status_box.grid(row=1, column=3, padx=20)
 
 language_label = CTkLabel(third_row_personal_details_frame, text="Language Spoken:", font=("Arial", 14), bg_color="transparent")
 language_label.grid(row=0, column=4, sticky="w", padx=20, pady=7)
-language_entry = CTkEntry(third_row_personal_details_frame, width=200, font=("Arial", 14), placeholder_text="Language", height= 35, fg_color= "transparent", bg_color= "transparent")
-language_entry.grid(row=1, column=4, padx=20, sticky="wn")
+Language_Entry = CTkEntry(third_row_personal_details_frame, width=200, font=("Arial", 14), placeholder_text="Language", height= 35, fg_color= "transparent", bg_color= "transparent")
+Language_Entry.grid(row=1, column=4, padx=20, sticky="wn")
 
 empty_frame = CTkFrame(personal_details, bg_color="transparent", fg_color= "transparent")
 empty_frame.grid(row=4, column=0, columnspan=3, sticky="we", padx=20, pady=7)
@@ -1263,47 +1265,47 @@ empty_label = CTkLabel(empty_frame, text="", font=("Arial", 14), bg_color="trans
 empty_label.grid(row=0, column=0)
 
 # Address Title
-address_title_info =CTkLabel(scrollable_personal_frame, text= "ADDRESS", font= ("Id Inter", 25))
-address_title_info.pack(padx=20, pady=10, anchor=W)
+Address_title_info =CTkLabel(scrollable_personal_frame, text= "Address", font= ("Id Inter", 25))
+Address_title_info.pack(padx=20, pady=10, anchor=W)
 
 # Address Details Section
-address_details = CTkFrame(scrollable_personal_frame, bg_color="transparent", fg_color= "transparent", border_width=6, corner_radius=10)
-address_details.pack(padx=20, pady=10, fill="x")
+Address_details = CTkFrame(scrollable_personal_frame, bg_color="transparent", fg_color= "transparent", border_width=6, corner_radius=10)
+Address_details.pack(padx=20, pady=10, fill="x")
 
-first_row_address_details_frame = CTkFrame(address_details, bg_color="transparent", fg_color= "transparent")
-first_row_address_details_frame.grid(row=0, column=0, columnspan=3, sticky="we", padx=20, pady=7)
+first_row_Address_details_frame = CTkFrame(Address_details, bg_color="transparent", fg_color= "transparent")
+first_row_Address_details_frame.grid(row=0, column=0, columnspan=3, sticky="we", padx=20, pady=7)
 
-street_label = CTkLabel(first_row_address_details_frame, text="Street:", font=("Arial", 14), bg_color="transparent")
+street_label = CTkLabel(first_row_Address_details_frame, text="Street:", font=("Arial", 14), bg_color="transparent")
 street_label.grid(row=0, column=0, padx=20, pady=7, sticky="w")
-street_entry = CTkEntry(first_row_address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Street", height= 35, fg_color= "transparent", bg_color= "transparent")
-street_entry.grid(row=1, column=0, padx=20, sticky="wn")
+Street_Entry = CTkEntry(first_row_Address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Street", height= 35, fg_color= "transparent", bg_color= "transparent")
+Street_Entry.grid(row=1, column=0, padx=20, sticky="wn")
 
-brgy_label = CTkLabel(first_row_address_details_frame, text="Barangay:", font=("Arial", 14), bg_color="transparent")
+brgy_label = CTkLabel(first_row_Address_details_frame, text="Barangay:", font=("Arial", 14), bg_color="transparent")
 brgy_label.grid(row=0, column=1, padx=20, pady=7, sticky="w")
-brgy_entry = CTkEntry(first_row_address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Barangay", height= 35, fg_color= "transparent", bg_color= "transparent")
-brgy_entry.grid(row=1, column=1, padx=20, sticky="wn")
+BRGY_Entry = CTkEntry(first_row_Address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Barangay", height= 35, fg_color= "transparent", bg_color= "transparent")
+BRGY_Entry.grid(row=1, column=1, padx=20, sticky="wn")
 
-city_label = CTkLabel(first_row_address_details_frame, text="City/Municipality:", font=("Arial", 14), bg_color="transparent")
+city_label = CTkLabel(first_row_Address_details_frame, text="City/Municipality:", font=("Arial", 14), bg_color="transparent")
 city_label.grid(row=0, column=2, padx=20, pady=7, sticky="w")
-city_entry = CTkEntry(first_row_address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter City", height= 35, fg_color= "transparent", bg_color= "transparent")
-city_entry.grid(row=1, column=2, padx=20, sticky="wn")
+City_Entry = CTkEntry(first_row_Address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter City", height= 35, fg_color= "transparent", bg_color= "transparent")
+City_Entry.grid(row=1, column=2, padx=20, sticky="wn")
 
-zip_code_label = CTkLabel(first_row_address_details_frame, text="Zip Code:", font=("Arial", 14), bg_color="transparent")
+zip_code_label = CTkLabel(first_row_Address_details_frame, text="Zip Code:", font=("Arial", 14), bg_color="transparent")
 zip_code_label.grid(row=0, column=3, padx=20, pady=7, sticky="w")
-zip_code_entry = CTkEntry(first_row_address_details_frame, width=170, font=("Arial", 14), placeholder_text="Enter Zip Code", height= 35, fg_color= "transparent", bg_color= "transparent")
-zip_code_entry.grid(row=1, column=3, padx=20, sticky="wn")
+ZipCode_Entry = CTkEntry(first_row_Address_details_frame, width=170, font=("Arial", 14), placeholder_text="Enter Zip Code", height= 35, fg_color= "transparent", bg_color= "transparent")
+ZipCode_Entry.grid(row=1, column=3, padx=20, sticky="wn")
 
-province_label = CTkLabel(first_row_address_details_frame, text="Province:", font=("Arial", 14), bg_color="transparent")
+province_label = CTkLabel(first_row_Address_details_frame, text="Province:", font=("Arial", 14), bg_color="transparent")
 province_label.grid(row=2, column=0, padx=20, pady=7, sticky="w")
-province_entry = CTkEntry(first_row_address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Province", height= 35, fg_color= "transparent", bg_color= "transparent")
-province_entry.grid(row=3, column=0, padx=20, sticky="wn")
+Province_Entry = CTkEntry(first_row_Address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Province", height= 35, fg_color= "transparent", bg_color= "transparent")
+Province_Entry.grid(row=3, column=0, padx=20, sticky="wn")
 
-country_label = CTkLabel(first_row_address_details_frame, text="Country:", font=("Arial", 14), bg_color="transparent")
+country_label = CTkLabel(first_row_Address_details_frame, text="Country:", font=("Arial", 14), bg_color="transparent")
 country_label.grid(row=2, column=1, padx=20, pady=7, sticky="w")
-country_entry = CTkEntry(first_row_address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Country", height= 35, fg_color= "transparent", bg_color= "transparent")
-country_entry.grid(row=3, column=1, padx=20, sticky="wn")
+Country_Entry = CTkEntry(first_row_Address_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Country", height= 35, fg_color= "transparent", bg_color= "transparent")
+Country_Entry.grid(row=3, column=1, padx=20, sticky="wn")
 
-empty_frame = CTkFrame(address_details, bg_color="transparent", fg_color= "transparent")
+empty_frame = CTkFrame(Address_details, bg_color="transparent", fg_color= "transparent")
 empty_frame.grid(row=1, column=0, columnspan=3, sticky="we", padx=20, pady=6)
 
 empty_label = CTkLabel(empty_frame, text="", font=("Arial", 14), bg_color="transparent")
@@ -1322,14 +1324,14 @@ first_row_contact_info_details_frame.grid(row=0, column=0, columnspan=3, sticky=
 
 email_label = CTkLabel(first_row_contact_info_details_frame, text="Email:", font=("Arial", 14), bg_color="transparent")
 email_label.grid(row=0, column=0, padx=10, pady=7, sticky="w")
-email_entry = CTkEntry(first_row_contact_info_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Email", height= 35, fg_color= "transparent", bg_color= "transparent")
-email_entry.grid(row=0, column=1, padx=10, pady=7, sticky="wn")
-email_entry.bind("<FocusOut>", lambda event: validating_user_email())
+Email_Entry = CTkEntry(first_row_contact_info_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Email", height= 35, fg_color= "transparent", bg_color= "transparent")
+Email_Entry.grid(row=0, column=1, padx=10, pady=7, sticky="wn")
+Email_Entry.bind("<FocusOut>", lambda event: validating_user_email())
 
 num_label = CTkLabel(first_row_contact_info_details_frame, text="Contact Number:", font=("Arial", 14), bg_color="transparent")
 num_label.grid(row=0, column=2, padx=10, pady=7, sticky="w")
-num_entry = CTkEntry(first_row_contact_info_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
-num_entry.grid(row=0, column=3, padx=10, pady=7, sticky="wn")
+Num_Entry = CTkEntry(first_row_contact_info_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
+Num_Entry.grid(row=0, column=3, padx=10, pady=7, sticky="wn")
 
 empty_frame = CTkFrame(contact_info_details, bg_color="transparent", fg_color= "transparent")
 empty_frame.grid(row=1, column=0, columnspan=3, sticky="we", padx=20, pady=7)
@@ -1371,38 +1373,38 @@ mother_label.grid(row=0, column=2, padx=10, pady=7)
 name_label = CTkLabel(row_column_parents_details_frame, text="Name:", font=("Arial", 14), bg_color="transparent")
 name_label.grid(row=1, column=0, padx=10, pady=7, sticky="w")
 
-name_father_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
-name_father_entry.grid(row=1, column=1, padx=10, pady=7)
+Name_Father_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
+Name_Father_Entry.grid(row=1, column=1, padx=10, pady=7)
 
-name_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
-name_mother_entry.grid(row=1, column=2, padx=10, pady=7)
+Name_Mother_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
+Name_Mother_Entry.grid(row=1, column=2, padx=10, pady=7)
 
-address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
-address_label.grid(row=2, column=0, padx=10, pady=7, sticky="w")
+Address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+Address_label.grid(row=2, column=0, padx=10, pady=7, sticky="w")
 
-address_father_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
-address_father_entry.grid(row=2, column=1, padx=10, pady=7)
+Address_Father_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+Address_Father_Entry.grid(row=2, column=1, padx=10, pady=7)
 
-address_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
-address_mother_entry.grid(row=2, column=2, padx=10, pady=7)
+Address_Mother_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+Address_Mother_Entry.grid(row=2, column=2, padx=10, pady=7)
 
 occupation_label = CTkLabel(row_column_parents_details_frame, text="Occupation:", font=("Arial", 14), bg_color="transparent")
 occupation_label.grid(row=3, column=0, padx=10, pady=7, sticky="w")
 
-occupation_father_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
-occupation_father_entry.grid(row=3, column=1, padx=10, pady=7)
+Occupation_Father_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
+Occupation_Father_Entry.grid(row=3, column=1, padx=10, pady=7)
 
-occupation_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
-occupation_mother_entry.grid(row=3, column=2, padx=10, pady=7)
+Occupation_Mother_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
+Occupation_Mother_Entry.grid(row=3, column=2, padx=10, pady=7)
 
 phon_num_label = CTkLabel(row_column_parents_details_frame, text="Contact Number:", font=("Arial", 14), bg_color="transparent")
 phon_num_label.grid(row=4, column=0, padx=10, pady=7, sticky="w")
 
-phon_father_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
-phon_father_entry.grid(row=4, column=1, padx=10, pady=7)
+Phone_Father_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
+Phone_Father_Entry.grid(row=4, column=1, padx=10, pady=7)
 
-phon_mother_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
-phon_mother_entry.grid(row=4, column=2, padx=10, pady=7)
+Phone_Mother_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
+Phone_Mother_Entry.grid(row=4, column=2, padx=10, pady=7)
 
 guardian_label = CTkLabel(row_column_parents_details_frame, text="GUARDIAN", font=("Arial", 14, "bold"), bg_color="transparent")
 guardian_label.grid(row=5, column=1, padx=10, pady=7)
@@ -1415,32 +1417,32 @@ same_chk_box.configure(command=toggle_guardian_fields)
 name_label = CTkLabel(row_column_parents_details_frame, text="Name:", font=("Arial", 14), bg_color="transparent")
 name_label.grid(row=6, column=0, padx=10, pady=7, sticky="w")
 
-name_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
-name_guardian_entry.grid(row=6, column=1, padx=10, pady=7)
+Name_Guardian_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Name", height= 35, fg_color= "transparent", bg_color= "transparent")
+Name_Guardian_Entry.grid(row=6, column=1, padx=10, pady=7)
 
 rel_label = CTkLabel(row_column_parents_details_frame, text="Relationship to Student:", font=("Arial", 14), bg_color="transparent")
 rel_label.grid(row=6, column=2, padx=10, pady=7, sticky="s")
 
-address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
-address_label.grid(row=7, column=0, padx=10, pady=7, sticky="w")
+Address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+Address_label.grid(row=7, column=0, padx=10, pady=7, sticky="w")
 
-address_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
-address_guardian_entry.grid(row=7, column=1, padx=10, pady=7)
+Address_Guardian_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+Address_Guardian_Entry.grid(row=7, column=1, padx=10, pady=7)
 
-rel_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Relationship", height= 35, fg_color= "transparent", bg_color= "transparent")
-rel_guardian_entry.grid(row=7, column=2, padx=10, pady=7)
+Rel_Guardian_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Relationship", height= 35, fg_color= "transparent", bg_color= "transparent")
+Rel_Guardian_Entry.grid(row=7, column=2, padx=10, pady=7)
 
 occupation_label = CTkLabel(row_column_parents_details_frame, text="Occupation:", font=("Arial", 14), bg_color="transparent")
 occupation_label.grid(row=8, column=0, padx=10, pady=7, sticky="w")
 
-occupation_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
-occupation_guardian_entry.grid(row=8, column=1, padx=10, pady=7)
+Occupation_Guardian_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Occupation", height= 35, fg_color= "transparent", bg_color= "transparent")
+Occupation_Guardian_Entry.grid(row=8, column=1, padx=10, pady=7)
 
 phon_num_label = CTkLabel(row_column_parents_details_frame, text="Contact Number:", font=("Arial", 14), bg_color="transparent")
 phon_num_label.grid(row=9, column=0, padx=10, pady=7, sticky="w")
 
-phon_guardian_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
-phon_guardian_entry.grid(row=9, column=1, padx=10, pady=7)
+Phone_Guardian_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Contact Number", height= 35, fg_color= "transparent", bg_color= "transparent")
+Phone_Guardian_Entry.grid(row=9, column=1, padx=10, pady=7)
 
 toggle_guardian_fields()
 
@@ -1468,96 +1470,96 @@ row_column_parents_details_frame.pack(anchor = CENTER, pady=30)
 empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
 empty_label.grid(row=0, column=0)
 
-elem_label = CTkLabel(row_column_parents_details_frame, text="ELEMENTARY", font=("Arial", 14, "bold"), bg_color="transparent")
-elem_label.grid(row=0, column=1, padx=10, pady=7)
+Elem_label = CTkLabel(row_column_parents_details_frame, text="ElemENTARY", font=("Arial", 14, "bold"), bg_color="transparent")
+Elem_label.grid(row=0, column=1, padx=10, pady=7)
 
-schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
-schl_label.grid(row=1, column=0, padx=10, pady=7, sticky="w")
-schl_elem_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
-schl_elem_entry.grid(row=1, column=1, padx=10, pady=7)
+Schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
+Schl_label.grid(row=1, column=0, padx=10, pady=7, sticky="w")
+Schl_Elem_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
+Schl_Elem_Entry.grid(row=1, column=1, padx=10, pady=7)
 
-address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
-address_label.grid(row=2, column=0, padx=10, pady=7, sticky="w")
-address_elem_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
-address_elem_entry.grid(row=2, column=1, padx=10, pady=7)
+Address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+Address_label.grid(row=2, column=0, padx=10, pady=7, sticky="w")
+Address_Elem_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+Address_Elem_Entry.grid(row=2, column=1, padx=10, pady=7)
 
-yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
-yr_label.grid(row=3, column=0, padx=10, pady=7, sticky="w")
-yr_elem_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
-yr_elem_entry.grid(row=3, column=1, padx=10, pady=7)
+YR_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
+YR_label.grid(row=3, column=0, padx=10, pady=7, sticky="w")
+YR_Elem_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
+YR_Elem_Entry.grid(row=3, column=1, padx=10, pady=7)
 
 empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
 empty_label.grid(row=0, column=2)
 
-js_label = CTkLabel(row_column_parents_details_frame, text="JUNIOR HIGH SCHOOL", font=("Arial", 14, "bold"), bg_color="transparent")
-js_label.grid(row=0, column=3, padx=10, pady=7)
+Junior_label = CTkLabel(row_column_parents_details_frame, text="JUNIOR HIGH SCHOOL", font=("Arial", 14, "bold"), bg_color="transparent")
+Junior_label.grid(row=0, column=3, padx=10, pady=7)
 
-schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
-schl_label.grid(row=1, column=2, padx=10, pady=7, sticky="w")
-schl_js_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
-schl_js_entry.grid(row=1, column=3, padx=10, pady=7)
+Schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
+Schl_label.grid(row=1, column=2, padx=10, pady=7, sticky="w")
+Schl_Junior_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
+Schl_Junior_Entry.grid(row=1, column=3, padx=10, pady=7)
 
-address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
-address_label.grid(row=2, column=2, padx=10, pady=7, sticky="w")
-address_js_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
-address_js_entry.grid(row=2, column=3, padx=10, pady=7)
+Address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+Address_label.grid(row=2, column=2, padx=10, pady=7, sticky="w")
+Address_Junior_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+Address_Junior_Entry.grid(row=2, column=3, padx=10, pady=7)
 
-yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
-yr_label.grid(row=3, column=2, padx=10, pady=7, sticky="w")
-yr_js_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
-yr_js_entry.grid(row=3, column=3, padx=10, pady=7)
+YR_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
+YR_label.grid(row=3, column=2, padx=10, pady=7, sticky="w")
+YR_Junior_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
+YR_Junior_Entry.grid(row=3, column=3, padx=10, pady=7)
 
 empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
 empty_label.grid(row=4, column=0)
 
-shs_label = CTkLabel(row_column_parents_details_frame, text="SENIOR HIGH SCHOOL", font=("Arial", 14, "bold"), bg_color="transparent")
-shs_label.grid(row=4, column=1, padx=10, pady=7)
+Senior_label = CTkLabel(row_column_parents_details_frame, text="SENIOR HIGH SCHOOL", font=("Arial", 14, "bold"), bg_color="transparent")
+Senior_label.grid(row=4, column=1, padx=10, pady=7)
 
-schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
-schl_label.grid(row=5, column=0, padx=10, pady=7, sticky="w")
-schl_shs_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
-schl_shs_entry.grid(row=5, column=1, padx=10, pady=7)
+Schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
+Schl_label.grid(row=5, column=0, padx=10, pady=7, sticky="w")
+Schl_Senior_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
+Schl_Senior_Entry.grid(row=5, column=1, padx=10, pady=7)
 
 strand_label = CTkLabel(row_column_parents_details_frame, text="Strand:", font=("Arial", 14), bg_color="transparent")
 strand_label.grid(row=6, column=0, padx=10, pady=7, sticky="w")
-strand_shs_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Strand", height= 35, fg_color= "transparent", bg_color= "transparent")
-strand_shs_entry.grid(row=6, column=1, padx=10, pady=7)
+strand_Senior_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Strand", height= 35, fg_color= "transparent", bg_color= "transparent")
+strand_Senior_Entry.grid(row=6, column=1, padx=10, pady=7)
 
-address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
-address_label.grid(row=7, column=0, padx=10, pady=7, sticky="w")
-address_shs_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
-address_shs_entry.grid(row=7, column=1, padx=10, pady=7)
+Address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+Address_label.grid(row=7, column=0, padx=10, pady=7, sticky="w")
+Address_Senior_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+Address_Senior_Entry.grid(row=7, column=1, padx=10, pady=7)
 
-yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
-yr_label.grid(row=8, column=0, padx=10, pady=7, sticky="wn")
-yr_shs_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
-yr_shs_entry.grid(row=8, column=1, padx=10, pady=7, sticky="n")
+YR_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
+YR_label.grid(row=8, column=0, padx=10, pady=7, sticky="wn")
+YR_Senior_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
+YR_Senior_Entry.grid(row=8, column=1, padx=10, pady=7, sticky="n")
 
 empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
 empty_label.grid(row=4, column=2)
 
-cg_label = CTkLabel(row_column_parents_details_frame, text="COLLEGE", font=("Arial", 14, "bold"), bg_color="transparent")
-cg_label.grid(row=4, column=3, padx=10, pady=7, sticky="w")
+College_label = CTkLabel(row_column_parents_details_frame, text="COLLEGE", font=("Arial", 14, "bold"), bg_color="transparent")
+College_label.grid(row=4, column=3, padx=10, pady=7, sticky="w")
 
 if_transferee_var = IntVar()
 if_transferee_chk_box = CTkCheckBox(educ_details, text="Check if you are not a transferee", variable=if_transferee_var)
 if_transferee_chk_box.place(x=834, y=230)
 if_transferee_chk_box.configure(command=toggle_transferee_fields)
 
-schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
-schl_label.grid(row=5, column=2, padx=10, pady=7, sticky="w")
-schl_cg_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
-schl_cg_entry.grid(row=5, column=3, padx=10, pady=7)
+Schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
+Schl_label.grid(row=5, column=2, padx=10, pady=7, sticky="w")
+Schl_College_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter School", height= 35, fg_color= "transparent", bg_color= "transparent")
+Schl_College_Entry.grid(row=5, column=3, padx=10, pady=7)
 
-address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
-address_label.grid(row=6, column=2, padx=10, pady=7, sticky="w")
-address_cg_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
-address_cg_entry.grid(row=6, column=3, padx=10, pady=7)
+Address_label = CTkLabel(row_column_parents_details_frame, text="Address:", font=("Arial", 14), bg_color="transparent")
+Address_label.grid(row=6, column=2, padx=10, pady=7, sticky="w")
+Address_College_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Address", height= 35, fg_color= "transparent", bg_color= "transparent")
+Address_College_Entry.grid(row=6, column=3, padx=10, pady=7)
 
-yr_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
-yr_label.grid(row=7, column=2, padx=10, pady=7, sticky="w")
-yr_cg_entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
-yr_cg_entry.grid(row=7, column=3, padx=10, pady=7)
+YR_label = CTkLabel(row_column_parents_details_frame, text="Year Completed:", font=("Arial", 14), bg_color="transparent")
+YR_label.grid(row=7, column=2, padx=10, pady=7, sticky="w")
+YR_College_Entry = CTkEntry(row_column_parents_details_frame, width=250, font=("Arial", 14), placeholder_text="Enter Year Completed", height= 35, fg_color= "transparent", bg_color= "transparent")
+YR_College_Entry.grid(row=7, column=3, padx=10, pady=7)
 
 # ==================== Window Starter ====================
 window.mainloop()
