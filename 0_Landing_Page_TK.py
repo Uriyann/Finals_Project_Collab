@@ -295,14 +295,14 @@ navpanel1=slidepanel(navpanel, 1.0, 0.6)
 #gif
 lbl = ImageLabel(animpanel, width=900, height=600)
 lbl.pack()
-lbl.load(r'Finals_Project_Collab\assets\landpg.gif')
+lbl.load(r'.\assets\landpg.gif')
 mixer.init()
 # Load the music file
-mixer.music.load(r"Finals_Project_Collab/assets/sound/noise.MP3")
+mixer.music.load(r".\assets\sound\noise.MP3")
 mixer.music.play()
 navimg.pack()
 #img
-background_image = Image.open(r"Finals_Project_Collab\assets\cuh.png")
+background_image = Image.open(r".\assets\cuh.png")
 bg_img = CTkImage(light_image=background_image, dark_image=background_image, size=(80, 80))
 navicon=CTkLabel(master=navpanel1, image = bg_img, text="")
 #labels
@@ -324,7 +324,7 @@ abdesc1=CTkLabel(master=aboutpanel, font=("Inter", 11), fg_color="gray18", text=
 #button functions
 def bfunc():
     bgroup.disb()
-    bgroup.b.after(30, lambda:[animpanel.animate(), navimg.load(r'Finals_Project_Collab\assets\log.gif'), navpanel1.animate()])
+    bgroup.b.after(30, lambda:[animpanel.animate(), navimg.load(r'.\assets\log.gif'), navpanel1.animate()])
     showb(bgroup.loginb)
     
 def b1func():

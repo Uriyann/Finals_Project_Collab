@@ -1482,7 +1482,7 @@ row_column_parents_details_frame.pack(anchor = CENTER, pady=30)
 empty_label = CTkLabel(row_column_parents_details_frame, text="", font=("Arial", 14), bg_color="transparent")
 empty_label.grid(row=0, column=0)
 
-Elem_label = CTkLabel(row_column_parents_details_frame, text="Elementary", font=("Arial", 14, "bold"), bg_color="transparent")
+Elem_label = CTkLabel(row_column_parents_details_frame, text="ELEMENTARY", font=("Arial", 14, "bold"), bg_color="transparent")
 Elem_label.grid(row=0, column=1, padx=10, pady=7)
 
 Schl_label = CTkLabel(row_column_parents_details_frame, text="School Name:", font=("Arial", 14), bg_color="transparent")
